@@ -1,11 +1,21 @@
 {
     "name": "nica-angels",
     "version": "1.0.0",
-    "main": "index.js",
+    "scripts": {
+        "build": "cd client && yarn build",
+        "heroku-postbuild": "yarn build",
+        "install": "(cd client && yarn install) && (cd server && yarn install)",
+        "start": "concurrently \"cd client && PORT=3000 yarn start\" \"kill-port 5000 && cd server && PORT=5000 yarn start\"",
+        "start:prod": "cd server && yarn start:prod"
+    },
     "author": "Jack Hermanson <jack.hermanson@live.com>",
     "license": "MIT",
     "private": false,
     "devDependencies": {
+        "kill-port": "^1.6.1",
         "prettier": "^2.3.2"
+    },
+    "dependencies": {
+        "concurrently": "^6.2.1"
     }
 }

@@ -1,8 +1,11 @@
 {
-  "name": "nica-angels",
-  "version": "1.0.0",
-  "main": "index.js",
-  "author": "Jack Hermanson <jack.hermanson@live.com>",
-  "license": "MIT",
-  "private": false
+    "name": "nica-angels",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Jack Hermanson <jack.hermanson@live.com>",
+    "license": "MIT",
+    "private": false,
+    "devDependencies": {
+        "prettier": "^2.3.2"
+    }
 }

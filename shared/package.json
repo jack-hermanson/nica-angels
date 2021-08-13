@@ -1,5 +1,8 @@
 {
   "name": "shared",
   "version": "1.0.0",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jack-hermanson-ts-utils": "^1.9.0"
+  }
 }

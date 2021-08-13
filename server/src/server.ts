@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 import * as http from "http";
 import * as socketio from "socket.io";
 import path from "path";
@@ -15,8 +14,8 @@ config({ path: envPath });
 
 // express server
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.set("port", process.env.PORT || 5000);
 
 // ssl

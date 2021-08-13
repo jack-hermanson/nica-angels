@@ -39,3 +39,18 @@ router.post(
         }
     }
 );
+
+router.delete(
+    "/:id",
+    async (req: Request<{ id: number }>, res: Response<boolean>) => {
+        try {
+            const deleted = await AccountService.delete(req.params.id, res);
+            if (!deleted) {
+                return;
+            }
+            res.send(true);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);

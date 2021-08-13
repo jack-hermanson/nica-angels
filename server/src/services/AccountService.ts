@@ -2,7 +2,7 @@ import { Account } from "../models/Account";
 import { Response } from "express";
 import { getConnection, Repository } from "typeorm";
 import { RegisterRequest } from "../../../shared/resource_models/account";
-import { doesNotConflict } from "jack-hermanson-ts-utils";
+import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;
@@ -61,5 +61,21 @@ export abstract class AccountService {
         account.password = registerRequest.password;
 
         return await accountRepo.save(account);
+    }
+    static async delete(
+        id: number,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { accountRepo } = getRepos();
+
+        const account = await accountRepo.findOne(id);
+        if (!account) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        await accountRepo.softDelete({ id: account.id });
+
+        return true;
     }
 }

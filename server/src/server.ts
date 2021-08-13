@@ -7,6 +7,7 @@ import { ConnectionOptions, createConnection } from "typeorm";
 import sslRedirect from "heroku-ssl-redirect";
 import { DbDialect } from "jack-hermanson-ts-utils";
 import { models } from "./models/_models";
+import { migrations } from "./migrations/_migrations";
 
 // env
 const envPath = path.join(__dirname, "..", ".env");
@@ -43,7 +44,7 @@ export const dbOptions: ConnectionOptions = {
     },
     migrationsRun: true,
     migrationsTableName: "migrations",
-    migrations: [],
+    migrations: migrations,
     cli: {
         migrationsDir: path.join(__dirname, "migrations"),
     },

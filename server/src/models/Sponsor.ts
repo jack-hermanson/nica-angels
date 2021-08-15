@@ -13,8 +13,8 @@ export class Sponsor {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ nullable: false })
-    accountId!: number;
+    @Column({ nullable: true })
+    accountId?: number;
 
     @CreateDateColumn()
     created!: Date;

@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 import {
     createdColumn,
-    deletedAtColumn,
+    deletedColumn,
     idColumn,
     updatedColumn,
 } from "jack-hermanson-ts-utils";
@@ -13,7 +13,7 @@ export class Town1628894029027 implements MigrationInterface {
             idColumn,
             createdColumn,
             updatedColumn,
-            deletedAtColumn,
+            deletedColumn,
             {
                 name: "name",
                 type: "varchar",

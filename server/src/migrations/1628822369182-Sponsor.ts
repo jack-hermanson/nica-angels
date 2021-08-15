@@ -4,7 +4,12 @@ import {
     Table,
     TableForeignKey,
 } from "typeorm";
-import { idColumn } from "jack-hermanson-ts-utils";
+import {
+    createdColumn,
+    deletedColumn,
+    idColumn,
+    updatedColumn,
+} from "jack-hermanson-ts-utils";
 
 export class Sponsor1628822369182 implements MigrationInterface {
     sponsor = new Table({
@@ -16,23 +21,9 @@ export class Sponsor1628822369182 implements MigrationInterface {
                 type: "int",
                 isNullable: false,
             },
-            {
-                name: "created",
-                type: "timestamp",
-                isNullable: false,
-                default: "CURRENT_TIMESTAMP",
-            },
-            {
-                name: "updated",
-                type: "timestamp",
-                isNullable: false,
-                default: "CURRENT_TIMESTAMP",
-            },
-            {
-                name: "deletedAt",
-                type: "timestamp",
-                isNullable: true,
-            },
+            createdColumn,
+            updatedColumn,
+            deletedColumn,
         ],
     });
 

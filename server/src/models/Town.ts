@@ -23,7 +23,7 @@ export class Town {
     updated!: Date;
 
     @DeleteDateColumn()
-    deletedAt?: Date;
+    deleted?: Date;
 }
 
 export const townSchema = Joi.object().options({ abortEarly: false }).keys({

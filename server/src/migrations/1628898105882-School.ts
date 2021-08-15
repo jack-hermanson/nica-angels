@@ -6,7 +6,7 @@ import {
 } from "typeorm";
 import {
     createdColumn,
-    deletedAtColumn,
+    deletedColumn,
     idColumn,
     updatedColumn,
 } from "jack-hermanson-ts-utils";
@@ -18,7 +18,7 @@ export class School1628898105882 implements MigrationInterface {
             idColumn,
             createdColumn,
             updatedColumn,
-            deletedAtColumn,
+            deletedColumn,
             {
                 name: "name",
                 type: "varchar",

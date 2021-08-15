@@ -25,5 +25,5 @@ export class School {
     updated!: Date;
 
     @DeleteDateColumn()
-    deletedAt?: Date;
+    deleted?: Date;
 }

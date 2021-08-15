@@ -36,7 +36,7 @@ export class Account {
     updated!: Date;
 
     @DeleteDateColumn()
-    deletedAt?: Date;
+    deleted?: Date;
 }
 
 const passwordSchema = Joi.string().min(2);

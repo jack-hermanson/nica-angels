@@ -23,7 +23,7 @@ export class Sponsor {
     updated!: Date;
 
     @DeleteDateColumn()
-    deletedAt?: Date;
+    deleted?: Date;
 }
 
 export const sponsorSchema = Joi.object().options({ abortEarly: false }).keys({

@@ -6,6 +6,7 @@ import { Token1629053978130 } from "./1629053978130-Token";
 import { NullableSponsor1629064065687 } from "./1629064065687-NullableSponsor";
 import { Student1629065591287 } from "./1629065591287-Student";
 import { Attendance1629089021978 } from "./1629089021978-Attendance";
+import { Sponsorship1629096251348 } from "./1629096251348-Sponsorship";
 
 export const migrations = [
     Account1628820578982,
@@ -16,4 +17,5 @@ export const migrations = [
     NullableSponsor1629064065687,
     Student1629065591287,
     Attendance1629089021978,
+    Sponsorship1629096251348,
 ];

@@ -8,6 +8,7 @@ import sslRedirect from "heroku-ssl-redirect";
 import { DbDialect } from "jack-hermanson-ts-utils";
 import { models } from "./models/_models";
 import { migrations } from "./migrations/_migrations";
+import { routes } from "./routes/_routes";
 
 // env
 const envPath = path.join(__dirname, "..", ".env");
@@ -27,6 +28,7 @@ const staticFiles = express.static(path.join(__dirname, "../../client/build"));
 app.use(staticFiles);
 
 // routes
+app.use("/api/accounts", routes.accounts);
 
 // database
 const databaseDialect = process.env.DATABASE_DIALECT as DbDialect;

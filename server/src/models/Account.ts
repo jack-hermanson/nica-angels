@@ -36,30 +36,35 @@ export class Account {
     updated!: Date;
 
     @DeleteDateColumn()
-    deletedAt?: Date;
+    deleted?: Date;
 }
 
-const usernameSchema = Joi.string().min(2).required();
 const passwordSchema = Joi.string().min(2);
+
+const baseSchema = {
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    email: Joi.string().email().required(),
+};
 
 export const newAccountSchema = Joi.object()
     .options({ abortEarly: false })
     .keys({
-        username: usernameSchema,
+        ...baseSchema,
         password: passwordSchema.required(),
     });
 
 export const editMyAccountSchema = Joi.object()
     .options({ abortEarly: false })
     .keys({
-        username: usernameSchema,
+        ...baseSchema,
         password: passwordSchema.optional(),
     });
 
 export const adminEditAccountSchema = Joi.object()
     .options({ abortEarly: false })
     .keys({
-        username: usernameSchema,
+        ...baseSchema,
         password: passwordSchema.optional(),
         clearance: Joi.number()
             .min(Clearance.NONE)

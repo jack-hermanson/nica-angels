@@ -1,5 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
-import { idColumn } from "jack-hermanson-ts-utils";
+import {
+    createdColumn,
+    deletedColumn,
+    idColumn,
+    updatedColumn,
+} from "jack-hermanson-ts-utils";
 import { Clearance } from "../../../shared/enums";
 
 export class Account1628820578982 implements MigrationInterface {
@@ -34,23 +39,9 @@ export class Account1628820578982 implements MigrationInterface {
                 isNullable: false,
                 default: Clearance.NONE,
             },
-            {
-                name: "created",
-                type: "timestamp",
-                default: "CURRENT_TIMESTAMP",
-                isNullable: false,
-            },
-            {
-                name: "updated",
-                type: "timestamp",
-                default: "CURRENT_TIMESTAMP",
-                isNullable: false,
-            },
-            {
-                name: "deletedAt",
-                type: "timestamp",
-                isNullable: true,
-            },
+            createdColumn,
+            updatedColumn,
+            deletedColumn,
         ],
     });
 

@@ -15,4 +15,7 @@ export class Token {
 
     @CreateDateColumn()
     created!: Date;
+
+    @Column({ nullable: false })
+    data!: string;
 }

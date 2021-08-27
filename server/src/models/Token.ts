@@ -21,6 +21,6 @@ export class Token {
     data!: string;
 }
 
-export const tokenLoginSchema = Joi.object({ abortEarly: false }).keys({
+export const tokenLoginSchema = Joi.object().keys({
     data: Joi.string().required(),
 });

@@ -47,37 +47,31 @@ const baseSchema = {
     email: Joi.string().email().required(),
 };
 
-export const newAccountSchema = Joi.object()
-    .options({ abortEarly: false })
-    .keys({
-        ...baseSchema,
-        password: passwordSchema.required(),
-    });
+export const newAccountSchema = Joi.object().keys({
+    ...baseSchema,
+    password: passwordSchema.required(),
+});
 
-export const editMyAccountSchema = Joi.object()
-    .options({ abortEarly: false })
-    .keys({
-        ...baseSchema,
-        password: passwordSchema.optional(),
-    });
+export const editMyAccountSchema = Joi.object().keys({
+    ...baseSchema,
+    password: passwordSchema.optional(),
+});
 
-export const adminEditAccountSchema = Joi.object()
-    .options({ abortEarly: false })
-    .keys({
-        ...baseSchema,
-        password: passwordSchema.optional(),
-        clearance: Joi.number()
-            .min(Clearance.NONE)
-            .max(Clearance.SUPER_ADMIN)
-            .required(),
-    });
+export const adminEditAccountSchema = Joi.object().keys({
+    ...baseSchema,
+    password: passwordSchema.optional(),
+    clearance: Joi.number()
+        .min(Clearance.NONE)
+        .max(Clearance.SUPER_ADMIN)
+        .required(),
+});
 
-export const loginSchema = Joi.object({ abortEarly: false }).keys({
+export const loginSchema = Joi.object().keys({
     email: Joi.string().email().required(),
     password: passwordSchema.required(),
 });
 
-export const logoutSchema = Joi.object({ abortEarly: false }).keys({
+export const logoutSchema = Joi.object().keys({
     token: Joi.string().required(),
     logOutEverywhere: Joi.boolean().required(),
 });

@@ -24,7 +24,11 @@ const getRepos = (): {
 export abstract class AccountService {
     static async getAccounts(): Promise<Account[] | undefined> {
         const { accountRepo } = getRepos();
-        return await accountRepo.find();
+        const accounts = await accountRepo.find();
+        return accounts.map(account => {
+            delete account.password;
+            return account;
+        });
     }
 
     /**
@@ -67,7 +71,9 @@ export abstract class AccountService {
         account.firstName = registerRequest.firstName;
         account.lastName = registerRequest.lastName;
         account.email = registerRequest.email;
-        account.password = registerRequest.password;
+
+        const salt = await bcrypt.genSalt(10);
+        account.password = await bcrypt.hash(registerRequest.password, salt);
 
         return await accountRepo.save(account);
     }

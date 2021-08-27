@@ -40,3 +40,12 @@ export class Sponsorship {
     @DeleteDateColumn()
     deleted?: Date;
 }
+
+export const sponsorshipSchema = Joi.object().keys({
+    studentId: Joi.number().integer().positive().required(),
+    sponsorId: Joi.number().integer().positive().required(),
+    startDate: Joi.date().required(),
+    endDate: Joi.date().optional(),
+    payment: Joi.number().positive().required(),
+    frequency: Joi.number().integer().positive().required(),
+});

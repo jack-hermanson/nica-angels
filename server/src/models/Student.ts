@@ -35,7 +35,7 @@ export class Student {
     deleted?: Date;
 }
 
-export const studentSchema = Joi.object().options({ abortEarly: false }).keys({
+export const studentSchema = Joi.object().keys({
     firstName: Joi.string().required(),
     nickName: Joi.string().optional(),
     lastName: Joi.string().optional(),

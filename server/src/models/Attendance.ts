@@ -35,11 +35,9 @@ export class Attendance {
     deleted?: Date;
 }
 
-export const attendanceSchema = Joi.object()
-    .options({ abortEarly: false })
-    .keys({
-        schoolId: Joi.number().integer().required(),
-        studentId: Joi.number().integer().required(),
-        startDate: Joi.date().optional(),
-        endDate: Joi.date().optional(),
-    });
+export const attendanceSchema = Joi.object().keys({
+    schoolId: Joi.number().integer().required(),
+    studentId: Joi.number().integer().required(),
+    startDate: Joi.date().optional(),
+    endDate: Joi.date().optional(),
+});

@@ -76,3 +76,8 @@ export const loginSchema = Joi.object({ abortEarly: false }).keys({
     email: Joi.string().email().required(),
     password: passwordSchema.required(),
 });
+
+export const logoutSchema = Joi.object({ abortEarly: false }).keys({
+    token: Joi.string().required(),
+    logOutEverywhere: Joi.boolean().required(),
+});

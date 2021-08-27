@@ -7,8 +7,9 @@ import {
     RegisterRequest,
 } from "../../../shared/resource_models/account";
 import { HTTP, sendError, validateRequest } from "jack-hermanson-ts-utils";
-import { loginSchema, newAccountSchema } from "../models/Account";
+import { loginSchema, logoutSchema, newAccountSchema } from "../models/Account";
 import {
+    LogOutRequest,
     TokenLoginRequest,
     TokenRecord,
 } from "../../../shared/resource_models/token";
@@ -125,5 +126,21 @@ router.post(
         } catch (error) {
             sendError(error, res);
         }
+    }
+);
+
+router.post(
+    "/logout",
+    auth,
+    async (req: Request<LogOutRequest>, res: Response<boolean>) => {
+        if (!(await validateRequest(logoutSchema, req, res))) {
+            return;
+        }
+        const logOutRequest: LogOutRequest = req.body;
+        const success = await AccountService.logOut(logOutRequest, res);
+        if (!success) {
+            return;
+        }
+        res.send(success);
     }
 );

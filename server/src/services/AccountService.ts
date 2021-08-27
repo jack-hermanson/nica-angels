@@ -9,7 +9,10 @@ import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Token } from "../models/Token";
 import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
-import { TokenLoginRequest } from "../../../shared/resource_models/token";
+import {
+    LogOutRequest,
+    TokenLoginRequest,
+} from "../../../shared/resource_models/token";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;
@@ -145,5 +148,35 @@ export abstract class AccountService {
         }
 
         return token;
+    }
+
+    static async logOut(
+        logOutRequest: LogOutRequest,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { tokenRepo } = getRepos();
+
+        const token = await tokenRepo.findOne({ data: logOutRequest.token });
+        if (!token) {
+            res.status(HTTP.NOT_FOUND).send("That token does not exist.");
+            return undefined;
+        }
+
+        const tokens: Token[] = [token];
+
+        if (logOutRequest.logOutEverywhere) {
+            const userTokens = await tokenRepo.find({
+                accountId: token.accountId,
+            });
+            for (let userToken of userTokens) {
+                tokens.push(userToken);
+            }
+        }
+
+        for (let token of tokens) {
+            await tokenRepo.remove(token);
+        }
+
+        return true;
     }
 }

@@ -9,3 +9,8 @@ export interface TokenRecord extends ResourceModel {
 export interface TokenLoginRequest {
     data: string;
 }
+
+export interface LogOutRequest {
+    token: string;
+    logOutEverywhere: boolean;
+}

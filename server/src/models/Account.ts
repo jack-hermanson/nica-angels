@@ -71,3 +71,8 @@ export const adminEditAccountSchema = Joi.object()
             .max(Clearance.SUPER_ADMIN)
             .required(),
     });
+
+export const loginSchema = Joi.object({ abortEarly: false }).keys({
+    email: Joi.string().email().required(),
+    password: passwordSchema.required(),
+});

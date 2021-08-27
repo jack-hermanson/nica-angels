@@ -4,6 +4,7 @@ import {
     Entity,
     PrimaryGeneratedColumn,
 } from "typeorm";
+import Joi from "joi";
 
 @Entity({ name: "token" })
 export class Token {
@@ -19,3 +20,7 @@ export class Token {
     @Column({ nullable: false })
     data!: string;
 }
+
+export const tokenLoginSchema = Joi.object({ abortEarly: false }).keys({
+    data: Joi.string().required(),
+});

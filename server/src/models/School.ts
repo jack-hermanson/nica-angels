@@ -6,6 +6,7 @@ import {
     Entity,
     PrimaryGeneratedColumn,
 } from "typeorm";
+import Joi from "joi";
 
 @Entity({ name: "school" })
 export class School {
@@ -27,3 +28,8 @@ export class School {
     @DeleteDateColumn()
     deleted?: Date;
 }
+
+export const schoolSchema = Joi.object().keys({
+    name: Joi.string().required(),
+    townId: Joi.number().integer().positive().required(),
+});

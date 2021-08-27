@@ -19,6 +19,21 @@ export class Sponsor1628822369182 implements MigrationInterface {
             {
                 name: "accountId",
                 type: "int",
+                isNullable: true,
+            },
+            {
+                name: "firstName",
+                type: "varchar",
+                isNullable: false,
+            },
+            {
+                name: "lastName",
+                type: "varchar",
+                isNullable: false,
+            },
+            {
+                name: "email",
+                type: "varchar",
                 isNullable: false,
             },
             createdColumn,

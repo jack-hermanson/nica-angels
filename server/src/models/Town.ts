@@ -26,6 +26,6 @@ export class Town {
     deleted?: Date;
 }
 
-export const townSchema = Joi.object().options({ abortEarly: false }).keys({
+export const townSchema = Joi.object().keys({
     name: Joi.string().required(),
 });

@@ -6,14 +6,12 @@ import {
     Navbar,
     NavbarBrand,
     NavbarToggler,
-    NavItem,
 } from "reactstrap";
 import { APP_NAME, CONTAINER_FLUID, ICON_CLASSES } from "../../utils/constants";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
     FaCogs,
     FaFileCsv,
-    FaFileExcel,
     FaHandHoldingHeart,
     FaHandsHelping,
     FaSchool,

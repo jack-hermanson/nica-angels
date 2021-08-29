@@ -2,6 +2,7 @@ import { FC, Fragment, ReactNode } from "react";
 import { Container } from "reactstrap";
 import { Navigation } from "./Navigation";
 import { CONTAINER_FLUID } from "../../utils/constants";
+import { Footer } from "./Footer";
 
 interface Props {
     children: ReactNode;
@@ -15,6 +16,7 @@ export const Layout: FC<Props> = ({ children }: Props) => {
                 <Container className="main-container" fluid={CONTAINER_FLUID}>
                     {children}
                 </Container>
+                <Footer />
             </div>
         </Fragment>
     );

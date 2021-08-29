@@ -1,11 +1,14 @@
 import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import "./css/main.css";
+import { Layout } from "./components/Layout/Layout";
 
-function App() {
+export const App: React.FC = () => {
     return (
-        <div className="App">
-            <p>App</p>
-        </div>
+        <BrowserRouter>
+            <Layout>
+                <p>This is the app</p>
+            </Layout>
+        </BrowserRouter>
     );
-}
-
-export default App;
+};

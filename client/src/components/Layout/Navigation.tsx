@@ -19,12 +19,14 @@ import {
     FaUserGraduate,
 } from "react-icons/fa";
 import { NavbarLink } from "../Utils/NavbarLink";
+import { useStoreState } from "../../store/_store";
 
 export const Navigation: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = useCallback(() => setIsOpen(o => !o), [setIsOpen]);
     const close = useCallback(() => setIsOpen(false), [setIsOpen]);
     const history = useHistory();
+    const spanish = useStoreState(state => state.spanish);
 
     return (
         <Navbar dark color="secondary" className="mb-1 px-0" expand="lg">
@@ -46,13 +48,13 @@ export const Navigation: FC = () => {
                             to={"/schools"}
                             onClick={close}
                             icon={<FaSchool className={ICON_CLASSES} />}
-                            text={"Schools"}
+                            text={spanish ? "Escuelas" : "Schools"}
                         />
                         <NavbarLink
                             to={"/students"}
                             onClick={close}
                             icon={<FaUserGraduate className={ICON_CLASSES} />}
-                            text={"Students"}
+                            text={spanish ? "Estudiantes" : "Students"}
                         />
                         <NavbarLink
                             to={"/sponsors"}
@@ -60,19 +62,19 @@ export const Navigation: FC = () => {
                             icon={
                                 <FaHandHoldingHeart className={ICON_CLASSES} />
                             }
-                            text={"Sponsors"}
+                            text={spanish ? "Padrinos" : "Sponsors"}
                         />
                         <NavbarLink
                             to={"/reports"}
                             onClick={close}
                             icon={<FaFileCsv className={ICON_CLASSES} />}
-                            text={"Reports"}
+                            text={spanish ? "Reportes" : "Reports"}
                         />
                         <NavbarLink
                             to={"/settings"}
                             onClick={close}
                             icon={<FaCogs className={ICON_CLASSES} />}
-                            text={"Settings"}
+                            text={spanish ? "Configuración" : "Settings"}
                         />
                     </Nav>
                     <Nav navbar style={{ marginLeft: "auto" }}>
@@ -80,7 +82,7 @@ export const Navigation: FC = () => {
                             to={"/account"}
                             onClick={close}
                             icon={<FaUser className={ICON_CLASSES} />}
-                            text={"Account"}
+                            text={spanish ? "Cuenta" : "Account"}
                         />
                     </Nav>
                 </Collapse>

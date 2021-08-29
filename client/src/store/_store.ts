@@ -1,9 +1,11 @@
 import { createStore, createTypedHooks } from "easy-peasy";
-import { SettingsStoreModel } from "./settingsStore";
+import { settingsStore, SettingsStoreModel } from "./settingsStore";
 
 export interface StoreModel extends SettingsStoreModel {}
 
-export const store = createStore<StoreModel>({} as StoreModel);
+export const store = createStore<StoreModel>({
+    ...settingsStore,
+} as StoreModel);
 
 const typedHooks = createTypedHooks<StoreModel>();
 

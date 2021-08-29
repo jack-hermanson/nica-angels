@@ -8,18 +8,24 @@ import {
     NavbarToggler,
     NavItem,
 } from "reactstrap";
-import { APP_NAME, CONTAINER_FLUID } from "../../utils/constants";
+import { APP_NAME, CONTAINER_FLUID, ICON_CLASSES } from "../../utils/constants";
 import { NavLink, useHistory } from "react-router-dom";
 import {
+    FaCogs,
+    FaFileCsv,
+    FaFileExcel,
+    FaHandHoldingHeart,
     FaHandsHelping,
     FaSchool,
     FaUser,
     FaUserGraduate,
 } from "react-icons/fa";
+import { NavbarLink } from "../Utils/NavbarLink";
 
 export const Navigation: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = useCallback(() => setIsOpen(o => !o), [setIsOpen]);
+    const close = useCallback(() => setIsOpen(false), [setIsOpen]);
     const history = useHistory();
 
     return (
@@ -38,38 +44,46 @@ export const Navigation: FC = () => {
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav navbar style={{ marginRight: "auto" }}>
-                        <NavItem>
-                            <NavLink
-                                to="/schools"
-                                onClick={() => setIsOpen(false)}
-                                className="nav-link d-flex"
-                            >
-                                <FaSchool className="me-2 my-auto" />
-                                Schools
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                to="/students"
-                                onClick={() => setIsOpen(false)}
-                                className="nav-link d-flex"
-                            >
-                                <FaUserGraduate className="me-2 my-auto" />
-                                Students
-                            </NavLink>
-                        </NavItem>
+                        <NavbarLink
+                            to={"/schools"}
+                            onClick={close}
+                            icon={<FaSchool className={ICON_CLASSES} />}
+                            text={"Schools"}
+                        />
+                        <NavbarLink
+                            to={"/students"}
+                            onClick={close}
+                            icon={<FaUserGraduate className={ICON_CLASSES} />}
+                            text={"Students"}
+                        />
+                        <NavbarLink
+                            to={"/sponsors"}
+                            onClick={close}
+                            icon={
+                                <FaHandHoldingHeart className={ICON_CLASSES} />
+                            }
+                            text={"Sponsors"}
+                        />
+                        <NavbarLink
+                            to={"/reports"}
+                            onClick={close}
+                            icon={<FaFileCsv className={ICON_CLASSES} />}
+                            text={"Reports"}
+                        />
+                        <NavbarLink
+                            to={"/settings"}
+                            onClick={close}
+                            icon={<FaCogs className={ICON_CLASSES} />}
+                            text={"Settings"}
+                        />
                     </Nav>
                     <Nav navbar style={{ marginLeft: "auto" }}>
-                        <NavItem>
-                            <NavLink
-                                to="/account"
-                                onClick={() => setIsOpen(false)}
-                                className="nav-link d-flex"
-                            >
-                                <FaUser className="me-2 my-auto" />
-                                Account
-                            </NavLink>
-                        </NavItem>
+                        <NavbarLink
+                            to={"/account"}
+                            onClick={close}
+                            icon={<FaUser className={ICON_CLASSES} />}
+                            text={"Account"}
+                        />
                     </Nav>
                 </Collapse>
             </Container>

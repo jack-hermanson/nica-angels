@@ -7,6 +7,8 @@ import { Col, Row } from "reactstrap";
 export const AccountPage: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
 
+    useMinClearance();
+
     return (
         <div>
             <Row>

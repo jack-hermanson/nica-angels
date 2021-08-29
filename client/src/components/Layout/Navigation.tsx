@@ -11,9 +11,7 @@ import {
 import { APP_NAME, CONTAINER_FLUID } from "../../utils/constants";
 import { NavLink, useHistory } from "react-router-dom";
 import {
-    FaHandHoldingHeart,
     FaHandsHelping,
-    FaHome,
     FaSchool,
     FaUser,
     FaUserGraduate,
@@ -42,16 +40,6 @@ export const Navigation: FC = () => {
                     <Nav navbar style={{ marginRight: "auto" }}>
                         <NavItem>
                             <NavLink
-                                to="/"
-                                onClick={() => setIsOpen(false)}
-                                className="nav-link d-flex"
-                            >
-                                <FaHome className="me-2 my-auto" />
-                                Home
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
                                 to="/schools"
                                 onClick={() => setIsOpen(false)}
                                 className="nav-link d-flex"
@@ -60,13 +48,15 @@ export const Navigation: FC = () => {
                                 Schools
                             </NavLink>
                         </NavItem>
-                        <NavItem
-                            to="/students"
-                            onClick={() => setIsOpen(false)}
-                            className="nav-link d-flex"
-                        >
-                            <FaUserGraduate className="me-2 my-auto" />
-                            Students
+                        <NavItem>
+                            <NavLink
+                                to="/students"
+                                onClick={() => setIsOpen(false)}
+                                className="nav-link d-flex"
+                            >
+                                <FaUserGraduate className="me-2 my-auto" />
+                                Students
+                            </NavLink>
                         </NavItem>
                     </Nav>
                     <Nav navbar style={{ marginLeft: "auto" }}>

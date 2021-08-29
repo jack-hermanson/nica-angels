@@ -11294,6 +11294,10 @@ body {
   background-color: #2b3e50;
 }
 
+.form-control, .form-control:focus {
+  background-color: white;
+}
+
 .body-container {
   display: flex;
   flex-flow: column;

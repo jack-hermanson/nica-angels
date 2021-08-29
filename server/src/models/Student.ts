@@ -7,6 +7,7 @@ import {
     UpdateDateColumn,
 } from "typeorm";
 import Joi from "joi";
+import { Sex } from "jack-hermanson-ts-utils";
 
 @Entity({ name: "student" })
 export class Student {
@@ -17,13 +18,28 @@ export class Student {
     firstName!: string;
 
     @Column({ nullable: true })
-    nickName?: string;
+    middleName?: string;
 
     @Column({ nullable: true })
     lastName?: string;
 
     @Column({ nullable: true })
     dateOfBirth?: Date;
+
+    @Column({ nullable: false })
+    sex!: Sex;
+
+    @Column({ nullable: false })
+    level!: number;
+
+    @Column({ nullable: false })
+    backpack!: boolean;
+
+    @Column({ nullable: false })
+    shoes!: boolean;
+
+    @Column({ nullable: false })
+    supplies!: boolean;
 
     @CreateDateColumn()
     created!: Date;
@@ -40,4 +56,9 @@ export const studentSchema = Joi.object().keys({
     nickName: Joi.string().optional(),
     lastName: Joi.string().optional(),
     dateOfBirth: Joi.date().optional(),
+    sex: Joi.number().min(Sex.FEMALE).max(Sex.MALE).integer().required(),
+    level: Joi.number().integer().positive().required(),
+    backpack: Joi.boolean().required(),
+    shoes: Joi.boolean().required(),
+    supplies: Joi.boolean().required(),
 });

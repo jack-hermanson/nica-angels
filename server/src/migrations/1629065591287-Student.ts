@@ -20,7 +20,7 @@ export class Student1629065591287 implements MigrationInterface {
                 isNullable: false,
             },
             {
-                name: "nickName",
+                name: "middleName",
                 type: "varchar",
                 isNullable: true,
             },
@@ -33,6 +33,31 @@ export class Student1629065591287 implements MigrationInterface {
                 name: "dateOfBirth",
                 type: "timestamp",
                 isNullable: true,
+            },
+            {
+                name: "sex",
+                type: "int",
+                isNullable: false,
+            },
+            {
+                name: "level",
+                type: "int",
+                isNullable: false,
+            },
+            {
+                name: "backpack",
+                type: "boolean",
+                isNullable: false,
+            },
+            {
+                name: "shoes",
+                type: "boolean",
+                isNullable: false,
+            },
+            {
+                name: "supplies",
+                type: "boolean",
+                isNullable: false,
             },
         ],
     });

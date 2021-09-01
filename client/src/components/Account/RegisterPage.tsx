@@ -1,13 +1,14 @@
 import { FunctionComponent, useEffect } from "react";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
-import { useStoreState } from "../../store/_store";
-import { useHistory } from "react-router-dom";
+import { useStoreActions, useStoreState } from "../../store/_store";
+import { useHistory, Link } from "react-router-dom";
 import { RegisterForm } from "./RegisterForm";
 import { AccountClient } from "../../clients/AccountClient";
 
 export const RegisterPage: FunctionComponent = () => {
     const currentUser = useStoreState(state => state.currentUser);
+    const setCurrentUser = useStoreActions(actions => actions.setCurrentUser);
     const history = useHistory();
 
     useEffect(() => {
@@ -28,20 +29,21 @@ export const RegisterPage: FunctionComponent = () => {
                     <RegisterForm
                         onSubmit={async registerRequest => {
                             try {
-                                console.log({ registerRequest });
                                 const newAccount = await AccountClient.register(
                                     registerRequest
                                 );
-                                console.log({ newAccount });
+                                setCurrentUser(newAccount);
+                                history.replace("/account");
                             } catch (error) {
                                 console.error(error);
                             }
                         }}
                     />
-                </Col>
-                <Col xs={12} lg={6}>
-                    <hr className="d-lg-none mt-4" />
-                    <p>Already have an account?</p>
+                    <hr className="mt-4" />
+                    <p>
+                        Already have an account?{" "}
+                        <Link to="/account/login">Log in.</Link>
+                    </p>
                 </Col>
             </Row>
         </div>

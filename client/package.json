@@ -1,12 +1,14 @@
 {
     "name": "client",
     "private": true,
+    "proxy": "http://localhost:5000",
     "dependencies": {
         "@popperjs/core": "^2.9.3",
         "@types/node": "^12.0.0",
         "@types/react": "^17.0.0",
         "@types/react-dom": "^17.0.0",
         "@types/react-router-dom": "^5.1.8",
+        "axios": "^0.21.1",
         "bootstrap": "^5.1.0",
         "customize-cra": "^1.0.0",
         "easy-peasy": "^5.0.3",

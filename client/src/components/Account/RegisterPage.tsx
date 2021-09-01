@@ -4,6 +4,7 @@ import { PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { useHistory } from "react-router-dom";
 import { RegisterForm } from "./RegisterForm";
+import { AccountClient } from "../../clients/AccountClient";
 
 export const RegisterPage: FunctionComponent = () => {
     const currentUser = useStoreState(state => state.currentUser);
@@ -26,7 +27,15 @@ export const RegisterPage: FunctionComponent = () => {
                 <Col xs={12} lg={6}>
                     <RegisterForm
                         onSubmit={async registerRequest => {
-                            console.log(registerRequest);
+                            try {
+                                console.log({ registerRequest });
+                                const newAccount = await AccountClient.register(
+                                    registerRequest
+                                );
+                                console.log({ newAccount });
+                            } catch (error) {
+                                console.error(error);
+                            }
                         }}
                     />
                 </Col>

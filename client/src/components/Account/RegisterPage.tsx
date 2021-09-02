@@ -10,6 +10,7 @@ export const RegisterPage: FunctionComponent = () => {
     const currentUser = useStoreState(state => state.currentUser);
     const setCurrentUser = useStoreActions(actions => actions.setCurrentUser);
     const history = useHistory();
+    const logIn = useStoreActions(actions => actions.logIn);
 
     useEffect(() => {
         if (currentUser) {
@@ -32,7 +33,10 @@ export const RegisterPage: FunctionComponent = () => {
                                 const newAccount = await AccountClient.register(
                                     registerRequest
                                 );
-                                setCurrentUser(newAccount);
+                                await logIn({
+                                    email: newAccount.email,
+                                    password: registerRequest.password,
+                                });
                                 history.replace("/account");
                             } catch (error) {
                                 console.error(error);

@@ -144,3 +144,27 @@ router.post(
         res.send(success);
     }
 );
+
+router.get(
+    "/:id",
+    auth,
+    async (req: Request<{ id: number }>, res: Response<AccountRecord>) => {
+        const id: number = req.params.id;
+        try {
+            if (
+                req.account.clearance < Clearance.ADMIN &&
+                req.account.id !== id
+            ) {
+                return res.sendStatus(HTTP.FORBIDDEN);
+            }
+            const account = await AccountService.getOne(id, res);
+            if (!account) {
+                return;
+            }
+            delete account.password;
+            res.json(account);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);

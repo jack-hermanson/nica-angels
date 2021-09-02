@@ -179,4 +179,22 @@ export abstract class AccountService {
 
         return true;
     }
+
+    /**
+     * Get a single account.
+     * @param id
+     * @param res
+     */
+    static async getOne(
+        id: number,
+        res: Response
+    ): Promise<Account | undefined> {
+        const { accountRepo } = getRepos();
+        const account = await accountRepo.findOne(id);
+        if (!account) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+        return account;
+    }
 }

@@ -11,7 +11,7 @@ import * as timeago from "timeago.js";
 import { tokenExpiration } from "../../../../shared/constants";
 import { UserDetails } from "../User/UserDetails";
 import { ClickDropdownAction } from "jack-hermanson-ts-utils";
-import { LogOutModal } from "./LogOutModal";
+import { LogOutModal } from "../User/LogOutModal";
 import { useHistory } from "react-router-dom";
 
 export const AccountPage: FunctionComponent = () => {

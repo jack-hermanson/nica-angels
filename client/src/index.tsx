@@ -5,10 +5,10 @@ import { StoreProvider } from "easy-peasy";
 import { store } from "./store/_store";
 
 ReactDOM.render(
-    <React.StrictMode>
+    <React.Fragment>
         <StoreProvider store={store}>
             <App />
         </StoreProvider>
-    </React.StrictMode>,
+    </React.Fragment>,
     document.getElementById("root")
 );

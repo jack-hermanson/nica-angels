@@ -27,6 +27,7 @@ export const Navigation: FC = () => {
     const close = useCallback(() => setIsOpen(false), [setIsOpen]);
     const history = useHistory();
     const spanish = useStoreState(state => state.spanish);
+    const currentUser = useStoreState(state => state.currentUser);
 
     return (
         <Navbar dark color="secondary" className="mb-1 px-0" expand="lg">
@@ -78,15 +79,27 @@ export const Navigation: FC = () => {
                         />
                     </Nav>
                     <Nav navbar style={{ marginLeft: "auto" }}>
-                        <NavbarLink
-                            to={"/account"}
-                            onClick={close}
-                            icon={<FaUser className={ICON_CLASSES} />}
-                            text={spanish ? "Cuenta" : "Account"}
-                        />
+                        {renderAccount()}
                     </Nav>
                 </Collapse>
             </Container>
         </Navbar>
     );
+
+    function renderAccount() {
+        return (
+            <NavbarLink
+                to={"/account"}
+                onClick={close}
+                icon={<FaUser className={ICON_CLASSES} />}
+                text={
+                    currentUser
+                        ? currentUser.email
+                        : spanish
+                        ? "Cuenta"
+                        : "Account"
+                }
+            />
+        );
+    }
 };

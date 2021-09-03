@@ -1,19 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./css/main.css";
 import { Layout } from "./components/Layout/Layout";
-import { useStoreState } from "./store/_store";
+import { AccountPage } from "./components/Account/AccountPage";
+import { DashboardPage } from "./components/Dashboard/DashboardPage";
+import { RegisterPage } from "./components/Account/RegisterPage";
+import { LoginPage } from "./components/User/LoginPage";
+import { useStoreActions } from "./store/_store";
+import { LocalStorage } from "./utils/LocalStorage";
+import { AccountClient } from "./clients/AccountClient";
+import { Alerts } from "./components/Alerts/Alerts";
 
 export const App: React.FC = () => {
-    const spanish = useStoreState(state => state.spanish);
+    const setToken = useStoreActions(actions => actions.setToken);
+    const setCurrentUser = useStoreActions(actions => actions.setCurrentUser);
+
+    useEffect(() => {
+        const token = LocalStorage.getToken();
+        if (token) {
+            setToken(token);
+            AccountClient.getAccount(token.accountId, token.data)
+                .then(user => {
+                    setCurrentUser(user);
+                })
+                .catch(error => {
+                    console.error(error);
+                    console.log(error.response.data);
+                    LocalStorage.removeToken();
+                });
+        }
+    }, [setToken, setCurrentUser]);
 
     return (
         <BrowserRouter>
-            <Layout>{renderPlaceholder()}</Layout>
+            <Layout>
+                <Alerts />
+                <Switch>
+                    <Route exact path="/" component={DashboardPage} />
+
+                    <Route exact path="/account" component={AccountPage} />
+                    <Route
+                        exact
+                        path="/account/register"
+                        component={RegisterPage}
+                    />
+                    <Route exact path="/account/login" component={LoginPage} />
+                </Switch>
+            </Layout>
         </BrowserRouter>
     );
-
-    function renderPlaceholder() {
-        return <p>{spanish ? "Ésta es la aplicación." : "This is the app."}</p>;
-    }
 };

@@ -6,6 +6,7 @@ import {
 } from "../../../shared/resource_models/account";
 import { TokenRecord } from "../../../shared/resource_models/token";
 import { AccountClient } from "../clients/AccountClient";
+import { LocalStorage } from "../utils/LocalStorage";
 
 export interface UserStoreModel {
     currentUser: AccountRecord | undefined;
@@ -23,6 +24,11 @@ export const userStore: UserStoreModel = {
     token: undefined,
     setToken: action((state, payload) => {
         state.token = payload;
+        if (payload) {
+            LocalStorage.saveToken(payload);
+        } else {
+            LocalStorage.removeToken();
+        }
     }),
     logIn: thunk(async (actions, payload) => {
         const token: TokenRecord = await AccountClient.logIn(payload);
@@ -32,5 +38,6 @@ export const userStore: UserStoreModel = {
             token.data
         );
         actions.setCurrentUser(user);
+        LocalStorage.saveToken(token);
     }),
 };

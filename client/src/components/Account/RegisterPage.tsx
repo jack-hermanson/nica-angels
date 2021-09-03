@@ -8,7 +8,6 @@ import { AccountClient } from "../../clients/AccountClient";
 
 export const RegisterPage: FunctionComponent = () => {
     const currentUser = useStoreState(state => state.currentUser);
-    const setCurrentUser = useStoreActions(actions => actions.setCurrentUser);
     const history = useHistory();
     const logIn = useStoreActions(actions => actions.logIn);
 

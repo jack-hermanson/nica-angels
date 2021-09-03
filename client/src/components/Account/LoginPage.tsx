@@ -1,10 +1,22 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { LoginForm } from "./LoginForm";
+import { useStoreActions, useStoreState } from "../../store/_store";
 
 export const LoginPage: FunctionComponent = () => {
+    const logIn = useStoreActions(actions => actions.logIn);
+    const currentUser = useStoreState(state => state.currentUser);
+
+    const history = useHistory();
+
+    useEffect(() => {
+        if (currentUser) {
+            history.push("/account");
+        }
+    }, [history, currentUser]);
+
     return (
         <div>
             <Row>
@@ -17,7 +29,7 @@ export const LoginPage: FunctionComponent = () => {
                     <LoginForm
                         onSubmit={async loginRequest => {
                             try {
-                                console.log(loginRequest);
+                                await logIn(loginRequest);
                             } catch (error) {
                                 console.error(error);
                             }

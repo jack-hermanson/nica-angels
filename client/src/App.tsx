@@ -9,6 +9,7 @@ import { LoginPage } from "./components/Account/LoginPage";
 import { useStoreActions } from "./store/_store";
 import { LocalStorage } from "./utils/LocalStorage";
 import { AccountClient } from "./clients/AccountClient";
+import { Alerts } from "./components/Alerts/Alerts";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -31,6 +32,7 @@ export const App: React.FC = () => {
     return (
         <BrowserRouter>
             <Layout>
+                <Alerts />
                 <Switch>
                     <Route exact path="/" component={DashboardPage} />
 

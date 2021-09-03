@@ -25,6 +25,8 @@ export const App: React.FC = () => {
                 })
                 .catch(error => {
                     console.error(error);
+                    console.log(error.response.data);
+                    LocalStorage.removeToken();
                 });
         }
     }, [setToken, setCurrentUser]);

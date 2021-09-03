@@ -84,6 +84,9 @@ export const AccountPage: FunctionComponent = () => {
                     ) : (
                         <Fragment>
                             <dl>
+                                <dt>Token ID</dt>
+                                <dd>{token?.id}</dd>
+
                                 <dt>Token Created</dt>
                                 <dd>{timeago.format(created)}</dd>
 

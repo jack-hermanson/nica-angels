@@ -6,6 +6,7 @@ import { getConnection } from "typeorm";
 import { Token } from "../models/Token";
 import { Account } from "../models/Account";
 import { AuthError, tokenExpiration } from "../../../shared/constants";
+import { tokenHasExpired } from "../../../shared/resource_models/token";
 
 export const auth = async (
     req: Request<any>,
@@ -30,13 +31,14 @@ export const auth = async (
         });
         if (existingToken) {
             // is it expired?
-            const timeDif = Date.now() - existingToken.created.getTime();
-            if (timeDif > tokenExpiration) {
+            if (tokenHasExpired(existingToken)) {
                 // yes it is expired
+                console.log("EXPIRED");
                 await tokenRepo.remove(existingToken);
                 return res.status(HTTP.UNAUTHORIZED).send(AuthError.EXPIRED);
             } else {
                 // not it isn't expired
+                console.log("NOT EXPIRED");
                 const accountRepo = connection.getRepository(Account);
                 const account = await accountRepo.findOne({
                     id: decodedToken.id,

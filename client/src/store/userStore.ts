@@ -10,6 +10,7 @@ import {
 } from "../../../shared/resource_models/token";
 import { AccountClient } from "../clients/AccountClient";
 import { LocalStorage } from "../utils/LocalStorage";
+import { errorAlert, successAlert } from "jack-hermanson-ts-utils";
 
 export interface UserStoreModel {
     currentUser: AccountRecord | undefined;
@@ -35,14 +36,23 @@ export const userStore: UserStoreModel = {
         }
     }),
     logIn: thunk(async (actions, payload) => {
-        const token: TokenRecord = await AccountClient.logIn(payload);
-        actions.setToken(token);
-        const user: AccountRecord = await AccountClient.getAccount(
-            token.accountId,
-            token.data
-        );
-        actions.setCurrentUser(user);
-        LocalStorage.saveToken(token);
+        try {
+            const token: TokenRecord = await AccountClient.logIn(payload);
+            actions.setToken(token);
+            const user: AccountRecord = await AccountClient.getAccount(
+                token.accountId,
+                token.data
+            );
+            actions.setCurrentUser(user);
+            actions.addAlert(successAlert("user", "logged in"));
+            LocalStorage.saveToken(token);
+        } catch (error: any) {
+            actions.addAlert(
+                errorAlert("Incorrect login information. Please try again.")
+            );
+            console.error(error.response);
+            throw error;
+        }
     }),
     logOut: thunk(async (actions, payload) => {
         const success = await AccountClient.logOut(payload);

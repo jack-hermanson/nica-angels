@@ -1,11 +1,18 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { useStoreState } from "../../store/_store";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
+import {
+    ActionsDropdown,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
 import { Col, Row } from "reactstrap";
 import * as timeago from "timeago.js";
 import { tokenExpiration } from "../../../../shared/constants";
 import { UserDetails } from "../User/UserDetails";
+import { ClickDropdownAction } from "jack-hermanson-ts-utils";
+import { LogOutModal } from "./LogOutModal";
+import { useHistory } from "react-router-dom";
 
 export const AccountPage: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -14,6 +21,9 @@ export const AccountPage: FunctionComponent = () => {
 
     const [created, setCreated] = useState<Date | undefined>(undefined);
     const [expires, setExpires] = useState<Date | undefined>(undefined);
+    const [showLogOutModal, setShowLogOutModal] = useState(false);
+
+    const history = useHistory();
 
     useMinClearance();
 
@@ -27,15 +37,32 @@ export const AccountPage: FunctionComponent = () => {
             setCreated(creationDate);
             setExpires(expirationDate);
         }
-    }, [token, setCreated, setExpires, tokenExpiration]);
+    }, [token, setCreated, setExpires]);
 
     return (
         <div>
             <Row>
                 <Col>
-                    <PageHeader title={spanish ? "Cuenta" : "Account"} />
+                    <PageHeader title={spanish ? "Cuenta" : "Account"}>
+                        <ActionsDropdown
+                            size="sm"
+                            options={[
+                                new ClickDropdownAction("Log Out", () => {
+                                    setShowLogOutModal(true);
+                                }),
+                            ]}
+                        />
+                    </PageHeader>
                 </Col>
             </Row>
+            {renderUserDetails()}
+            {renderTokenDetails()}
+            {renderLogOutModal()}
+        </div>
+    );
+
+    function renderUserDetails() {
+        return (
             <Row>
                 <Col>
                     {currentUser ? (
@@ -45,6 +72,11 @@ export const AccountPage: FunctionComponent = () => {
                     )}
                 </Col>
             </Row>
+        );
+    }
+
+    function renderTokenDetails() {
+        return (
             <Row>
                 <Col>
                     {!created || !expires ? (
@@ -64,6 +96,21 @@ export const AccountPage: FunctionComponent = () => {
                     )}
                 </Col>
             </Row>
-        </div>
-    );
+        );
+    }
+
+    function renderLogOutModal() {
+        if (token) {
+            return (
+                <LogOutModal
+                    isOpen={showLogOutModal}
+                    setIsOpen={setShowLogOutModal}
+                    token={token}
+                    callback={() => {
+                        history.push("/account/login");
+                    }}
+                />
+            );
+        }
+    }
 };

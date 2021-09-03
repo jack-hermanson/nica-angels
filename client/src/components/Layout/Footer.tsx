@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { CONTAINER_FLUID } from "../../utils/constants";
-import { Button, Col, Container, Row } from "reactstrap";
+import { Col, Container, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "../../store/_store";
 

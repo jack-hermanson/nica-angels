@@ -4,7 +4,10 @@ import {
     AccountRecord,
     LoginRequest,
 } from "../../../shared/resource_models/account";
-import { TokenRecord } from "../../../shared/resource_models/token";
+import {
+    LogOutRequest,
+    TokenRecord,
+} from "../../../shared/resource_models/token";
 import { AccountClient } from "../clients/AccountClient";
 import { LocalStorage } from "../utils/LocalStorage";
 
@@ -14,6 +17,7 @@ export interface UserStoreModel {
     token: TokenRecord | undefined;
     setToken: Action<StoreModel, TokenRecord | undefined>;
     logIn: Thunk<StoreModel, LoginRequest>;
+    logOut: Thunk<StoreModel, LogOutRequest>;
 }
 
 export const userStore: UserStoreModel = {
@@ -39,5 +43,13 @@ export const userStore: UserStoreModel = {
         );
         actions.setCurrentUser(user);
         LocalStorage.saveToken(token);
+    }),
+    logOut: thunk(async (actions, payload) => {
+        const success = await AccountClient.logOut(payload);
+        if (success) {
+            actions.setCurrentUser(undefined);
+            actions.setToken(undefined);
+            LocalStorage.removeToken();
+        }
     }),
 };

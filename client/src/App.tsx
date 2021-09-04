@@ -10,6 +10,7 @@ import { useStoreActions } from "./store/_store";
 import { LocalStorage } from "./utils/LocalStorage";
 import { AccountClient } from "./clients/AccountClient";
 import { Alerts } from "./components/Alerts/Alerts";
+import { SocketConnection } from "./components/SocketConnection";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -33,6 +34,7 @@ export const App: React.FC = () => {
 
     return (
         <BrowserRouter>
+            <SocketConnection />
             <Layout>
                 <Alerts />
                 <Switch>

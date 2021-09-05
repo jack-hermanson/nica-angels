@@ -29,6 +29,7 @@ app.use(staticFiles);
 
 // routes
 app.use("/api/accounts", routes.accounts);
+app.use("/api/towns", routes.towns);
 
 // database
 const databaseDialect = process.env.DATABASE_DIALECT as DbDialect;

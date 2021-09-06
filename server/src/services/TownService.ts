@@ -39,6 +39,11 @@ export abstract class TownService {
         }));
     }
 
+    /**
+     * Create a new town.
+     * @param townRequest
+     * @param res
+     */
     static async create(
         townRequest: TownRequest,
         res: Response
@@ -55,6 +60,12 @@ export abstract class TownService {
         return await townRepo.save(town);
     }
 
+    /**
+     * Edit an existing town.
+     * @param id
+     * @param townRequest
+     * @param res
+     */
     static async edit(
         id: number,
         townRequest: TownRequest,
@@ -75,5 +86,20 @@ export abstract class TownService {
             ...existingTown,
             ...townRequest,
         });
+    }
+
+    /**
+     * Get one specific town.
+     * @param id
+     * @param res
+     */
+    static async getOne(id: number, res: Response): Promise<Town | undefined> {
+        const { townRepo } = this.getRepos();
+        const town = await townRepo.findOne(id);
+        if (!town) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+        return town;
     }
 }

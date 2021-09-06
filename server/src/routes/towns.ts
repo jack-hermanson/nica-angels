@@ -70,3 +70,26 @@ router.put(
         res.json(editedTown);
     }
 );
+
+router.get(
+    "/:id",
+    auth,
+    async (req: Request<{ id: number }>, res: Response<TownRecord>) => {
+        if (
+            !(await AccountService.hasMinClearance(
+                req.account,
+                Clearance.SPONSOR,
+                res
+            ))
+        ) {
+            return;
+        }
+
+        const town = await TownService.getOne(req.params.id, res);
+        if (!town) {
+            return;
+        }
+
+        res.json(town);
+    }
+);

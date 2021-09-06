@@ -20,6 +20,7 @@ import {
 } from "react-icons/fa";
 import { NavbarLink } from "../Utils/NavbarLink";
 import { useStoreState } from "../../store/_store";
+import { Clearance } from "../../../../shared/enums";
 
 export const Navigation: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -65,18 +66,8 @@ export const Navigation: FC = () => {
                             }
                             text={spanish ? "Padrinos" : "Sponsors"}
                         />
-                        <NavbarLink
-                            to={"/reports"}
-                            onClick={close}
-                            icon={<FaFileCsv className={ICON_CLASSES} />}
-                            text={spanish ? "Reportes" : "Reports"}
-                        />
-                        <NavbarLink
-                            to={"/settings"}
-                            onClick={close}
-                            icon={<FaCogs className={ICON_CLASSES} />}
-                            text={spanish ? "Configuración" : "Settings"}
-                        />
+                        {renderReports()}
+                        {renderSettings()}
                     </Nav>
                     <Nav navbar style={{ marginLeft: "auto" }}>
                         {renderAccount()}
@@ -101,5 +92,37 @@ export const Navigation: FC = () => {
                 }
             />
         );
+    }
+
+    function renderSettings() {
+        if (
+            currentUser?.clearance &&
+            currentUser.clearance >= Clearance.ADMIN
+        ) {
+            return (
+                <NavbarLink
+                    to={"/settings"}
+                    onClick={close}
+                    icon={<FaCogs className={ICON_CLASSES} />}
+                    text={spanish ? "Configuración" : "Settings"}
+                />
+            );
+        }
+    }
+
+    function renderReports() {
+        if (
+            currentUser?.clearance &&
+            currentUser.clearance >= Clearance.ADMIN
+        ) {
+            return (
+                <NavbarLink
+                    to={"/reports"}
+                    onClick={close}
+                    icon={<FaFileCsv className={ICON_CLASSES} />}
+                    text={spanish ? "Reportes" : "Reports"}
+                />
+            );
+        }
     }
 };

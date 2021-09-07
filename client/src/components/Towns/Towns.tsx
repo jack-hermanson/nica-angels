@@ -12,6 +12,7 @@ export const Towns: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
 
     const token = useStoreState(state => state.token);
+    const spanish = useStoreState(state => state.spanish);
 
     const [towns, setTowns] = useState<TownRecord[] | undefined>(undefined);
 
@@ -35,7 +36,7 @@ export const Towns: FunctionComponent = () => {
         return (
             <Row>
                 <Col>
-                    <PageHeader title="Towns" />
+                    <PageHeader title={spanish ? "Pueblos" : "Towns"} />
                 </Col>
             </Row>
         );

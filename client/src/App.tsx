@@ -11,6 +11,8 @@ import { LocalStorage } from "./utils/LocalStorage";
 import { AccountClient } from "./clients/AccountClient";
 import { Alerts } from "./components/Alerts/Alerts";
 import { SocketConnection } from "./components/SocketConnection";
+import { Settings } from "./components/Settings/Settings";
+import { Towns } from "./components/Towns/Towns";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -47,6 +49,9 @@ export const App: React.FC = () => {
                         component={RegisterPage}
                     />
                     <Route exact path="/account/login" component={LoginPage} />
+
+                    <Route exact path="/settings" component={Settings} />
+                    <Route exact path="/settings/towns" component={Towns} />
                 </Switch>
             </Layout>
         </BrowserRouter>

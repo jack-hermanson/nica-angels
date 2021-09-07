@@ -63,7 +63,7 @@ export const Towns: FunctionComponent = () => {
     function renderList() {
         return (
             <Row>
-                <Col>
+                <Col xs={12} lg={6}>
                     {towns ? (
                         <Fragment>
                             {towns.map(town => (

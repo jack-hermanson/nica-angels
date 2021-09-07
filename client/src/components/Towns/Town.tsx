@@ -16,7 +16,7 @@ export const Town: FunctionComponent<Props> = ({ town }: Props) => {
     const spanish = useStoreState(state => state.spanish);
 
     return (
-        <Card>
+        <Card className="mb-3 no-mb-last">
             <ActionCardHeader title={town.name}>
                 <ActionsDropdown
                     menuName={spanish ? "Acciones" : "Actions"}

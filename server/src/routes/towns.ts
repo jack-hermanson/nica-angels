@@ -93,3 +93,22 @@ router.get(
         res.json(town);
     }
 );
+
+router.get(
+    "/",
+    auth,
+    async (req: Request<any>, res: Response<TownRecord[]>) => {
+        if (
+            !(await AccountService.hasMinClearance(
+                req.account,
+                Clearance.SPONSOR,
+                res
+            ))
+        ) {
+            return;
+        }
+
+        const towns = await TownService.getAll();
+        res.json(towns);
+    }
+);

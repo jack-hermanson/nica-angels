@@ -102,4 +102,12 @@ export abstract class TownService {
         }
         return town;
     }
+
+    /**
+     * Get all towns
+     */
+    static async getAll(): Promise<Town[]> {
+        const { townRepo } = this.getRepos();
+        return await townRepo.find();
+    }
 }

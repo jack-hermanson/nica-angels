@@ -10,12 +10,15 @@ import { TownRecord } from "../../../../shared/resource_models/town";
 import { Town } from "./Town";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaPlus } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
 
 export const Towns: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
 
     const token = useStoreState(state => state.token);
     const spanish = useStoreState(state => state.spanish);
+
+    const history = useHistory();
 
     const [towns, setTowns] = useState<TownRecord[] | undefined>(undefined);
 
@@ -44,9 +47,12 @@ export const Towns: FunctionComponent = () => {
                             size="sm"
                             color={NEW_BUTTON_COLOR}
                             className="icon-button"
+                            onClick={() => {
+                                history.push("/settings/towns/new");
+                            }}
                         >
                             <FaPlus className={BUTTON_ICON_CLASSES} />
-                            {spanish ? "Añadir" : "New"}
+                            {spanish ? "Nuevo Pueblo" : "New Town"}
                         </Button>
                     </PageHeader>
                 </Col>

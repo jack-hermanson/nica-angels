@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { CONTAINER_FLUID } from "../../utils/constants";
-import { Col, Container, Row } from "reactstrap";
+import { Button, Col, Container, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "../../store/_store";
 
@@ -23,7 +23,7 @@ export const Footer: FunctionComponent = () => {
 
     function renderHome() {
         return (
-            <Link className="text-light me-3" to="/">
+            <Link className="text-light me-3 my-auto" to="/">
                 {spanish ? "Inicio" : "Home"}
             </Link>
         );
@@ -31,16 +31,18 @@ export const Footer: FunctionComponent = () => {
 
     function renderSpanishToggle() {
         return (
-            <a
-                href="#"
-                className="ms-auto text-light"
+            <Button
+                className="ms-auto text-light my-auto p-1"
+                style={{
+                    lineHeight: 1,
+                }}
                 onClick={e => {
                     e.preventDefault();
                     setSpanish(!spanish);
                 }}
             >
                 {spanish ? "English" : "Español"}
-            </a>
+            </Button>
         );
     }
 };

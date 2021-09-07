@@ -13,7 +13,7 @@ export const SettingsTabs: FunctionComponent = () => {
                     links={[
                         {
                             path: "/settings",
-                            text: spanish ? "Tablero de Control" : "Dashboard",
+                            text: spanish ? "Panel" : "Dashboard",
                             exact: true,
                         },
                         {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TownRecord } from "../../../shared/resource_models/town";
+import { TownRecord, TownRequest } from "../../../shared/resource_models/town";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 
 export abstract class TownClient {
@@ -11,5 +11,14 @@ export abstract class TownClient {
             getAuthHeader(token)
         );
         return towns.data;
+    }
+
+    static async createTown(townRequest: TownRequest, token: string) {
+        const town = await axios.post<TownRecord>(
+            this.baseUrl,
+            townRequest,
+            getAuthHeader(token)
+        );
+        return town.data;
     }
 }

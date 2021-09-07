@@ -4,6 +4,7 @@ import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
 import { Button, FormGroup, Input, Label } from "reactstrap";
+import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 
 interface Props {
     onSubmit: (requestBody: RegisterRequest) => Promise<void>;
@@ -120,10 +121,10 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
     function renderButtons() {
         return (
             <div className="bottom-buttons">
-                <Button type="submit" color="primary">
+                <Button type="submit" color={SUBMIT_BUTTON_COLOR}>
                     Register
                 </Button>
-                <Button type="reset" color="secondary">
+                <Button type="reset" color={RESET_BUTTON_COLOR}>
                     Reset
                 </Button>
             </div>

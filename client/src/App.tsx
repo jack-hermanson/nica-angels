@@ -14,6 +14,7 @@ import { SocketConnection } from "./components/SocketConnection";
 import { Settings } from "./components/Settings/Settings";
 import { Towns } from "./components/Towns/Towns";
 import { CreateTown } from "./components/Towns/CreateTown";
+import { EditTown } from "./components/Towns/EditTown";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -57,6 +58,11 @@ export const App: React.FC = () => {
                         exact
                         path="/settings/towns/new"
                         component={CreateTown}
+                    />
+                    <Route
+                        exact
+                        path="/settings/towns/edit/:id"
+                        component={EditTown}
                     />
                 </Switch>
             </Layout>

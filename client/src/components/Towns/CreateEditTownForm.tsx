@@ -1,5 +1,8 @@
 import { Fragment, FunctionComponent } from "react";
-import { TownRequest } from "../../../../shared/resource_models/town";
+import {
+    TownRecord,
+    TownRequest,
+} from "../../../../shared/resource_models/town";
 import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
@@ -9,10 +12,12 @@ import { useStoreState } from "../../store/_store";
 
 interface Props {
     onSubmit: (townRequest: TownRequest) => Promise<void>;
+    existingTown?: TownRecord;
 }
 
 export const CreateEditTownForm: FunctionComponent<Props> = ({
     onSubmit,
+    existingTown,
 }: Props) => {
     const spanish = useStoreState(state => state.spanish);
 
@@ -30,7 +35,7 @@ export const CreateEditTownForm: FunctionComponent<Props> = ({
     return (
         <Formik
             initialValues={{
-                name: "",
+                name: existingTown ? existingTown.name : "",
             }}
             onSubmit={async (data, { setSubmitting }) => {
                 setSubmitting(true);

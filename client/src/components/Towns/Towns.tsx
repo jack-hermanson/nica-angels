@@ -7,6 +7,7 @@ import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { TownClient } from "../../clients/TownClient";
 import { TownRecord } from "../../../../shared/resource_models/town";
+import { Town } from "./Town";
 
 export const Towns: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -49,7 +50,7 @@ export const Towns: FunctionComponent = () => {
                     {towns ? (
                         <Fragment>
                             {towns.map(town => (
-                                <p key={town.id}>{town.name}</p>
+                                <Town key={town.id} town={town} />
                             ))}
                         </Fragment>
                     ) : (

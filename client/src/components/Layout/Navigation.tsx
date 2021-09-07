@@ -7,7 +7,11 @@ import {
     NavbarBrand,
     NavbarToggler,
 } from "reactstrap";
-import { APP_NAME, CONTAINER_FLUID, ICON_CLASSES } from "../../utils/constants";
+import {
+    APP_NAME,
+    CONTAINER_FLUID,
+    NAV_ICON_CLASSES,
+} from "../../utils/constants";
 import { useHistory } from "react-router-dom";
 import {
     FaCogs,
@@ -49,20 +53,24 @@ export const Navigation: FC = () => {
                         <NavbarLink
                             to={"/schools"}
                             onClick={close}
-                            icon={<FaSchool className={ICON_CLASSES} />}
+                            icon={<FaSchool className={NAV_ICON_CLASSES} />}
                             text={spanish ? "Escuelas" : "Schools"}
                         />
                         <NavbarLink
                             to={"/students"}
                             onClick={close}
-                            icon={<FaUserGraduate className={ICON_CLASSES} />}
+                            icon={
+                                <FaUserGraduate className={NAV_ICON_CLASSES} />
+                            }
                             text={spanish ? "Estudiantes" : "Students"}
                         />
                         <NavbarLink
                             to={"/sponsors"}
                             onClick={close}
                             icon={
-                                <FaHandHoldingHeart className={ICON_CLASSES} />
+                                <FaHandHoldingHeart
+                                    className={NAV_ICON_CLASSES}
+                                />
                             }
                             text={spanish ? "Padrinos" : "Sponsors"}
                         />
@@ -82,7 +90,7 @@ export const Navigation: FC = () => {
             <NavbarLink
                 to={"/account"}
                 onClick={close}
-                icon={<FaUser className={ICON_CLASSES} />}
+                icon={<FaUser className={NAV_ICON_CLASSES} />}
                 text={
                     currentUser
                         ? currentUser.email
@@ -103,7 +111,7 @@ export const Navigation: FC = () => {
                 <NavbarLink
                     to={"/settings"}
                     onClick={close}
-                    icon={<FaCogs className={ICON_CLASSES} />}
+                    icon={<FaCogs className={NAV_ICON_CLASSES} />}
                     text={spanish ? "Configuración" : "Settings"}
                 />
             );
@@ -119,7 +127,7 @@ export const Navigation: FC = () => {
                 <NavbarLink
                     to={"/reports"}
                     onClick={close}
-                    icon={<FaFileCsv className={ICON_CLASSES} />}
+                    icon={<FaFileCsv className={NAV_ICON_CLASSES} />}
                     text={spanish ? "Reportes" : "Reports"}
                 />
             );

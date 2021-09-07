@@ -2,12 +2,14 @@ import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "../../../../shared/enums";
-import { Col, Row } from "reactstrap";
+import { Button, Col, Row } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { TownClient } from "../../clients/TownClient";
 import { TownRecord } from "../../../../shared/resource_models/town";
 import { Town } from "./Town";
+import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
+import { FaPlus } from "react-icons/fa";
 
 export const Towns: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -37,7 +39,16 @@ export const Towns: FunctionComponent = () => {
         return (
             <Row>
                 <Col>
-                    <PageHeader title={spanish ? "Pueblos" : "Towns"} />
+                    <PageHeader title={spanish ? "Pueblos" : "Towns"}>
+                        <Button
+                            size="sm"
+                            color={NEW_BUTTON_COLOR}
+                            className="icon-button"
+                        >
+                            <FaPlus className={BUTTON_ICON_CLASSES} />
+                            {spanish ? "Añadir" : "New"}
+                        </Button>
+                    </PageHeader>
                 </Col>
             </Row>
         );

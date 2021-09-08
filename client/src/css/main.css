@@ -11321,4 +11321,10 @@ body {
   overflow-x: hidden;
 }
 
+.icon-button {
+  line-height: 1;
+  padding: 6px;
+  display: flex;
+}
+
 /*# sourceMappingURL=main.css.map */

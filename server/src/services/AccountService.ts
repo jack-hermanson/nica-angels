@@ -13,6 +13,7 @@ import {
     LogOutRequest,
     TokenLoginRequest,
 } from "../../../shared/resource_models/token";
+import { Clearance } from "../../../shared/enums";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;
@@ -169,7 +170,9 @@ export abstract class AccountService {
                 accountId: token.accountId,
             });
             for (let userToken of userTokens) {
-                tokens.push(userToken);
+                if (userToken !== token) {
+                    tokens.push(userToken);
+                }
             }
         }
 
@@ -196,5 +199,23 @@ export abstract class AccountService {
             return undefined;
         }
         return account;
+    }
+
+    /**
+     * Makes sure the user has the right clearance level.
+     * @param account
+     * @param clearance
+     * @param res
+     */
+    static async hasMinClearance(
+        account: Account,
+        clearance: Clearance,
+        res: Response
+    ): Promise<boolean> {
+        if (account.clearance < clearance) {
+            res.sendStatus(HTTP.UNAUTHORIZED);
+            return false;
+        }
+        return true;
     }
 }

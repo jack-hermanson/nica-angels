@@ -7,7 +7,11 @@ import {
     NavbarBrand,
     NavbarToggler,
 } from "reactstrap";
-import { APP_NAME, CONTAINER_FLUID, ICON_CLASSES } from "../../utils/constants";
+import {
+    APP_NAME,
+    CONTAINER_FLUID,
+    NAV_ICON_CLASSES,
+} from "../../utils/constants";
 import { useHistory } from "react-router-dom";
 import {
     FaCogs,
@@ -20,6 +24,7 @@ import {
 } from "react-icons/fa";
 import { NavbarLink } from "../Utils/NavbarLink";
 import { useStoreState } from "../../store/_store";
+import { Clearance } from "../../../../shared/enums";
 
 export const Navigation: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -48,35 +53,29 @@ export const Navigation: FC = () => {
                         <NavbarLink
                             to={"/schools"}
                             onClick={close}
-                            icon={<FaSchool className={ICON_CLASSES} />}
+                            icon={<FaSchool className={NAV_ICON_CLASSES} />}
                             text={spanish ? "Escuelas" : "Schools"}
                         />
                         <NavbarLink
                             to={"/students"}
                             onClick={close}
-                            icon={<FaUserGraduate className={ICON_CLASSES} />}
+                            icon={
+                                <FaUserGraduate className={NAV_ICON_CLASSES} />
+                            }
                             text={spanish ? "Estudiantes" : "Students"}
                         />
                         <NavbarLink
                             to={"/sponsors"}
                             onClick={close}
                             icon={
-                                <FaHandHoldingHeart className={ICON_CLASSES} />
+                                <FaHandHoldingHeart
+                                    className={NAV_ICON_CLASSES}
+                                />
                             }
                             text={spanish ? "Padrinos" : "Sponsors"}
                         />
-                        <NavbarLink
-                            to={"/reports"}
-                            onClick={close}
-                            icon={<FaFileCsv className={ICON_CLASSES} />}
-                            text={spanish ? "Reportes" : "Reports"}
-                        />
-                        <NavbarLink
-                            to={"/settings"}
-                            onClick={close}
-                            icon={<FaCogs className={ICON_CLASSES} />}
-                            text={spanish ? "Configuración" : "Settings"}
-                        />
+                        {renderReports()}
+                        {renderSettings()}
                     </Nav>
                     <Nav navbar style={{ marginLeft: "auto" }}>
                         {renderAccount()}
@@ -91,7 +90,7 @@ export const Navigation: FC = () => {
             <NavbarLink
                 to={"/account"}
                 onClick={close}
-                icon={<FaUser className={ICON_CLASSES} />}
+                icon={<FaUser className={NAV_ICON_CLASSES} />}
                 text={
                     currentUser
                         ? currentUser.email
@@ -101,5 +100,37 @@ export const Navigation: FC = () => {
                 }
             />
         );
+    }
+
+    function renderSettings() {
+        if (
+            currentUser?.clearance &&
+            currentUser.clearance >= Clearance.ADMIN
+        ) {
+            return (
+                <NavbarLink
+                    to={"/settings"}
+                    onClick={close}
+                    icon={<FaCogs className={NAV_ICON_CLASSES} />}
+                    text={spanish ? "Configuración" : "Settings"}
+                />
+            );
+        }
+    }
+
+    function renderReports() {
+        if (
+            currentUser?.clearance &&
+            currentUser.clearance >= Clearance.ADMIN
+        ) {
+            return (
+                <NavbarLink
+                    to={"/reports"}
+                    onClick={close}
+                    icon={<FaFileCsv className={NAV_ICON_CLASSES} />}
+                    text={spanish ? "Reportes" : "Reports"}
+                />
+            );
+        }
     }
 };

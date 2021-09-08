@@ -59,7 +59,7 @@ export const EditTown: FunctionComponent<Props> = ({ match }: Props) => {
     function renderForm() {
         return (
             <Row>
-                <Col>
+                <Col xs={12} lg={6}>
                     {town ? (
                         <CreateEditTownForm
                             existingTown={town}

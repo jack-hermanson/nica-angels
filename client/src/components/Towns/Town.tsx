@@ -1,12 +1,13 @@
 import { FunctionComponent } from "react";
 import { TownRecord } from "../../../../shared/resource_models/town";
-import { Card, CardBody, CardHeader } from "reactstrap";
+import { Card, CardBody, CardFooter, CardHeader } from "reactstrap";
 import {
     ActionCardHeader,
     ActionsDropdown,
 } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { LinkDropdownAction } from "jack-hermanson-ts-utils";
+import * as timeago from "timeago.js";
 
 interface Props {
     town: TownRecord;
@@ -32,6 +33,11 @@ export const Town: FunctionComponent<Props> = ({ town }: Props) => {
             <CardBody>
                 <h6>Schools:</h6>
             </CardBody>
+            {town.updated !== town.created && (
+                <CardFooter className="text-muted">
+                    Last updated {timeago.format(town.updated)}.
+                </CardFooter>
+            )}
         </Card>
     );
 };

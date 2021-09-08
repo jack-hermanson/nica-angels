@@ -21,4 +21,21 @@ export abstract class TownClient {
         );
         return town.data;
     }
+
+    static async getTown(id: number, token: string) {
+        const response = await axios.get<TownRecord>(
+            `${this.baseUrl}/${id}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async editTown(id: number, townRequest: TownRequest, token: string) {
+        const response = await axios.put<TownRecord>(
+            `${this.baseUrl}/${id}`,
+            townRequest,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

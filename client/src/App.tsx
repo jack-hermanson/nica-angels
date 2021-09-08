@@ -15,6 +15,7 @@ import { Settings } from "./components/Settings/Settings";
 import { Towns } from "./components/Towns/Towns";
 import { CreateTown } from "./components/Towns/CreateTown";
 import { EditTown } from "./components/Towns/EditTown";
+import { SchoolsIndex } from "./components/Schools/SchoolsIndex";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -53,6 +54,7 @@ export const App: React.FC = () => {
                     <Route exact path="/account/login" component={LoginPage} />
 
                     <Route exact path="/settings" component={Settings} />
+
                     <Route exact path="/settings/towns" component={Towns} />
                     <Route
                         exact
@@ -64,6 +66,8 @@ export const App: React.FC = () => {
                         path="/settings/towns/edit/:id"
                         component={EditTown}
                     />
+
+                    <Route exact path="/schools" component={SchoolsIndex} />
                 </Switch>
             </Layout>
         </BrowserRouter>

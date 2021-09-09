@@ -30,7 +30,7 @@ export const SchoolsIndex: FunctionComponent = () => {
                                     color={NEW_BUTTON_COLOR}
                                     className="icon-button"
                                     onClick={() => {
-                                        history.push("/settings/towns/new");
+                                        history.push("/schools/new");
                                     }}
                                 >
                                     <FaPlus className={BUTTON_ICON_CLASSES} />

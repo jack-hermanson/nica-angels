@@ -4,7 +4,9 @@ import { Button, Col, Row } from "reactstrap";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "../../../../shared/enums";
 import { useStoreState } from "../../store/_store";
-import { NEW_BUTTON_COLOR } from "../../utils/constants";
+import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
+import { FaPlus } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
 
 export const SchoolsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.SPONSOR);
@@ -12,6 +14,7 @@ export const SchoolsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
     const token = useStoreState(state => state.token);
     const currentUser = useStoreState(state => state.currentUser);
+    const history = useHistory();
 
     return <div>{renderHeader()}</div>;
 
@@ -22,8 +25,16 @@ export const SchoolsIndex: FunctionComponent = () => {
                     <PageHeader title={spanish ? "Escuelas" : "Schools"}>
                         {currentUser &&
                             currentUser.clearance >= Clearance.ADMIN && (
-                                <Button size="sm" color={NEW_BUTTON_COLOR}>
-                                    New
+                                <Button
+                                    size="sm"
+                                    color={NEW_BUTTON_COLOR}
+                                    className="icon-button"
+                                    onClick={() => {
+                                        history.push("/settings/towns/new");
+                                    }}
+                                >
+                                    <FaPlus className={BUTTON_ICON_CLASSES} />
+                                    {spanish ? "Nueva Escuela" : "New School"}
                                 </Button>
                             )}
                     </PageHeader>

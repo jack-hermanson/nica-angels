@@ -27,17 +27,6 @@ export function authorized({
     res,
 }: AuthorizedParameters): boolean {
     const meetsClearance = requestingAccount.clearance >= minClearance;
-    console.log("requestingAccount.clearance", requestingAccount.clearance);
-    console.log(
-        "typeof requestingAccount.clearance",
-        typeof requestingAccount.clearance
-    );
-    console.log("minClearance", minClearance);
-    console.log("typeof minClearance", typeof minClearance);
-    console.log("matchingAccountId", matchingAccountId);
-    console.log("typeof matchingAccountId", typeof matchingAccountId);
-    console.log("requestingAccountId", requestingAccount.id);
-    console.log("typeof requestingAccountId", typeof requestingAccount.id);
     if (!meetsClearance && matchingAccountId !== requestingAccount.id) {
         res.sendStatus(HTTP.FORBIDDEN);
         return false;

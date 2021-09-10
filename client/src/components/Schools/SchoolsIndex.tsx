@@ -1,5 +1,5 @@
-import { FunctionComponent } from "react";
-import { PageHeader } from "jack-hermanson-component-lib";
+import { Fragment, FunctionComponent, useEffect, useState } from "react";
+import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { Button, Col, Row } from "reactstrap";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "../../../../shared/enums";
@@ -7,16 +7,36 @@ import { useStoreState } from "../../store/_store";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaPlus } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
+import { SchoolRecord } from "../../../../shared/resource_models/school";
+import { SchoolClient } from "../../clients/SchoolClient";
+import { School } from "./School";
 
 export const SchoolsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.SPONSOR);
 
     const spanish = useStoreState(state => state.spanish);
-    const token = useStoreState(state => state.token);
     const currentUser = useStoreState(state => state.currentUser);
+    const token = useStoreState(state => state.token);
     const history = useHistory();
 
-    return <div>{renderHeader()}</div>;
+    const [schools, setSchools] = useState<SchoolRecord[] | undefined>(
+        undefined
+    );
+
+    useEffect(() => {
+        if (token) {
+            SchoolClient.getSchools(token.data).then(data => {
+                setSchools(data);
+            });
+        }
+    }, [setSchools, token]);
+
+    return (
+        <div>
+            {renderHeader()}
+            {renderSchools()}
+        </div>
+    );
 
     function renderHeader() {
         return (
@@ -38,6 +58,24 @@ export const SchoolsIndex: FunctionComponent = () => {
                                 </Button>
                             )}
                     </PageHeader>
+                </Col>
+            </Row>
+        );
+    }
+
+    function renderSchools() {
+        return (
+            <Row>
+                <Col>
+                    {schools ? (
+                        <Fragment>
+                            {schools.map(school => (
+                                <School school={school} key={school.id} />
+                            ))}
+                        </Fragment>
+                    ) : (
+                        <LoadingSpinner />
+                    )}
                 </Col>
             </Row>
         );

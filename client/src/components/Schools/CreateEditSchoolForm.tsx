@@ -49,7 +49,7 @@ export const CreateEditSchoolForm: FunctionComponent<Props> = ({
             .number()
             .label(spanish ? "Pueblo" : "Town")
             .required(
-                spanish ? "Favor de eligir un pueblo" : "Please select a town"
+                spanish ? "Favor de elegir un pueblo" : "Please select a town"
             ),
     });
 

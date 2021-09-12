@@ -17,6 +17,8 @@ import { CreateTown } from "./components/Towns/CreateTown";
 import { EditTown } from "./components/Towns/EditTown";
 import { SchoolsIndex } from "./components/Schools/SchoolsIndex";
 import { CreateSchool } from "./components/Schools/CreateSchool";
+import { Forbidden } from "./components/Errors/Forbidden";
+import { NotFound } from "./components/Errors/NotFound";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -70,6 +72,9 @@ export const App: React.FC = () => {
 
                     <Route exact path="/schools" component={SchoolsIndex} />
                     <Route exact path="/schools/new" component={CreateSchool} />
+
+                    <Route exact path="/forbidden" component={Forbidden} />
+                    <Route component={NotFound} />
                 </Switch>
             </Layout>
         </BrowserRouter>

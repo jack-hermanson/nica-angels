@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { TownRecord } from "../../../../shared/resource_models/town";
-import { Card, CardBody, CardFooter, CardHeader } from "reactstrap";
+import { Card, CardBody, CardFooter } from "reactstrap";
 import {
     ActionCardHeader,
     ActionsDropdown,
@@ -30,7 +30,7 @@ export const Town: FunctionComponent<Props> = ({ town }: Props) => {
                 setSchools(data.filter(s => s.townId === town.id));
             });
         }
-    }, [token, setSchools]);
+    }, [token, setSchools, town]);
 
     return (
         <Card className="mb-3 no-mb-last">

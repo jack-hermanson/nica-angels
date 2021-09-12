@@ -88,7 +88,7 @@ export abstract class SchoolService {
         res: Response
     ): Promise<School | undefined> {
         const { schoolRepo } = this.getRepos();
-        const school = schoolRepo.findOne(id);
+        const school = await schoolRepo.findOne(id);
         if (!school) {
             res.sendStatus(HTTP.NOT_FOUND);
             return undefined;

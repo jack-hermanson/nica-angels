@@ -3,14 +3,7 @@ import {
     SchoolRecord,
     SchoolRequest,
 } from "../../../../shared/resource_models/school";
-import {
-    Field,
-    Form,
-    Formik,
-    FormikErrors,
-    FormikHelpers,
-    FormikProps,
-} from "formik";
+import { Field, Form, Formik, FormikErrors, FormikProps } from "formik";
 import { useStoreState } from "../../store/_store";
 import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
@@ -141,7 +134,11 @@ export const CreateEditSchoolForm: FunctionComponent<Props> = ({
                         Town
                     </Label>
                     <Field id={id} name="townId" type="select" as={Input}>
-                        <option value="">Please select...</option>
+                        <option value="">
+                            {spanish
+                                ? "Elegir un pueblo..."
+                                : "Please select..."}
+                        </option>
                         {towns.map(town => (
                             <option key={town.id} value={town.id}>
                                 {town.name}

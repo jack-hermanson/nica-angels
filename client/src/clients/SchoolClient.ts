@@ -24,4 +24,12 @@ export abstract class SchoolClient {
         );
         return response.data;
     }
+
+    static async getOneSchool(id: number, token: string) {
+        const response = await axios.get<SchoolRecord>(
+            `${this.baseUrl}/${id}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

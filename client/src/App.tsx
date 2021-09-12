@@ -10,7 +10,7 @@ import { useStoreActions } from "./store/_store";
 import { LocalStorage } from "./utils/LocalStorage";
 import { AccountClient } from "./clients/AccountClient";
 import { Alerts } from "./components/Alerts/Alerts";
-import { SocketConnection } from "./components/SocketConnection";
+import { SocketConnection } from "./components/Utils/SocketConnection";
 import { Settings } from "./components/Settings/Settings";
 import { Towns } from "./components/Towns/Towns";
 import { CreateTown } from "./components/Towns/CreateTown";
@@ -33,9 +33,9 @@ export const App: React.FC = () => {
                 .then(user => {
                     setCurrentUser(user);
                 })
-                .catch(error => {
+                .catch((error: any) => {
                     console.error(error);
-                    console.log(error.response.data);
+                    console.log(error.response?.data);
                     LocalStorage.removeToken();
                 });
         }

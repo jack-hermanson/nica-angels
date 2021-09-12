@@ -58,3 +58,24 @@ router.post(
         res.status(HTTP.CREATED).json(school);
     }
 );
+
+router.get(
+    "/:id",
+    auth,
+    async (req: Request<{ id: number }>, res: Response<SchoolRecord>) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.SPONSOR,
+                res,
+            })
+        ) {
+            return;
+        }
+        const school = await SchoolService.getOne(req.params.id, res);
+        if (!school) {
+            return;
+        }
+        res.json(school);
+    }
+);

@@ -68,11 +68,15 @@ export const SchoolsIndex: FunctionComponent = () => {
             <Row>
                 <Col>
                     {schools ? (
-                        <Fragment>
+                        <Row>
                             {schools.map(school => (
-                                <School school={school} key={school.id} />
+                                <School
+                                    className="col-12 col-lg-4"
+                                    school={school}
+                                    key={school.id}
+                                />
                             ))}
-                        </Fragment>
+                        </Row>
                     ) : (
                         <LoadingSpinner />
                     )}

@@ -2,7 +2,7 @@ import { getConnection, Repository } from "typeorm";
 import { School } from "../models/School";
 import { SchoolRequest } from "../../../shared/resource_models/school";
 import { Response } from "express";
-import { doesNotConflict } from "jack-hermanson-ts-utils";
+import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { TownService } from "./TownService";
 
 export abstract class SchoolService {
@@ -76,5 +76,23 @@ export abstract class SchoolService {
         school.townId = schoolRequest.townId;
 
         return await schoolRepo.save(school);
+    }
+
+    /**
+     * Get one school record.
+     * @param id
+     * @param res
+     */
+    static async getOne(
+        id: number,
+        res: Response
+    ): Promise<School | undefined> {
+        const { schoolRepo } = this.getRepos();
+        const school = schoolRepo.findOne(id);
+        if (!school) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+        return school;
     }
 }

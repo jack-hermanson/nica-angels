@@ -3,7 +3,7 @@ import { RouteComponentProps, useHistory } from "react-router-dom";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "../../../../shared/enums";
 import { SchoolRecord } from "../../../../shared/resource_models/school";
-import { useStoreState } from "../../store/_store";
+import { useStoreActions, useStoreState } from "../../store/_store";
 import { SchoolClient } from "../../clients/SchoolClient";
 import { HTTP } from "jack-hermanson-ts-utils";
 import { NotFound } from "../Errors/NotFound";
@@ -18,6 +18,8 @@ export const EditSchool: FunctionComponent<Props> = ({ match }: Props) => {
 
     const token = useStoreState(state => state.token);
     const spanish = useStoreState(state => state.spanish);
+
+    const addAlert = useStoreActions(actions => actions.addAlert);
 
     const [school, setSchool] = useState<SchoolRecord | undefined>(undefined);
     const [notFound, setNotFound] = useState(false);
@@ -82,7 +84,26 @@ export const EditSchool: FunctionComponent<Props> = ({ match }: Props) => {
                     {school && token ? (
                         <CreateEditSchoolForm
                             onSubmit={async schoolRequest => {
-                                console.log(schoolRequest);
+                                try {
+                                    const editedSchool =
+                                        await SchoolClient.editSchool({
+                                            id: school.id,
+                                            token: token.data,
+                                            schoolRequest: schoolRequest,
+                                        });
+                                    addAlert({
+                                        color: "success",
+                                        text: `School "${editedSchool.name}" edited successfully.`,
+                                    });
+                                    history.push("/schools");
+                                } catch (error: any) {
+                                    console.error(error);
+                                    console.error(error.response);
+                                    addAlert({
+                                        color: "danger",
+                                        text: error.message,
+                                    });
+                                }
                             }}
                             existingSchool={school}
                         />

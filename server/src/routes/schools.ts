@@ -10,6 +10,7 @@ import { Clearance } from "../../../shared/enums";
 import { SchoolService } from "../services/SchoolService";
 import { HTTP, validateRequest } from "jack-hermanson-ts-utils";
 import { schoolSchema } from "../models/School";
+import { AccountService } from "../services/AccountService";
 
 export const router = express.Router();
 
@@ -76,6 +77,37 @@ router.get(
         if (!school) {
             return;
         }
+        res.json(school);
+    }
+);
+
+router.put(
+    "/:id",
+    auth,
+    async (
+        req: Request<{ id: number } & SchoolRequest>,
+        res: Response<SchoolRecord>
+    ) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.SPONSOR,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        if (!(await validateRequest(schoolSchema, req, res))) {
+            return undefined;
+        }
+
+        const school = await SchoolService.edit({
+            id: req.params.id,
+            res: res,
+            schoolRequest: req.body,
+        });
+
         res.json(school);
     }
 );

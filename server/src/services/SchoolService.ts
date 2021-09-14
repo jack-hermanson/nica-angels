@@ -95,4 +95,26 @@ export abstract class SchoolService {
         }
         return school;
     }
+
+    static async edit({
+        id,
+        schoolRequest,
+        res,
+    }: {
+        id: number;
+        schoolRequest: SchoolRequest;
+        res: Response;
+    }): Promise<School | undefined> {
+        const { schoolRepo } = this.getRepos();
+
+        const school = await this.getOne(id, res);
+        if (!school) {
+            return undefined;
+        }
+
+        return await schoolRepo.save({
+            ...school,
+            ...schoolRequest,
+        });
+    }
 }

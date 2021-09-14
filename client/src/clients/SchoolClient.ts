@@ -32,4 +32,21 @@ export abstract class SchoolClient {
         );
         return response.data;
     }
+
+    static async editSchool({
+        id,
+        token,
+        schoolRequest,
+    }: {
+        id: number;
+        token: string;
+        schoolRequest: SchoolRequest;
+    }) {
+        const response = await axios.put<SchoolRecord>(
+            `${this.baseUrl}/${id}`,
+            schoolRequest,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

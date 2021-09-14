@@ -4,6 +4,7 @@ import { PageHeader } from "jack-hermanson-component-lib";
 import { Link, useHistory } from "react-router-dom";
 import { LoginForm } from "./LoginForm";
 import { useStoreActions, useStoreState } from "../../store/_store";
+import { LocalStorage } from "../../utils/LocalStorage";
 
 export const LoginPage: FunctionComponent = () => {
     const logIn = useStoreActions(actions => actions.logIn);
@@ -13,7 +14,12 @@ export const LoginPage: FunctionComponent = () => {
 
     useEffect(() => {
         if (currentUser) {
-            history.push("/account");
+            const redirectPath = LocalStorage.getRedirectPath();
+            if (redirectPath) {
+                history.push(redirectPath);
+            } else {
+                history.push("/account");
+            }
         }
     }, [history, currentUser]);
 
@@ -30,6 +36,11 @@ export const LoginPage: FunctionComponent = () => {
                         onSubmit={async loginRequest => {
                             try {
                                 await logIn(loginRequest);
+                                const redirectPath =
+                                    LocalStorage.getRedirectPath();
+                                if (redirectPath) {
+                                    history.push(redirectPath);
+                                }
                             } catch (error) {
                                 console.error(error);
                             }

@@ -26,7 +26,7 @@ export const CreateEditTownForm: FunctionComponent<Props> = ({
             .string()
             .label(spanish ? "Nombre" : "Name")
             .required(
-                spanish ? "Favor de ingresar un nombre" : "Please enter a name"
+                spanish ? "Favor de registrar un nombre" : "Please enter a name"
             )
             .min(2)
             .max(25),

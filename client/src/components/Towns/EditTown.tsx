@@ -36,7 +36,7 @@ export const EditTown: FunctionComponent<Props> = ({ match }: Props) => {
                     addAlert({ text: error.message, color: "danger" });
                 });
         }
-    }, [setTown]);
+    }, [setTown, addAlert, match.params.id, token]);
 
     return (
         <div>

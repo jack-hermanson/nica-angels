@@ -148,16 +148,20 @@ router.post(
 router.get(
     "/:id",
     auth,
-    async (req: Request<{ id: number }>, res: Response<AccountRecord>) => {
-        const id: number = req.params.id;
+    async (req: Request<{ id: string }>, res: Response<AccountRecord>) => {
+        const accountId: number = parseInt(req.params.id);
         try {
             if (
-                req.account.clearance < Clearance.ADMIN &&
-                req.account.id !== id
+                !authorized({
+                    requestingAccount: req.account,
+                    minClearance: Clearance.ADMIN,
+                    matchingAccountId: accountId,
+                    res,
+                })
             ) {
-                return res.sendStatus(HTTP.FORBIDDEN);
+                return;
             }
-            const account = await AccountService.getOne(id, res);
+            const account = await AccountService.getOne(accountId, res);
             if (!account) {
                 return;
             }

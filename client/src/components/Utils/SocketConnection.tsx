@@ -1,6 +1,6 @@
 import { Fragment, useEffect, FunctionComponent } from "react";
 import { io, Socket } from "socket.io-client";
-import { useStoreState } from "../store/_store";
+import { useStoreState } from "../../store/_store";
 
 export const SocketConnection: FunctionComponent = () => {
     const token = useStoreState(state => state.token);

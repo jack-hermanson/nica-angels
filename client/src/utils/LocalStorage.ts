@@ -1,14 +1,15 @@
 import { TokenRecord } from "../../../shared/resource_models/token";
 
 export abstract class LocalStorage {
-    private static keyName = "token";
+    private static tokenKey = "token";
+    private static redirectKey = "redirectPath";
 
-    static saveToken(token: TokenRecord) {
-        localStorage.setItem(this.keyName, JSON.stringify(token));
+    static saveToken(token: TokenRecord): void {
+        localStorage.setItem(this.tokenKey, JSON.stringify(token));
     }
 
     static getToken(): TokenRecord | undefined {
-        const token = localStorage.getItem(this.keyName);
+        const token = localStorage.getItem(this.tokenKey);
         if (token) {
             return JSON.parse(token) as TokenRecord;
         }
@@ -16,6 +17,22 @@ export abstract class LocalStorage {
     }
 
     static removeToken(): void {
-        localStorage.removeItem(this.keyName);
+        localStorage.removeItem(this.tokenKey);
+    }
+
+    static getRedirectPath(): string | undefined {
+        const redirectPath = localStorage.getItem(this.redirectKey);
+        if (redirectPath) {
+            return redirectPath;
+        }
+        return undefined;
+    }
+
+    static saveRedirectPath(path: string) {
+        localStorage.setItem(this.redirectKey, path);
+    }
+
+    static removeRedirectPath(): void {
+        localStorage.removeItem(this.redirectKey);
     }
 }

@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import { FC, Fragment, useCallback, useState } from "react";
 import {
     Collapse,
     Container,
@@ -50,30 +50,35 @@ export const Navigation: FC = () => {
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav navbar style={{ marginRight: "auto" }}>
-                        <NavbarLink
-                            to={"/schools"}
-                            onClick={close}
-                            icon={<FaSchool className={NAV_ICON_CLASSES} />}
-                            text={spanish ? "Escuelas" : "Schools"}
-                        />
-                        <NavbarLink
-                            to={"/students"}
-                            onClick={close}
-                            icon={
-                                <FaUserGraduate className={NAV_ICON_CLASSES} />
-                            }
-                            text={spanish ? "Estudiantes" : "Students"}
-                        />
-                        <NavbarLink
-                            to={"/sponsors"}
-                            onClick={close}
-                            icon={
-                                <FaHandHoldingHeart
-                                    className={NAV_ICON_CLASSES}
-                                />
-                            }
-                            text={spanish ? "Padrinos" : "Sponsors"}
-                        />
+                        {currentUser &&
+                            currentUser.clearance >= Clearance.SPONSOR && (
+                                <Fragment>
+                                    <NavbarLink
+                                        to={"/schools"}
+                                        onClick={close}
+                                        icon={
+                                            <FaSchool
+                                                className={NAV_ICON_CLASSES}
+                                            />
+                                        }
+                                        text={spanish ? "Escuelas" : "Schools"}
+                                    />
+                                    <NavbarLink
+                                        to={"/students"}
+                                        onClick={close}
+                                        icon={
+                                            <FaUserGraduate
+                                                className={NAV_ICON_CLASSES}
+                                            />
+                                        }
+                                        text={
+                                            spanish ? "Estudiantes" : "Students"
+                                        }
+                                    />
+                                </Fragment>
+                            )}
+
+                        {renderSponsors()}
                         {renderReports()}
                         {renderSettings()}
                     </Nav>
@@ -84,6 +89,22 @@ export const Navigation: FC = () => {
             </Container>
         </Navbar>
     );
+
+    function renderSponsors() {
+        if (
+            currentUser?.clearance &&
+            currentUser.clearance >= Clearance.ADMIN
+        ) {
+            return (
+                <NavbarLink
+                    to={"/sponsors"}
+                    onClick={close}
+                    icon={<FaHandHoldingHeart className={NAV_ICON_CLASSES} />}
+                    text={spanish ? "Padrinos" : "Sponsors"}
+                />
+            );
+        }
+    }
 
     function renderAccount() {
         return (

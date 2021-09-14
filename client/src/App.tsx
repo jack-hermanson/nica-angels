@@ -10,12 +10,16 @@ import { useStoreActions } from "./store/_store";
 import { LocalStorage } from "./utils/LocalStorage";
 import { AccountClient } from "./clients/AccountClient";
 import { Alerts } from "./components/Alerts/Alerts";
-import { SocketConnection } from "./components/SocketConnection";
+import { SocketConnection } from "./components/Utils/SocketConnection";
 import { Settings } from "./components/Settings/Settings";
 import { Towns } from "./components/Towns/Towns";
 import { CreateTown } from "./components/Towns/CreateTown";
 import { EditTown } from "./components/Towns/EditTown";
 import { SchoolsIndex } from "./components/Schools/SchoolsIndex";
+import { CreateSchool } from "./components/Schools/CreateSchool";
+import { Forbidden } from "./components/Errors/Forbidden";
+import { NotFound } from "./components/Errors/NotFound";
+import { EditSchool } from "./components/Schools/EditSchool";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -29,9 +33,9 @@ export const App: React.FC = () => {
                 .then(user => {
                     setCurrentUser(user);
                 })
-                .catch(error => {
+                .catch((error: any) => {
                     console.error(error);
-                    console.log(error.response.data);
+                    console.log(error.response?.data);
                     LocalStorage.removeToken();
                 });
         }
@@ -68,6 +72,15 @@ export const App: React.FC = () => {
                     />
 
                     <Route exact path="/schools" component={SchoolsIndex} />
+                    <Route exact path="/schools/new" component={CreateSchool} />
+                    <Route
+                        exact
+                        path="/schools/edit/:id"
+                        component={EditSchool}
+                    />
+
+                    <Route exact path="/forbidden" component={Forbidden} />
+                    <Route component={NotFound} />
                 </Switch>
             </Layout>
         </BrowserRouter>

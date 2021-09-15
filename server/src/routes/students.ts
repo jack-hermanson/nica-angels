@@ -1,9 +1,16 @@
 import { Router, Response } from "express";
 import { Request } from "../utils/Request";
-import { SchoolRecord } from "../../../shared/resource_models/school";
+import { auth } from "../middleware/auth";
+import { StudentService } from "../services/StudentService";
+import { StudentRecord } from "../../../shared/resource_models/student";
 
 export const router = Router();
 
-router.get("/", async (req: Request<any>, res: Response<SchoolRecord[]>) => {
-    res.json();
-});
+router.get(
+    "/",
+    auth,
+    async (req: Request<any>, res: Response<StudentRecord[]>) => {
+        const students = await StudentService.getAll();
+        res.json(students);
+    }
+);

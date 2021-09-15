@@ -53,7 +53,7 @@ export class Student {
 
 export const studentSchema = Joi.object().keys({
     firstName: Joi.string().required(),
-    nickName: Joi.string().optional(),
+    middleName: Joi.string().optional(),
     lastName: Joi.string().optional(),
     dateOfBirth: Joi.date().optional(),
     sex: Joi.number().min(Sex.FEMALE).max(Sex.MALE).integer().required(),

@@ -20,6 +20,7 @@ import { CreateSchool } from "./components/Schools/CreateSchool";
 import { Forbidden } from "./components/Errors/Forbidden";
 import { NotFound } from "./components/Errors/NotFound";
 import { EditSchool } from "./components/Schools/EditSchool";
+import { StudentsIndex } from "./components/Students/StudentsIndex";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -78,6 +79,8 @@ export const App: React.FC = () => {
                         path="/schools/edit/:id"
                         component={EditSchool}
                     />
+
+                    <Route exact path="/students" component={StudentsIndex} />
 
                     <Route exact path="/forbidden" component={Forbidden} />
                     <Route component={NotFound} />

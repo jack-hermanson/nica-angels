@@ -53,7 +53,7 @@ export const StudentsIndex: FunctionComponent = () => {
         return (
             <Row>
                 <Col>
-                    <PageHeader title="Students">
+                    <PageHeader title={spanish ? "Estudiantes" : "Students"}>
                         {currentUser &&
                             currentUser.clearance >= Clearance.ADMIN && (
                                 <ActionsDropdown

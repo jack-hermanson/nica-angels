@@ -1,17 +1,27 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Card, Col, Row } from "reactstrap";
-import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
+import {
+    ActionsDropdown,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "../../../../shared/enums";
 import { useStoreState } from "../../store/_store";
 import { StudentClient } from "../../clients/StudentClient";
 import { StudentRecord } from "../../../../shared/resource_models/student";
 import { Student } from "./Student";
+import {
+    ClickDropdownAction,
+    LinkDropdownAction,
+} from "jack-hermanson-ts-utils";
 
 export const StudentsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.SPONSOR);
 
     const token = useStoreState(state => state.token);
+    const currentUser = useStoreState(state => state.currentUser);
+    const spanish = useStoreState(state => state.spanish);
 
     const [students, setStudents] = useState<StudentRecord[] | undefined>(
         undefined
@@ -43,7 +53,31 @@ export const StudentsIndex: FunctionComponent = () => {
         return (
             <Row>
                 <Col>
-                    <PageHeader title="Students" />
+                    <PageHeader title="Students">
+                        {currentUser &&
+                            currentUser.clearance >= Clearance.ADMIN && (
+                                <ActionsDropdown
+                                    menuName={spanish ? "Acciones" : "Actions"}
+                                    size="sm"
+                                    options={[
+                                        new LinkDropdownAction(
+                                            spanish
+                                                ? "Nuevo Estudiante"
+                                                : "New Student",
+                                            "/students/new"
+                                        ),
+                                        new ClickDropdownAction(
+                                            spanish ? "Graduarse" : "Graduate",
+                                            () => {
+                                                console.log(
+                                                    "move students up one grade"
+                                                );
+                                            }
+                                        ),
+                                    ]}
+                                />
+                            )}
+                    </PageHeader>
                 </Col>
             </Row>
         );

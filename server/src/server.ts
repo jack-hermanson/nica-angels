@@ -31,6 +31,7 @@ app.use(staticFiles);
 app.use("/api/accounts", routes.accounts);
 app.use("/api/towns", routes.towns);
 app.use("/api/schools", routes.schools);
+app.use("/api/students", routes.students);
 
 // database
 const databaseDialect = process.env.DATABASE_DIALECT as DbDialect;

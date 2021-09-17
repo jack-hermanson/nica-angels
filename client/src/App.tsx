@@ -22,6 +22,7 @@ import { NotFound } from "./components/Errors/NotFound";
 import { EditSchool } from "./components/Schools/EditSchool";
 import { StudentsIndex } from "./components/Students/StudentsIndex";
 import { CreateStudent } from "./components/Students/CreateStudent";
+import { EditStudent } from "./components/Students/EditStudent";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -86,6 +87,11 @@ export const App: React.FC = () => {
                         exact
                         path="/students/new"
                         component={CreateStudent}
+                    />
+                    <Route
+                        exact
+                        path="/students/edit/:id"
+                        component={EditStudent}
                     />
 
                     <Route exact path="/forbidden" component={Forbidden} />

@@ -32,6 +32,7 @@ app.use("/api/accounts", routes.accounts);
 app.use("/api/towns", routes.towns);
 app.use("/api/schools", routes.schools);
 app.use("/api/students", routes.students);
+app.use("/api/enrollments", routes.enrollments);
 
 // database
 const databaseDialect = process.env.DATABASE_DIALECT as DbDialect;

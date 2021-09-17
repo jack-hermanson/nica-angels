@@ -5,11 +5,11 @@ import { Token } from "./Token";
 import { Town } from "./Town";
 import { Student } from "./Student";
 import { Sponsorship } from "./Sponsorship";
-import { Attendance } from "./Attendance";
+import { Enrollment } from "./Enrollment";
 
 export const models = [
     Account,
-    Attendance,
+    Enrollment,
     School,
     Sponsor,
     Token,

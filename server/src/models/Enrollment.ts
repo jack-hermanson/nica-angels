@@ -8,8 +8,8 @@ import {
 } from "typeorm";
 import Joi from "joi";
 
-@Entity({ name: "attendance" })
-export class Attendance {
+@Entity({ name: "enrollment" })
+export class Enrollment {
     @PrimaryGeneratedColumn()
     id!: number;
 
@@ -35,7 +35,7 @@ export class Attendance {
     deleted?: Date;
 }
 
-export const attendanceSchema = Joi.object().keys({
+export const enrollmentSchema = Joi.object().keys({
     schoolId: Joi.number().integer().required(),
     studentId: Joi.number().integer().required(),
     startDate: Joi.date().optional(),

@@ -24,6 +24,7 @@ import { StudentsIndex } from "./components/Students/StudentsIndex";
 import { CreateStudent } from "./components/Students/CreateStudent";
 import { EditStudent } from "./components/Students/EditStudent";
 import { EnrollmentsIndex } from "./components/Enrollments/EnrollmentsIndex";
+import { CreateEnrollment } from "./components/Enrollments/CreateEnrollment";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -103,6 +104,11 @@ export const App: React.FC = () => {
                         exact
                         path="/settings/enrollments"
                         component={EnrollmentsIndex}
+                    />
+                    <Route
+                        exact
+                        path="/settings/enrollments/new/:studentId?"
+                        component={CreateEnrollment}
                     />
 
                     <Route exact path="/forbidden" component={Forbidden} />

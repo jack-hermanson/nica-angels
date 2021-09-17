@@ -12,7 +12,7 @@ import { AccountClient } from "./clients/AccountClient";
 import { Alerts } from "./components/Alerts/Alerts";
 import { SocketConnection } from "./components/Utils/SocketConnection";
 import { Settings } from "./components/Settings/Settings";
-import { Towns } from "./components/Towns/Towns";
+import { TownsIndex } from "./components/Towns/TownsIndex";
 import { CreateTown } from "./components/Towns/CreateTown";
 import { EditTown } from "./components/Towns/EditTown";
 import { SchoolsIndex } from "./components/Schools/SchoolsIndex";
@@ -23,6 +23,7 @@ import { EditSchool } from "./components/Schools/EditSchool";
 import { StudentsIndex } from "./components/Students/StudentsIndex";
 import { CreateStudent } from "./components/Students/CreateStudent";
 import { EditStudent } from "./components/Students/EditStudent";
+import { EnrollmentsIndex } from "./components/Enrollments/EnrollmentsIndex";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -62,7 +63,11 @@ export const App: React.FC = () => {
 
                     <Route exact path="/settings" component={Settings} />
 
-                    <Route exact path="/settings/towns" component={Towns} />
+                    <Route
+                        exact
+                        path="/settings/towns"
+                        component={TownsIndex}
+                    />
                     <Route
                         exact
                         path="/settings/towns/new"
@@ -92,6 +97,12 @@ export const App: React.FC = () => {
                         exact
                         path="/students/edit/:id"
                         component={EditStudent}
+                    />
+
+                    <Route
+                        exact
+                        path="/settings/enrollments"
+                        component={EnrollmentsIndex}
                     />
 
                     <Route exact path="/forbidden" component={Forbidden} />

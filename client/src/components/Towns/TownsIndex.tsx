@@ -12,7 +12,7 @@ import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaPlus } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 
-export const Towns: FunctionComponent = () => {
+export const TownsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
 
     const token = useStoreState(state => state.token);

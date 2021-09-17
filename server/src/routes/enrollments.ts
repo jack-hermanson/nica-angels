@@ -9,7 +9,7 @@ import { authorized } from "../utils/functions";
 import { Clearance } from "../../../shared/enums";
 import { EnrollmentService } from "../services/EnrollmentService";
 import { HTTP, validateRequest } from "jack-hermanson-ts-utils";
-import { Enrollment, enrollmentSchema } from "../models/Enrollment";
+import { enrollmentSchema } from "../models/Enrollment";
 
 export const router = Router();
 

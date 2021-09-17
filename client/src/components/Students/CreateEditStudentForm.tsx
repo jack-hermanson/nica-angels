@@ -9,15 +9,7 @@ import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
 import { Sex } from "jack-hermanson-ts-utils";
 import moment from "moment";
-import {
-    Button,
-    Col,
-    FormGroup,
-    FormText,
-    Input,
-    Label,
-    Row,
-} from "reactstrap";
+import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 
 interface Props {

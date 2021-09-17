@@ -9,10 +9,11 @@ import { useStoreState } from "../../store/_store";
 import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import moment from "moment";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
-import { Col, FormGroup, Input, Label, Row } from "reactstrap";
+import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import { StudentClient } from "../../clients/StudentClient";
 import { SchoolRecord } from "../../../../shared/resource_models/school";
 import { SchoolClient } from "../../clients/SchoolClient";
+import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 
 interface Props {
     onSubmit: (enrollmentRequest: EnrollmentRequest) => Promise<void>;
@@ -47,8 +48,8 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
     }, [setStudents, token]);
 
     interface FormValues {
-        schoolId: "" | number;
-        studentId: "" | number;
+        schoolId: string;
+        studentId: string;
         startDate: string;
         endDate: string;
     }
@@ -77,11 +78,13 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
     return (
         <Formik
             initialValues={{
-                schoolId: existingEnrollment ? existingEnrollment.schoolId : "",
+                schoolId: existingEnrollment
+                    ? existingEnrollment.schoolId.toString()
+                    : "",
                 studentId: existingEnrollment
-                    ? existingEnrollment.studentId
+                    ? existingEnrollment.studentId.toString()
                     : studentId
-                    ? studentId
+                    ? studentId.toString()
                     : "",
                 startDate: "",
                 endDate: "",
@@ -89,8 +92,8 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
             onSubmit={async (data, { setSubmitting }) => {
                 setSubmitting(true);
                 await onSubmit({
-                    schoolId: data.schoolId as number,
-                    studentId: data.studentId as number,
+                    schoolId: parseInt(data.schoolId),
+                    studentId: parseInt(data.studentId),
                     startDate: data.startDate
                         ? moment(data.startDate).toDate()
                         : undefined,
@@ -116,6 +119,17 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
                                 <Col xs={12} lg={6}>
                                     {renderSchool(errors)}
                                 </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={12} lg={6}>
+                                    {renderStartDate(errors)}
+                                </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderEndDate(errors)}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>{renderButtons()}</Col>
                             </Row>
                         </Fragment>
                     )}
@@ -197,5 +211,42 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
         );
     }
 
-    function renderStartDate(errors: FormikErrors<FormValues>) {}
+    function renderStartDate(errors: FormikErrors<FormValues>) {
+        const id = "start-date-input";
+        return (
+            <FormGroup>
+                <Label for={id} className="form-label">
+                    {spanish ? "Fecha de Comienzo" : "Start Date"}
+                </Label>
+                <Field type="date" id={id} as={Input} name="startDate" />
+                <FormError>{errors.startDate}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderEndDate(errors: FormikErrors<FormValues>) {
+        const id = "end-date-input";
+        return (
+            <FormGroup>
+                <Label for={id} className="form-label">
+                    {spanish ? "Fecha de Cierre" : "End Date"}
+                </Label>
+                <Field type="date" id={id} as={Input} name="endDate" />
+                <FormError>{errors.endDate}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderButtons() {
+        return (
+            <div className="bottom-buttons">
+                <Button type="submit" color={SUBMIT_BUTTON_COLOR}>
+                    {spanish ? "Guardar" : "Save"}
+                </Button>
+                <Button type="reset" color={RESET_BUTTON_COLOR}>
+                    {spanish ? "Restablecer" : "Reset"}
+                </Button>
+            </div>
+        );
+    }
 };

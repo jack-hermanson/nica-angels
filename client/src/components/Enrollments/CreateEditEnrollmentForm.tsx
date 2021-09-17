@@ -202,7 +202,9 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
                                 }
                             })
                             .map(school => (
-                                <option value={school.id}>{school.name}</option>
+                                <option key={school.id} value={school.id}>
+                                    {school.name}
+                                </option>
                             ))}
                     </Field>
                 )}

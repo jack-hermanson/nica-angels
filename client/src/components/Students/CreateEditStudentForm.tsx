@@ -54,7 +54,9 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
             .number()
             .integer()
             .label(spanish ? "Sexo" : "Sex")
-            .required("Favor de registrar un sexo")
+            .required(
+                spanish ? "Favor de registrar un sexo" : "Please select a sex"
+            )
             .min(Sex.FEMALE)
             .max(Sex.MALE),
         level: yup

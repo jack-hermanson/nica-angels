@@ -8,9 +8,11 @@ import * as yup from "yup";
 import { useStoreState } from "../../store/_store";
 import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import moment from "moment";
-import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
 import { Col, FormGroup, Input, Label, Row } from "reactstrap";
 import { StudentClient } from "../../clients/StudentClient";
+import { SchoolRecord } from "../../../../shared/resource_models/school";
+import { SchoolClient } from "../../clients/SchoolClient";
 
 interface Props {
     onSubmit: (enrollmentRequest: EnrollmentRequest) => Promise<void>;
@@ -29,11 +31,17 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
     const [students, setStudents] = useState<StudentRecord[] | undefined>(
         undefined
     );
+    const [schools, setSchools] = useState<SchoolRecord[] | undefined>(
+        undefined
+    );
 
     useEffect(() => {
         if (token) {
             StudentClient.getStudents(token.data).then(data => {
                 setStudents(data);
+            });
+            SchoolClient.getSchools(token.data).then(data => {
+                setSchools(data);
             });
         }
     }, [setStudents, token]);
@@ -105,6 +113,9 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
                                 <Col xs={12} lg={6}>
                                     {renderStudent(errors)}
                                 </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderSchool(errors)}
+                                </Col>
                             </Row>
                         </Fragment>
                     )}
@@ -138,14 +149,53 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
                             })
                             .map(student => (
                                 <option key={student.id} value={student.id}>
-                                    {student.firstName} {student.lastName || ""}{" "}
-                                    ({spanish ? "Grado" : "Grade"}{" "}
+                                    {student.firstName}{" "}
+                                    {student.middleName || ""}{" "}
+                                    {student.lastName || ""} (
+                                    {spanish ? "Grado" : "Grade"}{" "}
                                     {student.level})
                                 </option>
                             ))}
                     </Field>
                 )}
+                <FormError>{errors.studentId}</FormError>
             </FormGroup>
         );
     }
+
+    function renderSchool(errors: FormikErrors<FormValues>) {
+        const id = "school-input";
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    {spanish ? "Escuela" : "School"}
+                </Label>
+                {!schools ? (
+                    <LoadingSpinner />
+                ) : (
+                    <Field id={id} name="schoolId" type="select" as={Input}>
+                        <option value="">
+                            {spanish
+                                ? "Elegir una escuela..."
+                                : "Select a school..."}
+                        </option>
+                        {schools
+                            .sort((a, b) => {
+                                if (a.name > b.name) {
+                                    return 1;
+                                } else {
+                                    return -1;
+                                }
+                            })
+                            .map(school => (
+                                <option value={school.id}>{school.name}</option>
+                            ))}
+                    </Field>
+                )}
+                <FormError>{errors.schoolId}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderStartDate(errors: FormikErrors<FormValues>) {}
 };

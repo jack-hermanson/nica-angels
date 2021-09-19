@@ -1,8 +1,12 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { useStoreState } from "../../store/_store";
-import { Button, Col, Row } from "reactstrap";
-import { PageHeader } from "jack-hermanson-component-lib";
+import { Button, Col, Row, Table } from "reactstrap";
+import {
+    ActionsDropdown,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "../../../../shared/enums";
 import { EnrollmentRecord } from "../../../../shared/resource_models/enrollment";
@@ -10,6 +14,11 @@ import { EnrollmentClient } from "../../clients/EnrollmentClient";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaPlus } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
+import { SchoolRecord } from "../../../../shared/resource_models/school";
+import { StudentRecord } from "../../../../shared/resource_models/student";
+import { SchoolClient } from "../../clients/SchoolClient";
+import { StudentClient } from "../../clients/StudentClient";
+import moment from "moment";
 
 export const EnrollmentsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -22,19 +31,32 @@ export const EnrollmentsIndex: FunctionComponent = () => {
     const [enrollments, setEnrollments] = useState<
         EnrollmentRecord[] | undefined
     >(undefined);
+    const [schools, setSchools] = useState<SchoolRecord[] | undefined>(
+        undefined
+    );
+    const [students, setStudents] = useState<StudentRecord[] | undefined>(
+        undefined
+    );
 
     useEffect(() => {
         if (token) {
             EnrollmentClient.getEnrollments(token.data).then(data =>
                 setEnrollments(data)
             );
+            SchoolClient.getSchools(token.data).then(data => {
+                setSchools(data);
+            });
+            StudentClient.getStudents(token.data).then(data => {
+                setStudents(data);
+            });
         }
-    }, [setEnrollments, token]);
+    }, [setEnrollments, token, setSchools, setStudents]);
 
     return (
         <div>
             <SettingsTabs />
             {renderHeader()}
+            {renderTable()}
         </div>
     );
 
@@ -58,5 +80,85 @@ export const EnrollmentsIndex: FunctionComponent = () => {
                 </Col>
             </Row>
         );
+    }
+
+    function renderTable() {
+        return (
+            <Row>
+                <Col>
+                    {students && enrollments && schools ? (
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        {spanish ? "Estudiante" : "Student"}
+                                    </th>
+                                    <th>{spanish ? "Escuela" : "School"}</th>
+                                    <th>
+                                        {spanish
+                                            ? "Fecha de Comienzo"
+                                            : "Start Date"}
+                                    </th>
+                                    <th>
+                                        {spanish
+                                            ? "Fecha de Cierre"
+                                            : "End Date"}
+                                    </th>
+                                    <th>{spanish ? "Acciones" : "Actions"}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {enrollments.map(enrollment => (
+                                    <tr key={enrollment.id}>
+                                        {renderEnrollmentRow(enrollment)}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    ) : (
+                        <LoadingSpinner />
+                    )}
+                </Col>
+            </Row>
+        );
+    }
+
+    function renderEnrollmentRow(enrollment: EnrollmentRecord) {
+        if (schools && students) {
+            const school = schools.find(s => s.id === enrollment.schoolId)!;
+            const student = students.find(s => s.id === enrollment.studentId)!;
+
+            return (
+                <Fragment>
+                    <td>
+                        {student.firstName} {student.middleName || ""}{" "}
+                        {student.lastName || ""}
+                    </td>
+                    <td>{school.name}</td>
+                    <td>
+                        {enrollment.startDate
+                            ? moment(enrollment.startDate)
+                                  .toDate()
+                                  .toLocaleDateString()
+                            : ""}
+                    </td>
+                    <td>
+                        {enrollment.endDate
+                            ? moment(enrollment.endDate)
+                                  .toDate()
+                                  .toLocaleDateString()
+                            : ""}
+                    </td>
+                    <td>
+                        <ActionsDropdown
+                            end={false}
+                            options={[]}
+                            size="sm"
+                            menuName={spanish ? "Acciones" : "Actions"}
+                        />
+                    </td>
+                </Fragment>
+            );
+        }
     }
 };

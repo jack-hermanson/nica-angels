@@ -86,8 +86,12 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
                     : studentId
                     ? studentId.toString()
                     : "",
-                startDate: "",
-                endDate: "",
+                startDate: existingEnrollment?.startDate
+                    ? moment(existingEnrollment.startDate).format("yyyy-MM-DD")
+                    : "",
+                endDate: existingEnrollment?.endDate
+                    ? moment(existingEnrollment.endDate).format("yyyy-MM-DD")
+                    : "",
             }}
             onSubmit={async (data, { setSubmitting }) => {
                 setSubmitting(true);

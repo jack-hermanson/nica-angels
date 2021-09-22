@@ -19,6 +19,7 @@ import { StudentRecord } from "../../../../shared/resource_models/student";
 import { SchoolClient } from "../../clients/SchoolClient";
 import { StudentClient } from "../../clients/StudentClient";
 import moment from "moment";
+import { LinkDropdownAction } from "jack-hermanson-ts-utils";
 
 export const EnrollmentsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -152,7 +153,12 @@ export const EnrollmentsIndex: FunctionComponent = () => {
                     <td>
                         <ActionsDropdown
                             end={false}
-                            options={[]}
+                            options={[
+                                new LinkDropdownAction(
+                                    "Edit",
+                                    `/settings/enrollments/edit/${enrollment.id}`
+                                ),
+                            ]}
                             size="sm"
                             menuName={spanish ? "Acciones" : "Actions"}
                         />

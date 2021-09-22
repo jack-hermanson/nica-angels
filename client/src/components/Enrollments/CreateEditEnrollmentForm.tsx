@@ -13,7 +13,11 @@ import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import { StudentClient } from "../../clients/StudentClient";
 import { SchoolRecord } from "../../../../shared/resource_models/school";
 import { SchoolClient } from "../../clients/SchoolClient";
-import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
+import {
+    DATE_FORMAT,
+    RESET_BUTTON_COLOR,
+    SUBMIT_BUTTON_COLOR,
+} from "../../utils/constants";
 
 interface Props {
     onSubmit: (enrollmentRequest: EnrollmentRequest) => Promise<void>;
@@ -87,10 +91,10 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
                     ? studentId.toString()
                     : "",
                 startDate: existingEnrollment?.startDate
-                    ? moment(existingEnrollment.startDate).format("yyyy-MM-DD")
+                    ? moment(existingEnrollment.startDate).format(DATE_FORMAT)
                     : "",
                 endDate: existingEnrollment?.endDate
-                    ? moment(existingEnrollment.endDate).format("yyyy-MM-DD")
+                    ? moment(existingEnrollment.endDate).format(DATE_FORMAT)
                     : "",
             }}
             onSubmit={async (data, { setSubmitting }) => {

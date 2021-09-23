@@ -1,5 +1,5 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { Card, CardBody, Col, Row } from "reactstrap";
+import { Button, Card, CardBody, Col, Row } from "reactstrap";
 import {
     ActionsDropdown,
     LoadingSpinner,
@@ -28,13 +28,22 @@ export const StudentsIndex: FunctionComponent = () => {
         undefined
     );
 
+    // pagination
+    const [take, setTake] = useState(10);
+    const [total, setTotal] = useState(0);
+    const [count, setCount] = useState(0);
+
     useEffect(() => {
         if (token) {
-            StudentClient.getStudents(token.data).then(data => {
-                setStudents(data);
-            });
+            StudentClient.getStudents({ skip: 0, take }, token.data).then(
+                data => {
+                    setStudents(data.items);
+                    setTotal(data.total);
+                    setCount(data.count);
+                }
+            );
         }
-    }, [token, setStudents]);
+    }, [token, setStudents, take, setTotal, setCount]);
 
     return (
         <div>
@@ -45,6 +54,7 @@ export const StudentsIndex: FunctionComponent = () => {
                 </Col>
                 <Col xs={12} lg={9}>
                     {renderStudents()}
+                    {renderLoadMore()}
                 </Col>
             </Row>
         </div>
@@ -109,5 +119,46 @@ export const StudentsIndex: FunctionComponent = () => {
         } else {
             return <LoadingSpinner />;
         }
+    }
+
+    function renderLoadMore() {
+        return (
+            <div className="mt-3">
+                <p className="text-muted">
+                    {spanish ? "Mostrando" : "Displaying"} {count}{" "}
+                    {spanish ? "de" : "of"} {total}{" "}
+                    {spanish ? "estudiantes" : "students"}.
+                </p>
+                {token && count < total && students && (
+                    <div className="bottom-buttons mt-0">
+                        <Button
+                            color="secondary"
+                            onClick={async () => {
+                                StudentClient.getStudents(
+                                    { skip: count, take },
+                                    token.data
+                                ).then(data => {
+                                    setStudents([...students, ...data.items]);
+                                    setTotal(data.total);
+                                    setCount(count + data.count);
+                                });
+                            }}
+                            onMouseDown={e => {
+                                e.preventDefault();
+                            }}
+                        >
+                            {spanish ? "Cargar" : "Load"} {take}{" "}
+                            {spanish ? "Más" : "More"}
+                        </Button>
+                        <Button
+                            color="secondary"
+                            onClick={() => setTake(total)}
+                        >
+                            {spanish ? "Cargar Todos" : "Load All"}
+                        </Button>
+                    </div>
+                )}
+            </div>
+        );
     }
 };

@@ -20,14 +20,19 @@ export class StudentService {
     static async getAll({
         skip,
         take,
+        orderBy = "firstName",
     }: AggregateRequest): Promise<AggregateResourceModel<Student>> {
         const { studentRepo } = this.getRepos();
+        const total = await studentRepo.count();
+        if (!take) {
+            take = total;
+        }
         const students = await studentRepo
             .createQueryBuilder("student")
+            .orderBy(orderBy)
             .skip(skip)
             .take(take)
             .getMany();
-        const total = await studentRepo.count();
         return {
             items: students,
             skip,

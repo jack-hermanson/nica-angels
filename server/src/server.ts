@@ -26,6 +26,8 @@ app.use(sslRedirect(["production"]));
 // static
 const staticFiles = express.static(path.join(__dirname, "../../client/build"));
 app.use(staticFiles);
+
+// skip & take query strings
 app.use(aggregateQuery);
 
 // routes

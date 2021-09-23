@@ -42,11 +42,12 @@ export const CreateEditEnrollmentForm: FunctionComponent<Props> = ({
 
     useEffect(() => {
         if (token) {
-            StudentClient.getStudents({ skip: 0, take: 0 }, token.data).then(
-                data => {
-                    setStudents(data.items);
-                }
-            );
+            StudentClient.getStudents(
+                { skip: 0, take: 0, searchText: "" },
+                token.data
+            ).then(data => {
+                setStudents(data.items);
+            });
             SchoolClient.getSchools(token.data).then(data => {
                 setSchools(data);
             });

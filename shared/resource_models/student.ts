@@ -1,4 +1,8 @@
-import { DateResourceModel, Sex } from "jack-hermanson-ts-utils";
+import {
+    AggregateRequest,
+    DateResourceModel,
+    Sex,
+} from "jack-hermanson-ts-utils";
 
 export interface StudentRequest {
     firstName: string;
@@ -13,3 +17,7 @@ export interface StudentRequest {
 }
 
 export interface StudentRecord extends StudentRequest, DateResourceModel {}
+
+export interface GetStudentsRequest extends AggregateRequest {
+    searchText: string;
+}

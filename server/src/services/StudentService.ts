@@ -6,7 +6,10 @@ import {
     AggregateResourceModel,
     HTTP,
 } from "jack-hermanson-ts-utils";
-import { StudentRequest } from "../../../shared/resource_models/student";
+import {
+    GetStudentsRequest,
+    StudentRequest,
+} from "../../../shared/resource_models/student";
 
 export class StudentService {
     static getRepos(): {
@@ -20,19 +23,18 @@ export class StudentService {
     static async getAll({
         skip,
         take,
+        searchText,
         orderBy = "firstName",
-    }: AggregateRequest): Promise<AggregateResourceModel<Student>> {
+    }: GetStudentsRequest): Promise<AggregateResourceModel<Student>> {
         const { studentRepo } = this.getRepos();
-        const total = await studentRepo.count();
-        if (!take) {
-            take = total;
-        }
-        const students = await studentRepo
+        const studentsQuery = studentRepo
             .createQueryBuilder("student")
+            .where(`student.firstName like '%${searchText}%'`)
             .orderBy(orderBy)
             .skip(skip)
-            .take(take)
-            .getMany();
+            .take(take);
+        const total = await studentsQuery.getCount();
+        const students = await studentsQuery.getMany();
         return {
             items: students,
             skip,

@@ -3,6 +3,7 @@ import { Request } from "../utils/Request";
 import { auth } from "../middleware/auth";
 import { StudentService } from "../services/StudentService";
 import {
+    GetStudentsRequest,
     StudentRecord,
     StudentRequest,
 } from "../../../shared/resource_models/student";
@@ -22,7 +23,7 @@ router.get(
     "/",
     auth,
     async (
-        req: Request<{}, {}, {}, AggregateRequest>,
+        req: Request<{}, {}, {}, GetStudentsRequest>,
         res: Response<AggregateResourceModel<StudentRecord>>
     ) => {
         const students = await StudentService.getAll(req.query);

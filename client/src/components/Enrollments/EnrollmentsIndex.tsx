@@ -47,11 +47,12 @@ export const EnrollmentsIndex: FunctionComponent = () => {
             SchoolClient.getSchools(token.data).then(data => {
                 setSchools(data);
             });
-            StudentClient.getStudents({ skip: 0, take: 0 }, token.data).then(
-                data => {
-                    setStudents(data.items);
-                }
-            );
+            StudentClient.getStudents(
+                { skip: 0, take: 0, searchText: "" },
+                token.data
+            ).then(data => {
+                setStudents(data.items);
+            });
         }
     }, [setEnrollments, token, setSchools, setStudents]);
 

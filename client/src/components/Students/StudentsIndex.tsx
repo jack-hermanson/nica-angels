@@ -1,5 +1,19 @@
-import { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { Button, Card, CardBody, Col, Row } from "reactstrap";
+import {
+    Fragment,
+    FunctionComponent,
+    useCallback,
+    useEffect,
+    useState,
+} from "react";
+import {
+    Button,
+    CardBody,
+    Col,
+    FormGroup,
+    Input,
+    Label,
+    Row,
+} from "reactstrap";
 import {
     ActionsDropdown,
     LoadingSpinner,
@@ -10,12 +24,17 @@ import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "../../../../shared/enums";
 import { useStoreState } from "../../store/_store";
 import { StudentClient } from "../../clients/StudentClient";
-import { StudentRecord } from "../../../../shared/resource_models/student";
+import {
+    GetStudentsRequest,
+    StudentRecord,
+} from "../../../../shared/resource_models/student";
 import { Student } from "./Student";
 import {
     ClickDropdownAction,
     LinkDropdownAction,
 } from "jack-hermanson-ts-utils";
+import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
+import { Formik, Field, Form } from "formik";
 
 export const StudentsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.SPONSOR);
@@ -28,22 +47,43 @@ export const StudentsIndex: FunctionComponent = () => {
         undefined
     );
 
+    const [searchText, setSearchText] = useState("");
+
     // pagination
     const [take, setTake] = useState(10);
+    const [skip, setSkip] = useState(0);
     const [total, setTotal] = useState(0);
     const [count, setCount] = useState(0);
 
-    useEffect(() => {
+    // get students
+    const getStudents = useCallback(() => {
+        console.log("getStudents useCallback");
         if (token) {
-            StudentClient.getStudents({ skip: 0, take }, token.data).then(
+            const getStudentsRequest: GetStudentsRequest = {
+                skip: skip,
+                take: take,
+                searchText: searchText,
+            };
+            StudentClient.getStudents(getStudentsRequest, token.data).then(
                 data => {
-                    setStudents(data.items);
+                    setStudents(s => {
+                        if (!s) {
+                            return data.items;
+                        } else {
+                            return [...s, ...data.items];
+                        }
+                    });
                     setTotal(data.total);
-                    setCount(data.count);
+                    setCount(c => c + data.count);
+                    console.log("data.count", data.count);
                 }
             );
         }
-    }, [token, setStudents, take, setTotal, setCount]);
+    }, [skip, take, setTotal, setCount, setStudents, searchText]);
+
+    useEffect(() => {
+        getStudents();
+    }, [getStudents]);
 
     return (
         <div>
@@ -95,13 +135,62 @@ export const StudentsIndex: FunctionComponent = () => {
     }
 
     function renderFiltering() {
+        const searchTextId = "search-text";
         return (
             <MobileToggleCard
                 cardTitle={"Filtering"}
                 className="sticky-top mb-3 mb-lg-0"
             >
                 <CardBody>
-                    <p>Test</p>
+                    <Formik
+                        initialValues={{
+                            searchText: "",
+                        }}
+                        onSubmit={data => {
+                            resetData();
+                            setSearchText(data.searchText);
+                        }}
+                        onReset={() => {
+                            resetData();
+                            setSearchText("");
+                        }}
+                    >
+                        <Form>
+                            <FormGroup>
+                                <Label
+                                    className="form-label"
+                                    for={searchTextId}
+                                >
+                                    {spanish ? "Buscar" : "Search"}
+                                </Label>
+                                <Field
+                                    as={Input}
+                                    placeholder={
+                                        spanish ? "Buscar..." : "Search..."
+                                    }
+                                    name="searchText"
+                                    type="text"
+                                    id={searchTextId}
+                                />
+                            </FormGroup>
+                            <div className="d-grid col-12 mt-3">
+                                <Button
+                                    type="submit"
+                                    className="mb-2"
+                                    color={SUBMIT_BUTTON_COLOR}
+                                >
+                                    Submit
+                                </Button>
+                                <Button
+                                    type="reset"
+                                    size="sm"
+                                    color={RESET_BUTTON_COLOR}
+                                >
+                                    Reset
+                                </Button>
+                            </div>
+                        </Form>
+                    </Formik>
                 </CardBody>
             </MobileToggleCard>
         );
@@ -133,26 +222,20 @@ export const StudentsIndex: FunctionComponent = () => {
                     <div className="bottom-buttons mt-0">
                         <Button
                             color="secondary"
-                            onClick={async () => {
-                                StudentClient.getStudents(
-                                    { skip: count, take },
-                                    token.data
-                                ).then(data => {
-                                    setStudents([...students, ...data.items]);
-                                    setTotal(data.total);
-                                    setCount(count + data.count);
-                                });
-                            }}
+                            onClick={() => {}}
                             onMouseDown={e => {
+                                setSkip(s => s + 10);
                                 e.preventDefault();
                             }}
                         >
-                            {spanish ? "Cargar" : "Load"} {take}{" "}
-                            {spanish ? "Más" : "More"}
+                            {spanish ? "Cargar Más" : "Load More"}
                         </Button>
                         <Button
                             color="secondary"
-                            onClick={() => setTake(total)}
+                            onClick={() => {
+                                setSkip(s => s + 10);
+                                setTake(total);
+                            }}
                         >
                             {spanish ? "Cargar Todos" : "Load All"}
                         </Button>
@@ -160,5 +243,12 @@ export const StudentsIndex: FunctionComponent = () => {
                 )}
             </div>
         );
+    }
+
+    function resetData() {
+        setSkip(0);
+        setCount(0);
+        setTotal(0);
+        setStudents(undefined);
     }
 };

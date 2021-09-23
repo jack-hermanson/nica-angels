@@ -29,7 +29,24 @@ export class StudentService {
         const { studentRepo } = this.getRepos();
         const studentsQuery = studentRepo
             .createQueryBuilder("student")
-            .where(`student.firstName like '%${searchText}%'`)
+            .where(
+                `LOWER(student.firstName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
+            )
+            .orWhere(
+                `LOWER(student.firstName) || ' ' || LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`
+            )
+            .orWhere(
+                `LOWER(student.firstName) || ' ' || LOWER(student.middleName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
+            )
+            .orWhere(
+                `LOWER(student.firstName) LIKE '%${searchText.toLowerCase()}%'`
+            )
+            .orWhere(
+                `LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`
+            )
+            .orWhere(
+                `LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
+            )
             .orderBy(orderBy)
             .skip(skip)
             .take(take);
@@ -83,6 +100,13 @@ export class StudentService {
         return await studentRepo.save({
             ...student,
             ...studentRequest,
+            lastName: studentRequest.lastName ? studentRequest.lastName : null,
+            middleName: studentRequest.middleName
+                ? studentRequest.middleName
+                : null,
+            dateOfBirth: studentRequest.dateOfBirth
+                ? studentRequest.dateOfBirth
+                : null,
         });
     }
 

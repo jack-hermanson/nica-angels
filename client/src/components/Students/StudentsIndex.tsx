@@ -56,33 +56,36 @@ export const StudentsIndex: FunctionComponent = () => {
     const [count, setCount] = useState(0);
 
     // get students
-    const getStudents = useCallback(() => {
-        console.log("getStudents useCallback");
-        if (token) {
-            const getStudentsRequest: GetStudentsRequest = {
-                skip: skip,
-                take: take,
-                searchText: searchText,
-            };
-            StudentClient.getStudents(getStudentsRequest, token.data).then(
-                data => {
-                    setStudents(s => {
-                        if (!s) {
-                            return data.items;
-                        } else {
-                            return [...s, ...data.items];
-                        }
-                    });
-                    setTotal(data.total);
-                    setCount(c => c + data.count);
-                    console.log("data.count", data.count);
-                }
-            );
-        }
-    }, [skip, take, setTotal, setCount, setStudents, searchText]);
+    const getStudents = useCallback(
+        (getStudentsRequest: GetStudentsRequest) => {
+            console.log("getStudents useCallback");
+            if (token) {
+                StudentClient.getStudents(getStudentsRequest, token.data).then(
+                    data => {
+                        setStudents(s => {
+                            if (!s) {
+                                return data.items;
+                            } else {
+                                return [...s, ...data.items];
+                            }
+                        });
+                        setTotal(data.total);
+                        setCount(c => c + data.count);
+                        console.log("data.count", data.count);
+                    }
+                );
+            }
+        },
+        [setTotal, setCount, setStudents, token]
+    );
 
     useEffect(() => {
-        getStudents();
+        console.log("useEffect");
+        getStudents({
+            searchText: "",
+            skip: 0,
+            take: 10,
+        });
     }, [getStudents]);
 
     return (
@@ -149,10 +152,20 @@ export const StudentsIndex: FunctionComponent = () => {
                         onSubmit={data => {
                             resetData();
                             setSearchText(data.searchText);
+                            getStudents({
+                                searchText: data.searchText,
+                                skip,
+                                take,
+                            });
                         }}
                         onReset={() => {
                             resetData();
                             setSearchText("");
+                            getStudents({
+                                searchText: "",
+                                skip,
+                                take,
+                            });
                         }}
                     >
                         <Form>
@@ -225,6 +238,11 @@ export const StudentsIndex: FunctionComponent = () => {
                             onClick={() => {}}
                             onMouseDown={e => {
                                 setSkip(s => s + 10);
+                                getStudents({
+                                    skip: skip + 10,
+                                    take,
+                                    searchText,
+                                });
                                 e.preventDefault();
                             }}
                         >
@@ -235,6 +253,11 @@ export const StudentsIndex: FunctionComponent = () => {
                             onClick={() => {
                                 setSkip(s => s + 10);
                                 setTake(total);
+                                getStudents({
+                                    skip: skip + 10,
+                                    take: total,
+                                    searchText,
+                                });
                             }}
                         >
                             {spanish ? "Cargar Todos" : "Load All"}
@@ -246,9 +269,9 @@ export const StudentsIndex: FunctionComponent = () => {
     }
 
     function resetData() {
+        setStudents(undefined);
         setSkip(0);
         setCount(0);
         setTotal(0);
-        setStudents(undefined);
     }
 };

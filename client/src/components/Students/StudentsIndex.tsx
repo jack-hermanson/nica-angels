@@ -138,7 +138,9 @@ export const StudentsIndex: FunctionComponent = () => {
     }
 
     function renderFiltering() {
-        const searchTextId = "search-text";
+        const searchTextId = "search-text-input";
+        const minLevelId = "min-level-input";
+        const maxLevelId = "max-level-input";
         return (
             <MobileToggleCard
                 cardTitle={"Filtering"}
@@ -148,6 +150,8 @@ export const StudentsIndex: FunctionComponent = () => {
                     <Formik
                         initialValues={{
                             searchText: "",
+                            minLevel: "0",
+                            maxLevel: "12",
                         }}
                         onSubmit={data => {
                             resetData();
@@ -184,6 +188,32 @@ export const StudentsIndex: FunctionComponent = () => {
                                     name="searchText"
                                     type="text"
                                     id={searchTextId}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label className="form-label" for={minLevelId}>
+                                    {spanish ? "Nivel Mínimo" : "Minimum Level"}
+                                </Label>
+                                <Field
+                                    as={Input}
+                                    name="minLevel"
+                                    id={minLevelId}
+                                    type="number"
+                                    min={0}
+                                    max={12}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label className="form-label" for={maxLevelId}>
+                                    {spanish ? "Nivel Máximo" : "Maximum Level"}
+                                </Label>
+                                <Field
+                                    as={Input}
+                                    name="maxLevel"
+                                    id={maxLevelId}
+                                    type="number"
+                                    min={0}
+                                    max={12}
                                 />
                             </FormGroup>
                             <div className="d-grid col-12 mt-3">

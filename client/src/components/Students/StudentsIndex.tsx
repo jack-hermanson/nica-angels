@@ -1,8 +1,9 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { Card, Col, Row } from "reactstrap";
+import { Card, CardBody, Col, Row } from "reactstrap";
 import {
     ActionsDropdown,
     LoadingSpinner,
+    MobileToggleCard,
     PageHeader,
 } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
@@ -85,9 +86,14 @@ export const StudentsIndex: FunctionComponent = () => {
 
     function renderFiltering() {
         return (
-            <Card>
-                <p>Filtering</p>
-            </Card>
+            <MobileToggleCard
+                cardTitle={"Filtering"}
+                className="sticky-top mb-3 mb-lg-0"
+            >
+                <CardBody>
+                    <p>Test</p>
+                </CardBody>
+            </MobileToggleCard>
         );
     }
 

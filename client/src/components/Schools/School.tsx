@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { SchoolRecord } from "../../../../shared/resource_models/school";
 import { useStoreState } from "../../store/_store";
 import { Card, CardBody, CardFooter, Table } from "reactstrap";
@@ -7,7 +7,7 @@ import {
     ActionsDropdown,
 } from "jack-hermanson-component-lib";
 import { Clearance } from "../../../../shared/enums";
-import { KeyValPair, LinkDropdownAction } from "jack-hermanson-ts-utils";
+import { LinkDropdownAction } from "jack-hermanson-ts-utils";
 import { TownRecord } from "../../../../shared/resource_models/town";
 import { TownClient } from "../../clients/TownClient";
 
@@ -32,7 +32,7 @@ export const School: FunctionComponent<Props> = ({
                 setTown(data);
             });
         }
-    }, [setTown, token]);
+    }, [setTown, token, school.id]);
 
     return (
         <div className={className}>

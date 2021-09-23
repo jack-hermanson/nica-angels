@@ -12,8 +12,8 @@ import {
 } from "jack-hermanson-ts-utils";
 
 export class Attendance1629089021978 implements MigrationInterface {
-    attendance = new Table({
-        name: "attendance",
+    enrollment = new Table({
+        name: "enrollment",
         columns: [
             idColumn,
             createdColumn,
@@ -55,18 +55,18 @@ export class Attendance1629089021978 implements MigrationInterface {
     });
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.createTable(this.attendance);
-        await queryRunner.createForeignKeys(this.attendance, [
+        await queryRunner.createTable(this.enrollment);
+        await queryRunner.createForeignKeys(this.enrollment, [
             this.schoolIdForeignKey,
             this.studentIdForeignKey,
         ]);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropForeignKeys(this.attendance, [
+        await queryRunner.dropForeignKeys(this.enrollment, [
             this.schoolIdForeignKey,
             this.studentIdForeignKey,
         ]);
-        await queryRunner.dropTable(this.attendance);
+        await queryRunner.dropTable(this.enrollment);
     }
 }

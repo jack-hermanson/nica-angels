@@ -73,11 +73,7 @@ export const CreateEditSchoolForm: FunctionComponent<Props> = ({
             validateOnChange={false}
             validateOnBlur={false}
         >
-            {({
-                errors,
-                isSubmitting,
-                setFieldValue,
-            }: FormikProps<FormValues>) => (
+            {({ errors, isSubmitting }: FormikProps<FormValues>) => (
                 <Form>
                     {isSubmitting ? (
                         <LoadingSpinner />

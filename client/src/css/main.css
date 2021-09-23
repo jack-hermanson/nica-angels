@@ -11315,6 +11315,10 @@ body {
 
 a {
   text-decoration: none;
+  color: #abb6c2;
+}
+a:hover {
+  color: white;
 }
 
 body {
@@ -11325,6 +11329,10 @@ body {
   line-height: 1;
   padding: 6px;
   display: flex;
+}
+
+dl {
+  margin-bottom: 0;
 }
 
 /*# sourceMappingURL=main.css.map */

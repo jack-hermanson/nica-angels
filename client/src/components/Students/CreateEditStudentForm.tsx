@@ -9,16 +9,12 @@ import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
 import { Sex } from "jack-hermanson-ts-utils";
 import moment from "moment";
+import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import {
-    Button,
-    Col,
-    FormGroup,
-    FormText,
-    Input,
-    Label,
-    Row,
-} from "reactstrap";
-import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
+    DATE_FORMAT,
+    RESET_BUTTON_COLOR,
+    SUBMIT_BUTTON_COLOR,
+} from "../../utils/constants";
 
 interface Props {
     onSubmit: (studentRequest: StudentRequest) => Promise<void>;
@@ -54,7 +50,9 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
             .number()
             .integer()
             .label(spanish ? "Sexo" : "Sex")
-            .required("Favor de registrar un sexo")
+            .required(
+                spanish ? "Favor de registrar un sexo" : "Please select a sex"
+            )
             .min(Sex.FEMALE)
             .max(Sex.MALE),
         level: yup
@@ -101,7 +99,7 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
                     ? existingStudent.lastName
                     : "",
                 dateOfBirth: existingStudent?.dateOfBirth
-                    ? new Date(existingStudent.dateOfBirth).toInputFormat()
+                    ? moment(existingStudent.dateOfBirth).format(DATE_FORMAT)
                     : "",
                 sex: existingStudent ? existingStudent.sex : "",
                 level: existingStudent ? existingStudent.level : "",

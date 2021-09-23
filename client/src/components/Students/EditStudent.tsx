@@ -48,7 +48,7 @@ export const EditStudent: FunctionComponent<Props> = ({ match }: Props) => {
                     }
                 });
         }
-    }, [token, match.params.id]);
+    }, [token, match.params.id, history]);
 
     return (
         <Fragment>

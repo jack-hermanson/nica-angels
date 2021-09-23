@@ -5,7 +5,7 @@ import path from "path";
 import { config } from "dotenv";
 import { ConnectionOptions, createConnection } from "typeorm";
 import sslRedirect from "heroku-ssl-redirect";
-import { DbDialect } from "jack-hermanson-ts-utils";
+import { DbDialect, aggregateQuery } from "jack-hermanson-ts-utils";
 import { models } from "./models/_models";
 import { migrations } from "./migrations/_migrations";
 import { routes } from "./routes/_routes";
@@ -26,6 +26,7 @@ app.use(sslRedirect(["production"]));
 // static
 const staticFiles = express.static(path.join(__dirname, "../../client/build"));
 app.use(staticFiles);
+app.use(aggregateQuery);
 
 // routes
 app.use("/api/accounts", routes.accounts);

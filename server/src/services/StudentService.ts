@@ -1,7 +1,11 @@
 import { getConnection, Repository } from "typeorm";
 import { Student } from "../models/Student";
 import { Response } from "express";
-import { HTTP } from "jack-hermanson-ts-utils";
+import {
+    AggregateRequest,
+    AggregateResourceModel,
+    HTTP,
+} from "jack-hermanson-ts-utils";
 import { StudentRequest } from "../../../shared/resource_models/student";
 
 export class StudentService {
@@ -13,9 +17,24 @@ export class StudentService {
         return { studentRepo };
     }
 
-    static async getAll(): Promise<Student[]> {
+    static async getAll({
+        skip,
+        take,
+    }: AggregateRequest): Promise<AggregateResourceModel<Student>> {
         const { studentRepo } = this.getRepos();
-        return await studentRepo.find();
+        const students = await studentRepo
+            .createQueryBuilder("student")
+            .skip(skip)
+            .take(take)
+            .getMany();
+        const total = await studentRepo.count();
+        return {
+            items: students,
+            skip,
+            take,
+            total,
+            count: students.length,
+        };
     }
 
     static async getOne(

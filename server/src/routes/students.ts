@@ -8,7 +8,12 @@ import {
 } from "../../../shared/resource_models/student";
 import { authorized } from "../utils/functions";
 import { Clearance } from "../../../shared/enums";
-import { HTTP, validateRequest } from "jack-hermanson-ts-utils";
+import {
+    AggregateRequest,
+    AggregateResourceModel,
+    HTTP,
+    validateRequest,
+} from "jack-hermanson-ts-utils";
 import { studentSchema } from "../models/Student";
 
 export const router = Router();
@@ -16,8 +21,11 @@ export const router = Router();
 router.get(
     "/",
     auth,
-    async (req: Request<any>, res: Response<StudentRecord[]>) => {
-        const students = await StudentService.getAll();
+    async (
+        req: Request<{}, {}, {}, AggregateRequest>,
+        res: Response<AggregateResourceModel<StudentRecord>>
+    ) => {
+        const students = await StudentService.getAll(req.query);
         res.json(students);
     }
 );

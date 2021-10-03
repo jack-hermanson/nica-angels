@@ -6,12 +6,18 @@ import { useStoreState } from "../../store/_store";
 import { Clearance } from "../../../../shared/enums";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { Sex } from "jack-hermanson-ts-utils";
+import { SchoolRecord } from "../../../../shared/resource_models/school";
 
 interface Props {
     student: StudentRecord;
+    school?: SchoolRecord;
 }
 
-export const Student: FunctionComponent<Props> = ({ student }: Props) => {
+export const Student: FunctionComponent<Props> = ({
+    student,
+    school,
+}: Props) => {
     const currentUser = useStoreState(state => state.currentUser);
     const spanish = useStoreState(state => state.spanish);
 
@@ -24,32 +30,59 @@ export const Student: FunctionComponent<Props> = ({ student }: Props) => {
             />
             <CardBody>
                 <Row>
-                    <Col xs={12} lg={6} xl={4} className="mb-3 mb-lg-0">
+                    <Col xs={12} lg={6} className="mb-3">
                         <dl>
                             <dt>
                                 {spanish
                                     ? "Fecha de Nacimiento"
                                     : "Date of Birth"}
                             </dt>
-                            <dl>{renderDateOfBirth()}</dl>
+                            <dd>{renderDateOfBirth()}</dd>
                         </dl>
                     </Col>
-                    <Col xs={12} lg={6} xl={4} className="mb-3 mb-xl-0">
+                    <Col xs={12} lg={6} className="mb-3">
                         <dl>
                             <dt>{spanish ? "Nivel" : "Level"}</dt>
-                            <dl>
+                            <dd>
                                 {student.level === 0
                                     ? spanish
                                         ? "Preescolar"
                                         : "Preschool"
                                     : student.level}
-                            </dl>
+                            </dd>
                         </dl>
                     </Col>
-                    <Col xs={12} lg={6} xl={4}>
+                </Row>
+                <Row>
+                    <Col xs={12} lg={6} className="mb-3">
                         <dl>
                             <dt>{spanish ? "Suministros" : "Supplies"}</dt>
-                            <dl>{listSupplies().join(", ") || "N/A"}</dl>
+                            <dd>{listSupplies().join(", ") || "N/A"}</dd>
+                        </dl>
+                    </Col>
+                    <Col xs={12} lg={6} className="mb-3">
+                        <dl>
+                            <dt>{spanish ? "Sexo" : "Sex"}</dt>
+                            <dd>
+                                {Sex[student.sex]
+                                    .toLowerCase()
+                                    .capitalizeFirst()}
+                            </dd>
+                            {/*https://stackoverflow.com/questions/50784444/add-description-attribute-to-enum-and-read-this-description-in-typescript*/}
+                        </dl>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={12} lg={6} className="mb-3 mb-lg-0">
+                        <dl>
+                            <dt>{spanish ? "Escuela" : "School"}</dt>
+                            <dd>{school ? school.name : "N/A"}</dd>
+                        </dl>
+                    </Col>
+                    <Col xs={12} lg={6}>
+                        <dl>
+                            <dt>Sponsor</dt>
+                            <dd>Todo</dd>
                         </dl>
                     </Col>
                 </Row>

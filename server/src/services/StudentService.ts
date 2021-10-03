@@ -1,8 +1,15 @@
 import { getConnection, Repository } from "typeorm";
 import { Student } from "../models/Student";
 import { Response } from "express";
-import { HTTP } from "jack-hermanson-ts-utils";
-import { StudentRequest } from "../../../shared/resource_models/student";
+import {
+    AggregateRequest,
+    AggregateResourceModel,
+    HTTP,
+} from "jack-hermanson-ts-utils";
+import {
+    GetStudentsRequest,
+    StudentRequest,
+} from "../../../shared/resource_models/student";
 
 export class StudentService {
     static getRepos(): {
@@ -13,9 +20,45 @@ export class StudentService {
         return { studentRepo };
     }
 
-    static async getAll(): Promise<Student[]> {
+    static async getAll({
+        skip,
+        take,
+        searchText,
+        orderBy = "firstName",
+    }: GetStudentsRequest): Promise<AggregateResourceModel<Student>> {
         const { studentRepo } = this.getRepos();
-        return await studentRepo.find();
+        const studentsQuery = studentRepo
+            .createQueryBuilder("student")
+            .where(
+                `LOWER(student.firstName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
+            )
+            .orWhere(
+                `LOWER(student.firstName) || ' ' || LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`
+            )
+            .orWhere(
+                `LOWER(student.firstName) || ' ' || LOWER(student.middleName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
+            )
+            .orWhere(
+                `LOWER(student.firstName) LIKE '%${searchText.toLowerCase()}%'`
+            )
+            .orWhere(
+                `LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`
+            )
+            .orWhere(
+                `LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
+            )
+            .orderBy(orderBy)
+            .skip(skip)
+            .take(take);
+        const total = await studentsQuery.getCount();
+        const students = await studentsQuery.getMany();
+        return {
+            items: students,
+            skip,
+            take,
+            total,
+            count: students.length,
+        };
     }
 
     static async getOne(
@@ -57,6 +100,13 @@ export class StudentService {
         return await studentRepo.save({
             ...student,
             ...studentRequest,
+            lastName: studentRequest.lastName ? studentRequest.lastName : null,
+            middleName: studentRequest.middleName
+                ? studentRequest.middleName
+                : null,
+            dateOfBirth: studentRequest.dateOfBirth
+                ? studentRequest.dateOfBirth
+                : null,
         });
     }
 

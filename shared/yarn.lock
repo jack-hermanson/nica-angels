@@ -508,10 +508,10 @@ is-fullwidth-code-point@^3.0.0:
   resolved "https://registry.yarnpkg.com/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz#f116f8064fe90b3f7844a38997c0b75051269f1d"
   integrity sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==
 
-jack-hermanson-ts-utils@^1.14.2:
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.14.2.tgz#c127fb525ef90f36f88c8556564317b9fbd67612"
-  integrity sha512-oj9FLPZJ3ok8k3KPUk/YPl7xctWO0uARTl52OU4nFhIiN1WnlayWl5bSfoOMg36cBbSP8KODpagrOsVFSqa7Aw==
+jack-hermanson-ts-utils@^1.15.2:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.15.2.tgz#bee2a96b55d946de7c210e578a10c9bf204e8aad"
+  integrity sha512-neUCkCZemsUMLkzfY0+k61v13/yQOybPSX8l3V45PdJHyoUGlpSkMc0hGYhzn5l9hfw9GKIfUsbo8syX8dpTwA==
   dependencies:
     "@types/express" "^4.17.12"
     express "^4.17.1"

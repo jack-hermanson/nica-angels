@@ -1,5 +1,19 @@
-import { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { Card, CardBody, Col, Row } from "reactstrap";
+import {
+    Fragment,
+    FunctionComponent,
+    useCallback,
+    useEffect,
+    useState,
+} from "react";
+import {
+    Button,
+    CardBody,
+    Col,
+    FormGroup,
+    Input,
+    Label,
+    Row,
+} from "reactstrap";
 import {
     ActionsDropdown,
     LoadingSpinner,
@@ -10,12 +24,17 @@ import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "../../../../shared/enums";
 import { useStoreState } from "../../store/_store";
 import { StudentClient } from "../../clients/StudentClient";
-import { StudentRecord } from "../../../../shared/resource_models/student";
+import {
+    GetStudentsRequest,
+    StudentRecord,
+} from "../../../../shared/resource_models/student";
 import { Student } from "./Student";
 import {
     ClickDropdownAction,
     LinkDropdownAction,
 } from "jack-hermanson-ts-utils";
+import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
+import { Formik, Field, Form } from "formik";
 
 export const StudentsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.SPONSOR);
@@ -28,13 +47,46 @@ export const StudentsIndex: FunctionComponent = () => {
         undefined
     );
 
+    const [searchText, setSearchText] = useState("");
+
+    // pagination
+    const [take, setTake] = useState(10);
+    const [skip, setSkip] = useState(0);
+    const [total, setTotal] = useState(0);
+    const [count, setCount] = useState(0);
+
+    // get students
+    const getStudents = useCallback(
+        (getStudentsRequest: GetStudentsRequest) => {
+            console.log("getStudents useCallback");
+            if (token) {
+                StudentClient.getStudents(getStudentsRequest, token.data).then(
+                    data => {
+                        setStudents(s => {
+                            if (!s) {
+                                return data.items;
+                            } else {
+                                return [...s, ...data.items];
+                            }
+                        });
+                        setTotal(data.total);
+                        setCount(c => c + data.count);
+                        console.log("data.count", data.count);
+                    }
+                );
+            }
+        },
+        [setTotal, setCount, setStudents, token]
+    );
+
     useEffect(() => {
-        if (token) {
-            StudentClient.getStudents(token.data).then(data => {
-                setStudents(data);
-            });
-        }
-    }, [token, setStudents]);
+        console.log("useEffect");
+        getStudents({
+            searchText: "",
+            skip: 0,
+            take: 10,
+        });
+    }, [getStudents]);
 
     return (
         <div>
@@ -45,6 +97,7 @@ export const StudentsIndex: FunctionComponent = () => {
                 </Col>
                 <Col xs={12} lg={9}>
                     {renderStudents()}
+                    {renderLoadMore()}
                 </Col>
             </Row>
         </div>
@@ -85,13 +138,102 @@ export const StudentsIndex: FunctionComponent = () => {
     }
 
     function renderFiltering() {
+        const searchTextId = "search-text-input";
+        const minLevelId = "min-level-input";
+        const maxLevelId = "max-level-input";
         return (
             <MobileToggleCard
                 cardTitle={"Filtering"}
                 className="sticky-top mb-3 mb-lg-0"
             >
                 <CardBody>
-                    <p>Test</p>
+                    <Formik
+                        initialValues={{
+                            searchText: "",
+                            minLevel: "0",
+                            maxLevel: "12",
+                        }}
+                        onSubmit={data => {
+                            resetData();
+                            setSearchText(data.searchText);
+                            getStudents({
+                                searchText: data.searchText,
+                                skip,
+                                take,
+                            });
+                        }}
+                        onReset={() => {
+                            resetData();
+                            setSearchText("");
+                            getStudents({
+                                searchText: "",
+                                skip,
+                                take,
+                            });
+                        }}
+                    >
+                        <Form>
+                            <FormGroup>
+                                <Label
+                                    className="form-label"
+                                    for={searchTextId}
+                                >
+                                    {spanish ? "Buscar" : "Search"}
+                                </Label>
+                                <Field
+                                    as={Input}
+                                    placeholder={
+                                        spanish ? "Buscar..." : "Search..."
+                                    }
+                                    name="searchText"
+                                    type="text"
+                                    id={searchTextId}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label className="form-label" for={minLevelId}>
+                                    {spanish ? "Nivel Mínimo" : "Minimum Level"}
+                                </Label>
+                                <Field
+                                    as={Input}
+                                    name="minLevel"
+                                    id={minLevelId}
+                                    type="number"
+                                    min={0}
+                                    max={12}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label className="form-label" for={maxLevelId}>
+                                    {spanish ? "Nivel Máximo" : "Maximum Level"}
+                                </Label>
+                                <Field
+                                    as={Input}
+                                    name="maxLevel"
+                                    id={maxLevelId}
+                                    type="number"
+                                    min={0}
+                                    max={12}
+                                />
+                            </FormGroup>
+                            <div className="d-grid col-12 mt-4">
+                                <Button
+                                    type="submit"
+                                    className="mb-2"
+                                    color={SUBMIT_BUTTON_COLOR}
+                                >
+                                    Submit
+                                </Button>
+                                <Button
+                                    type="reset"
+                                    size="sm"
+                                    color={RESET_BUTTON_COLOR}
+                                >
+                                    Reset
+                                </Button>
+                            </div>
+                        </Form>
+                    </Formik>
                 </CardBody>
             </MobileToggleCard>
         );
@@ -109,5 +251,57 @@ export const StudentsIndex: FunctionComponent = () => {
         } else {
             return <LoadingSpinner />;
         }
+    }
+
+    function renderLoadMore() {
+        return (
+            <div className="mt-3">
+                <p className="text-muted">
+                    {spanish ? "Mostrando" : "Displaying"} {count}{" "}
+                    {spanish ? "de" : "of"} {total}{" "}
+                    {spanish ? "estudiantes" : "students"}.
+                </p>
+                {token && count < total && students && (
+                    <div className="bottom-buttons mt-0">
+                        <Button
+                            color="secondary"
+                            onClick={() => {}}
+                            onMouseDown={e => {
+                                setSkip(s => s + 10);
+                                getStudents({
+                                    skip: skip + 10,
+                                    take,
+                                    searchText,
+                                });
+                                e.preventDefault();
+                            }}
+                        >
+                            {spanish ? "Cargar Más" : "Load More"}
+                        </Button>
+                        <Button
+                            color="secondary"
+                            onClick={() => {
+                                setSkip(s => s + 10);
+                                setTake(total);
+                                getStudents({
+                                    skip: skip + 10,
+                                    take: total,
+                                    searchText,
+                                });
+                            }}
+                        >
+                            {spanish ? "Cargar Todos" : "Load All"}
+                        </Button>
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    function resetData() {
+        setStudents(undefined);
+        setSkip(0);
+        setCount(0);
+        setTotal(0);
     }
 };

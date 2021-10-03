@@ -1,17 +1,30 @@
 import axios from "axios";
 import {
+    GetStudentsRequest,
     StudentRecord,
     StudentRequest,
 } from "../../../shared/resource_models/student";
-import { getAuthHeader } from "jack-hermanson-ts-utils";
+import { AggregateResourceModel, getAuthHeader } from "jack-hermanson-ts-utils";
 
 export abstract class StudentClient {
     static baseUrl = "/api/students";
 
-    static async getStudents(token: string) {
-        const students = await axios.get<StudentRecord[]>(
+    static async getStudents(
+        getStudentsRequest: GetStudentsRequest,
+        token: string
+    ) {
+        const { skip, take, searchText } = getStudentsRequest;
+        const headers = {
+            ...getAuthHeader(token),
+            params: {
+                skip,
+                take,
+                searchText,
+            },
+        };
+        const students = await axios.get<AggregateResourceModel<StudentRecord>>(
             this.baseUrl,
-            getAuthHeader(token)
+            headers
         );
         return students.data;
     }

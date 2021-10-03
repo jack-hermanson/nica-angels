@@ -1303,10 +1303,10 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
-jack-hermanson-ts-utils@^1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.13.0.tgz#d551a3d4e5bb60a30f4e75656dadcf995981241a"
-  integrity sha512-kLUmvQKBezADVBvHNEhha9aUyPJB3NDE4/KTKcJjtcmwmM9PEK6CZILMDPm5QRMMGSNMsqjLjX/ErHv7K90lzQ==
+jack-hermanson-ts-utils@^1.15.2:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.15.2.tgz#bee2a96b55d946de7c210e578a10c9bf204e8aad"
+  integrity sha512-neUCkCZemsUMLkzfY0+k61v13/yQOybPSX8l3V45PdJHyoUGlpSkMc0hGYhzn5l9hfw9GKIfUsbo8syX8dpTwA==
   dependencies:
     "@types/express" "^4.17.12"
     express "^4.17.1"

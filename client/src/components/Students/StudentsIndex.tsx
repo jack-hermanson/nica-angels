@@ -216,7 +216,7 @@ export const StudentsIndex: FunctionComponent = () => {
                                     max={12}
                                 />
                             </FormGroup>
-                            <div className="d-grid col-12 mt-3">
+                            <div className="d-grid col-12 mt-4">
                                 <Button
                                     type="submit"
                                     className="mb-2"

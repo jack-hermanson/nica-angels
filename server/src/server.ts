@@ -38,9 +38,13 @@ app.use("/api/students", routes.students);
 app.use("/api/enrollments", routes.enrollments);
 
 // production redirects
-app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../../client/build", "index.html"));
-});
+if (process.env.NODE_ENV === "production") {
+    app.get("*", (req, res) => {
+        res.sendFile(
+            path.resolve(__dirname, "../../client/build", "index.html")
+        );
+    });
+}
 
 // database
 const databaseDialect = process.env.DATABASE_DIALECT as DbDialect;

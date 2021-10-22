@@ -30,5 +30,8 @@
         "kill-port": "^1.6.1",
         "nodemon": "^2.0.12",
         "sqlite3": "^5.0.2"
+    },
+    "engines": {
+        "node": "14.x"
     }
 }

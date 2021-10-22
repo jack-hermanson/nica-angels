@@ -13,13 +13,13 @@ export abstract class StudentClient {
         getStudentsRequest: GetStudentsRequest,
         token: string
     ) {
-        const { skip, take, searchText } = getStudentsRequest;
+        console.log(getStudentsRequest);
         const headers = {
             ...getAuthHeader(token),
             params: {
-                skip,
-                take,
-                searchText,
+                skip: getStudentsRequest.skip,
+                take: getStudentsRequest.take,
+                searchText: getStudentsRequest.searchText,
             },
         };
         const students = await axios.get<AggregateResourceModel<StudentRecord>>(

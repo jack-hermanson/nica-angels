@@ -5,7 +5,7 @@
         "build": "(cd shared && yarn build) && (cd client && yarn build)",
         "heroku-postbuild": "yarn build",
         "install": "(cd shared && yarn install) && (cd client && yarn install) && (cd server && yarn install)",
-        "start": "concurrently \"kill-port 5000 && cd server && PORT=5000 yarn start\" \"cd client && PORT=3000 && sleep 2 && yarn start\"",
+        "start": "(cd shared && yarn build) && (concurrently \"kill-port 5000 && cd server && PORT=5000 yarn start\" \"cd client && PORT=3000 && sleep 2 && yarn start\")",
         "start:prod": "cd server && yarn start:prod"
     },
     "author": "Jack Hermanson <jack.hermanson@live.com>",
@@ -16,7 +16,6 @@
         "prettier": "^2.3.2"
     },
     "dependencies": {
-        "concurrently": "^6.2.1",
-        "typescript": "^4.4.4"
+        "concurrently": "^6.2.1"
     }
 }

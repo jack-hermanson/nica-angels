@@ -1,13 +1,6 @@
-import {
-    AccountRecord,
-    LoginRequest,
-    RegisterRequest,
-} from "../../../shared/resource_models/account";
+import { AccountRecord, LoginRequest, RegisterRequest } from "../../../shared";
 import axios from "axios";
-import {
-    LogOutRequest,
-    TokenRecord,
-} from "../../../shared/resource_models/token";
+import { LogOutRequest, TokenRecord } from "../../../shared";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 
 export abstract class AccountClient {

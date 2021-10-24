@@ -24,7 +24,7 @@ import {
 } from "react-icons/fa";
 import { NavbarLink } from "../Utils/NavbarLink";
 import { useStoreState } from "../../store/_store";
-import { Clearance } from "../../../../shared/enums";
+import { Clearance } from "../../../../shared";
 
 export const Navigation: FC = () => {
     const [isOpen, setIsOpen] = useState(false);

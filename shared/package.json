@@ -4,5 +4,11 @@
     "license": "MIT",
     "dependencies": {
         "jack-hermanson-ts-utils": "^1.15.2"
+    },
+    "main": "lib/index.js",
+    "types": "lib/index",
+    "files": ["lib"],
+    "scripts": {
+        "build": "tsc"
     }
 }

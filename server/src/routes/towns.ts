@@ -1,8 +1,8 @@
 import express, { Response } from "express";
 import { Request } from "../utils/Request";
-import { TownRecord, TownRequest } from "../../../shared/resource_models/town";
+import { TownRecord, TownRequest } from "../../../shared";
 import { auth } from "../middleware/auth";
-import { Clearance } from "../../../shared/enums";
+import { Clearance } from "../../../shared";
 import { HTTP, validateRequest } from "jack-hermanson-ts-utils";
 import { townSchema } from "../models/Town";
 import { TownService } from "../services/TownService";

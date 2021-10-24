@@ -1,6 +1,6 @@
 import { Account } from "../models/Account";
 import { Response } from "express";
-import { Clearance } from "../../../shared/enums";
+import { Clearance } from "../../../shared";
 import { HTTP } from "jack-hermanson-ts-utils";
 
 interface AuthorizedParameters {

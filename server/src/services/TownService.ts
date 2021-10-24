@@ -1,4 +1,4 @@
-import { TownRequest } from "../../../shared/resource_models/town";
+import { TownRequest } from "../../../shared";
 import { Response } from "express";
 import { Town } from "../models/Town";
 import { getConnection, Repository } from "typeorm";

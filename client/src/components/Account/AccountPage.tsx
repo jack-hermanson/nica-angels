@@ -8,7 +8,7 @@ import {
 } from "jack-hermanson-component-lib";
 import { Col, Row } from "reactstrap";
 import * as timeago from "timeago.js";
-import { tokenExpiration } from "../../../../shared/constants";
+import { tokenExpiration } from "../../../../shared";
 import { UserDetails } from "../User/UserDetails";
 import { ClickDropdownAction } from "jack-hermanson-ts-utils";
 import { LogOutModal } from "../User/LogOutModal";

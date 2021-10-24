@@ -2,18 +2,16 @@ import { Account } from "../models/Account";
 import { Response } from "express";
 import { getConnection, Repository } from "typeorm";
 import {
+    Clearance,
     LoginRequest,
+    LogOutRequest,
     RegisterRequest,
-} from "../../../shared/resource_models/account";
+    TokenLoginRequest,
+} from "../../../shared";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Token } from "../models/Token";
 import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
-import {
-    LogOutRequest,
-    TokenLoginRequest,
-} from "../../../shared/resource_models/token";
-import { Clearance } from "../../../shared/enums";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;

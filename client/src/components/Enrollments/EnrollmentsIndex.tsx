@@ -8,14 +8,14 @@ import {
     PageHeader,
 } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "../../../../shared/enums";
-import { EnrollmentRecord } from "../../../../shared/resource_models/enrollment";
+import { Clearance } from "../../../../shared";
+import { EnrollmentRecord } from "../../../../shared";
 import { EnrollmentClient } from "../../clients/EnrollmentClient";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaPlus } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
-import { SchoolRecord } from "../../../../shared/resource_models/school";
-import { StudentRecord } from "../../../../shared/resource_models/student";
+import { SchoolRecord } from "../../../../shared";
+import { StudentRecord } from "../../../../shared";
 import { SchoolClient } from "../../clients/SchoolClient";
 import { StudentClient } from "../../clients/StudentClient";
 import moment from "moment";

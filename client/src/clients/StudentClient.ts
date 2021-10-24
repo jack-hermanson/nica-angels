@@ -3,7 +3,7 @@ import {
     GetStudentsRequest,
     StudentRecord,
     StudentRequest,
-} from "../../../shared/resource_models/student";
+} from "../../../shared";
 import { AggregateResourceModel, getAuthHeader } from "jack-hermanson-ts-utils";
 
 export abstract class StudentClient {

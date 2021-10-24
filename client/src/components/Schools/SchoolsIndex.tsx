@@ -2,12 +2,12 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { Button, Col, Row } from "reactstrap";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "../../../../shared/enums";
+import { Clearance } from "../../../../shared";
 import { useStoreState } from "../../store/_store";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaPlus } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
-import { SchoolRecord } from "../../../../shared/resource_models/school";
+import { SchoolRecord } from "../../../../shared";
 import { SchoolClient } from "../../clients/SchoolClient";
 import { School } from "./School";
 

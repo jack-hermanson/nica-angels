@@ -1,7 +1,4 @@
-import {
-    SchoolRecord,
-    SchoolRequest,
-} from "../../../shared/resource_models/school";
+import { SchoolRecord, SchoolRequest } from "../../../shared";
 import axios from "axios";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 

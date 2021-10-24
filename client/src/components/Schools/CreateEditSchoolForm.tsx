@@ -1,15 +1,12 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
-import {
-    SchoolRecord,
-    SchoolRequest,
-} from "../../../../shared/resource_models/school";
+import { SchoolRecord, SchoolRequest } from "../../../../shared";
 import { Field, Form, Formik, FormikErrors, FormikProps } from "formik";
 import { useStoreState } from "../../store/_store";
 import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
-import { TownRecord } from "../../../../shared/resource_models/town";
+import { TownRecord } from "../../../../shared";
 import { TownClient } from "../../clients/TownClient";
 
 interface Props {

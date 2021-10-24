@@ -1,12 +1,9 @@
 import { Response, Router } from "express";
 import { auth } from "../middleware/auth";
 import { Request } from "../utils/Request";
-import {
-    EnrollmentRecord,
-    EnrollmentRequest,
-} from "../../../shared/resource_models/enrollment";
+import { EnrollmentRecord, EnrollmentRequest } from "../../../shared";
 import { authorized } from "../utils/functions";
-import { Clearance } from "../../../shared/enums";
+import { Clearance } from "../../../shared";
 import { EnrollmentService } from "../services/EnrollmentService";
 import { HTTP, validateRequest } from "jack-hermanson-ts-utils";
 import { enrollmentSchema } from "../models/Enrollment";

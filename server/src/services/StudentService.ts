@@ -6,10 +6,7 @@ import {
     AggregateResourceModel,
     HTTP,
 } from "jack-hermanson-ts-utils";
-import {
-    GetStudentsRequest,
-    StudentRequest,
-} from "../../../shared/resource_models/student";
+import { GetStudentsRequest, StudentRequest } from "../../../shared";
 
 export class StudentService {
     static getRepos(): {

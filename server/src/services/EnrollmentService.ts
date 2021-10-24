@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { getConnection, Repository } from "typeorm";
 import { Enrollment } from "../models/Enrollment";
-import { EnrollmentRequest } from "../../../shared/resource_models/enrollment";
+import { EnrollmentRequest } from "../../../shared";
 import { StudentService } from "./StudentService";
 import { SchoolService } from "./SchoolService";
 import { School } from "../models/School";

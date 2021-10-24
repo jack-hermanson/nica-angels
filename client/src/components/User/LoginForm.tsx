@@ -1,5 +1,5 @@
 import { Fragment, FunctionComponent } from "react";
-import { LoginRequest } from "../../../../shared/resource_models/account";
+import { LoginRequest } from "../../../../shared";
 import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";

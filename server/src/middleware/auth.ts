@@ -5,8 +5,8 @@ import * as jwt from "jsonwebtoken";
 import { getConnection } from "typeorm";
 import { Token } from "../models/Token";
 import { Account } from "../models/Account";
-import { AuthError } from "../../../shared/constants";
-import { tokenHasExpired } from "../../../shared/resource_models/token";
+import { AuthError } from "../../../shared";
+import { tokenHasExpired } from "../../../shared";
 
 export const auth = async (
     req: Request<any>,

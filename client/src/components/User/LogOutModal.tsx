@@ -1,9 +1,6 @@
 import { ConfirmationModal } from "jack-hermanson-component-lib";
 import { Dispatch, FunctionComponent, SetStateAction, useState } from "react";
-import {
-    LogOutRequest,
-    TokenRecord,
-} from "../../../../shared/resource_models/token";
+import { LogOutRequest, TokenRecord } from "../../../../shared";
 import { useStoreActions } from "../../store/_store";
 import { FormGroup, Input, Label } from "reactstrap";
 

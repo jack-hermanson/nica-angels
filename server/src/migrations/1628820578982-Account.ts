@@ -5,7 +5,7 @@ import {
     idColumn,
     updatedColumn,
 } from "jack-hermanson-ts-utils";
-import { Clearance } from "../../../shared/enums";
+import { Clearance } from "../../../shared";
 
 export class Account1628820578982 implements MigrationInterface {
     account = new Table({

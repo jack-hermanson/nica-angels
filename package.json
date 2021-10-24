@@ -2,7 +2,7 @@
     "name": "nica-angels",
     "version": "1.0.0",
     "scripts": {
-        "build": "cd client && yarn build",
+        "build": "(cd shared && yarn build) && (cd client && yarn build)",
         "heroku-postbuild": "yarn build",
         "install": "(cd client && yarn install) && (cd server && yarn install)",
         "start": "concurrently \"kill-port 5000 && cd server && PORT=5000 yarn start\" \"cd client && PORT=3000 && sleep 2 && yarn start\"",

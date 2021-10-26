@@ -11313,6 +11313,10 @@ body {
   margin-top: auto;
 }
 
+img.logo {
+  height: 24px;
+}
+
 a {
   text-decoration: none;
   color: #abb6c2;

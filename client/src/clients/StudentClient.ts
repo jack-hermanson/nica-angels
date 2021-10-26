@@ -14,24 +14,19 @@ export abstract class StudentClient {
         token: string
     ) {
         console.log(getStudentsRequest);
-        // const headers = {
-        //     ...getAuthHeader(token),
-        //     params: {
-        //         skip: getStudentsRequest.skip,
-        //         take: getStudentsRequest.take,
-        //         searchText: getStudentsRequest.searchText,
-        //     },
-        // };
-        // const students = await axios.get<AggregateResourceModel<StudentRecord>>(
-        //     this.baseUrl,
-        //     headers
-        // );
-        // return students.data;
-        return {
-            items: [],
-            total: 0,
-            count: 0,
+        const headers = {
+            ...getAuthHeader(token),
+            params: {
+                skip: getStudentsRequest.skip,
+                take: getStudentsRequest.take,
+                searchText: getStudentsRequest.searchText,
+            },
         };
+        const students = await axios.get<AggregateResourceModel<StudentRecord>>(
+            this.baseUrl,
+            headers
+        );
+        return students.data;
     }
 
     static async getStudent(id: number, token: string) {

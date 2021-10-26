@@ -1,13 +1,13 @@
 import { Fragment, FunctionComponent } from "react";
-import { StudentRecord } from "../../../../shared/resource_models/student";
+import { StudentRecord } from "../../../../shared";
 import { Card, CardBody, CardFooter, Col, Row } from "reactstrap";
 import { ActionCardHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
-import { Clearance } from "../../../../shared/enums";
+import { Clearance } from "../../../../shared";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { Sex } from "jack-hermanson-ts-utils";
-import { SchoolRecord } from "../../../../shared/resource_models/school";
+import { SchoolRecord } from "../../../../shared";
 
 interface Props {
     student: StudentRecord;

@@ -1,6 +1,6 @@
 import { getConnection, Repository } from "typeorm";
 import { School } from "../models/School";
-import { SchoolRequest } from "../../../shared/resource_models/school";
+import { SchoolRequest } from "../../../shared";
 import { Response } from "express";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { TownService } from "./TownService";

@@ -1,8 +1,5 @@
 import { Fragment, FunctionComponent } from "react";
-import {
-    StudentRecord,
-    StudentRequest,
-} from "../../../../shared/resource_models/student";
+import { StudentRecord, StudentRequest } from "../../../../shared";
 import { useStoreState } from "../../store/_store";
 import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import * as yup from "yup";

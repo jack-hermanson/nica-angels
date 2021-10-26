@@ -1,13 +1,7 @@
 import { StoreModel } from "./_store";
 import { action, Action, thunk, Thunk } from "easy-peasy";
-import {
-    AccountRecord,
-    LoginRequest,
-} from "../../../shared/resource_models/account";
-import {
-    LogOutRequest,
-    TokenRecord,
-} from "../../../shared/resource_models/token";
+import { AccountRecord, LoginRequest } from "../../../shared";
+import { LogOutRequest, TokenRecord } from "../../../shared";
 import { AccountClient } from "../clients/AccountClient";
 import { LocalStorage } from "../utils/LocalStorage";
 import { errorAlert, successAlert } from "jack-hermanson-ts-utils";

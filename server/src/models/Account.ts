@@ -6,7 +6,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
-import { Clearance } from "../../../shared/enums";
+import { Clearance } from "../../../shared";
 import Joi from "joi";
 
 @Entity({ name: "account" })

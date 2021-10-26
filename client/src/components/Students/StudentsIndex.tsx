@@ -21,13 +21,10 @@ import {
     PageHeader,
 } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "../../../../shared/enums";
+import { Clearance } from "../../../../shared";
 import { useStoreState } from "../../store/_store";
 import { StudentClient } from "../../clients/StudentClient";
-import {
-    GetStudentsRequest,
-    StudentRecord,
-} from "../../../../shared/resource_models/student";
+import { GetStudentsRequest, StudentRecord } from "../../../../shared";
 import { Student } from "./Student";
 import {
     ClickDropdownAction,

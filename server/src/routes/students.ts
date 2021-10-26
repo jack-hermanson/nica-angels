@@ -6,9 +6,9 @@ import {
     GetStudentsRequest,
     StudentRecord,
     StudentRequest,
-} from "../../../shared/resource_models/student";
+} from "../../../shared";
 import { authorized } from "../utils/functions";
-import { Clearance } from "../../../shared/enums";
+import { Clearance } from "../../../shared";
 import {
     AggregateRequest,
     AggregateResourceModel,

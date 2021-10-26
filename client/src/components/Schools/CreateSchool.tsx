@@ -3,10 +3,10 @@ import { PageHeader } from "jack-hermanson-component-lib";
 import { useStoreActions, useStoreState } from "../../store/_store";
 import { Button, Col, Row } from "reactstrap";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "../../../../shared/enums";
+import { Clearance } from "../../../../shared";
 import { useHistory } from "react-router-dom";
 import { CreateEditSchoolForm } from "./CreateEditSchoolForm";
-import { SchoolRequest } from "../../../../shared/resource_models/school";
+import { SchoolRequest } from "../../../../shared";
 import { SchoolClient } from "../../clients/SchoolClient";
 import { conflictError, HTTP, scrollToTop } from "jack-hermanson-ts-utils";
 

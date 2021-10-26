@@ -1,4 +1,4 @@
-import { TokenRecord } from "../../../shared/resource_models/token";
+import { TokenRecord } from "../../../shared";
 
 export abstract class LocalStorage {
     private static tokenKey = "token";

@@ -1,12 +1,12 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "../../../../shared/enums";
+import { Clearance } from "../../../../shared";
 import { Button, Col, Row } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { TownClient } from "../../clients/TownClient";
-import { TownRecord } from "../../../../shared/resource_models/town";
+import { TownRecord } from "../../../../shared";
 import { Town } from "./Town";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaPlus } from "react-icons/fa";

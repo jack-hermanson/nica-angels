@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { AccountRecord } from "../../../../shared/resource_models/account";
-import { Clearance } from "../../../../shared/enums";
+import { AccountRecord } from "../../../../shared";
+import { Clearance } from "../../../../shared";
 
 interface Props {
     user: AccountRecord;

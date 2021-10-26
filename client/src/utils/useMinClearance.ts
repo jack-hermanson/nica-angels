@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Clearance } from "../../../shared/enums";
+import { Clearance } from "../../../shared";
 import { useStoreState } from "../store/_store";
 import { LocalStorage } from "./LocalStorage";
 

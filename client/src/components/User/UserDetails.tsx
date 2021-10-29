@@ -30,18 +30,18 @@ export const UserDetails: FunctionComponent<Props> = ({ user }: Props) => {
         <div>
             <dl>
                 <dt>Name</dt>
-                <dl>
+                <dd>
                     {user.firstName} {user.lastName}
-                </dl>
+                </dd>
 
                 <dt>Email</dt>
-                <dl>{user.email}</dl>
+                <dd>{user.email}</dd>
 
                 <dt>Created</dt>
-                <dl>{new Date(user.created).toLocaleDateString()}</dl>
+                <dd>{new Date(user.created).toLocaleDateString()}</dd>
 
                 <dt>Clearance</dt>
-                <dl>{clearance}</dl>
+                <dd>{clearance}</dd>
             </dl>
         </div>
     );

@@ -71,7 +71,7 @@ export const SchoolsIndex: FunctionComponent = () => {
                         <Row>
                             {schools.map(school => (
                                 <School
-                                    className="col-12 col-lg-4"
+                                    className="col-12 col-lg-4 mb-3 no-mb-last"
                                     school={school}
                                     key={school.id}
                                 />

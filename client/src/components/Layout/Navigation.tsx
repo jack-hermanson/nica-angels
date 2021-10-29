@@ -25,6 +25,7 @@ import {
 import { NavbarLink } from "../Utils/NavbarLink";
 import { useStoreState } from "../../store/_store";
 import { Clearance } from "../../../../shared";
+import logo from "../../images/nica-logo.gif";
 
 export const Navigation: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +45,7 @@ export const Navigation: FC = () => {
                         setIsOpen(false);
                     }}
                 >
-                    <FaHandsHelping className="me-2 my-auto" />
+                    <img src={logo} alt="logo" className="me-2 my-auto logo" />
                     <div className="my-auto">{APP_NAME}</div>
                 </NavbarBrand>
                 <NavbarToggler onClick={toggle} />

@@ -125,7 +125,7 @@ export const School: FunctionComponent<Props> = ({
                             {new Date(school.created).toLocaleDateString()}
                         </div>
                         {school.created !== school.updated && (
-                            <div className="ms-auto">
+                            <div className="ms-auto text-end">
                                 {spanish ? "Corregida" : "Last Updated"}{" "}
                                 {new Date(school.updated).toLocaleDateString()}
                             </div>

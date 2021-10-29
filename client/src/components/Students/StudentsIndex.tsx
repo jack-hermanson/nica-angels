@@ -45,6 +45,8 @@ export const StudentsIndex: FunctionComponent = () => {
     );
 
     const [searchText, setSearchText] = useState("");
+    const [minLevel, setMinLevel] = useState("0");
+    const [maxLevel, setMaxLevel] = useState("12");
 
     // pagination
     const [take, setTake] = useState(10);
@@ -82,6 +84,8 @@ export const StudentsIndex: FunctionComponent = () => {
             searchText: "",
             skip: 0,
             take: 10,
+            minLevel: 0,
+            maxLevel: 12,
         });
     }, [getStudents]);
 
@@ -153,19 +157,27 @@ export const StudentsIndex: FunctionComponent = () => {
                         onSubmit={data => {
                             resetData();
                             setSearchText(data.searchText);
+                            setMinLevel(data.minLevel);
+                            setMaxLevel(data.maxLevel);
                             getStudents({
                                 searchText: data.searchText,
                                 skip,
                                 take,
+                                minLevel: parseInt(data.minLevel),
+                                maxLevel: parseInt(data.maxLevel),
                             });
                         }}
                         onReset={() => {
                             resetData();
                             setSearchText("");
+                            setMinLevel("0");
+                            setMaxLevel("12");
                             getStudents({
                                 searchText: "",
                                 skip,
                                 take,
+                                minLevel: 0,
+                                maxLevel: 12,
                             });
                         }}
                     >
@@ -269,6 +281,8 @@ export const StudentsIndex: FunctionComponent = () => {
                                     skip: skip + 10,
                                     take,
                                     searchText,
+                                    minLevel: parseInt(minLevel),
+                                    maxLevel: parseInt(maxLevel),
                                 });
                                 e.preventDefault();
                             }}
@@ -284,6 +298,8 @@ export const StudentsIndex: FunctionComponent = () => {
                                     skip: skip + 10,
                                     take: total,
                                     searchText,
+                                    minLevel: parseInt(minLevel),
+                                    maxLevel: parseInt(maxLevel),
                                 });
                             }}
                         >
@@ -297,6 +313,8 @@ export const StudentsIndex: FunctionComponent = () => {
 
     function resetData() {
         setStudents(undefined);
+        setMinLevel("0");
+        setMaxLevel("12");
         setSkip(0);
         setCount(0);
         setTotal(0);

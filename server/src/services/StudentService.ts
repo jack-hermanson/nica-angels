@@ -64,7 +64,7 @@ export class StudentService {
             .orderBy(orderBy)
             .skip(skip)
             .take(take);
-        console.log(studentsQuery.getSql());
+        // console.log(studentsQuery.getSql());
         const total = await studentsQuery.getCount();
         const students = await studentsQuery.getMany();
         console.log("ok");

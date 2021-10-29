@@ -20,4 +20,6 @@ export interface StudentRecord extends StudentRequest, DateResourceModel {}
 
 export interface GetStudentsRequest extends AggregateRequest {
     searchText: string;
+    minLevel: number;
+    maxLevel: number;
 }

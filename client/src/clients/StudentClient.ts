@@ -20,6 +20,8 @@ export abstract class StudentClient {
                 skip: getStudentsRequest.skip,
                 take: getStudentsRequest.take,
                 searchText: getStudentsRequest.searchText,
+                minLevel: getStudentsRequest.minLevel,
+                maxLevel: getStudentsRequest.maxLevel,
             },
         };
         const students = await axios.get<AggregateResourceModel<StudentRecord>>(

@@ -155,6 +155,7 @@ export const StudentsIndex: FunctionComponent = () => {
                             maxLevel: "12",
                         }}
                         onSubmit={data => {
+                            console.log({ take });
                             resetData();
                             setSearchText(data.searchText);
                             setMinLevel(data.minLevel);

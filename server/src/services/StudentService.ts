@@ -22,6 +22,8 @@ export class StudentService {
         skip,
         take,
         searchText,
+        minLevel,
+        maxLevel,
         orderBy = "student.firstName",
     }: GetStudentsRequest): Promise<AggregateResourceModel<Student>> {
         console.log();
@@ -32,39 +34,40 @@ export class StudentService {
         const studentsQuery = studentRepo
             .createQueryBuilder("student")
             .where(
-                pg
-                    ? `student.firstName || ' ' || student.lastName ILIKE '%${searchText.toLowerCase()}%'`
-                    : `LOWER(student.firstName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
+                `student.level >= ${minLevel} AND student.level <= ${maxLevel}`
             )
-            .orWhere(
-                pg
-                    ? `student.firstName || ' ' || student.middleName ILIKE '%${searchText.toLowerCase()}%'`
-                    : `LOWER(student.firstName) || ' ' || LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`
+            .andWhere(
+                "( " +
+                    (pg
+                        ? `student.firstName || ' ' || student.lastName ILIKE '%${searchText.toLowerCase()}%'`
+                        : `LOWER(student.firstName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`) +
+                    " OR " +
+                    (pg
+                        ? `student.firstName || ' ' || student.middleName ILIKE '%${searchText.toLowerCase()}%'`
+                        : `LOWER(student.firstName) || ' ' || LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`) +
+                    " OR " +
+                    (pg
+                        ? `student.firstName || ' ' || student.middleName || ' ' || student.lastName ILIKE '%${searchText.toLowerCase()}%'`
+                        : `LOWER(student.lastName) || ' ' || LOWER(student.middleName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`) +
+                    " OR " +
+                    (pg
+                        ? `student.firstName ILIKE '%${searchText.toLowerCase()}%'`
+                        : `LOWER(student.firstName) LIKE '%${searchText.toLowerCase()}%'`) +
+                    " OR " +
+                    (pg
+                        ? `student.middleName ILIKE '%${searchText.toLowerCase()}%'`
+                        : `LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`) +
+                    " OR " +
+                    (pg
+                        ? `student.lastName ILIKE '%${searchText.toLowerCase()}%'`
+                        : `LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`) +
+                    " )"
             )
-            .orWhere(
-                pg
-                    ? `student.firstName || ' ' || student.middleName || ' ' || student.lastName ILIKE '%${searchText.toLowerCase()}%'`
-                    : `LOWER(student.lastName) || ' ' || LOWER(student.middleName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
-            )
-            .orWhere(
-                pg
-                    ? `student.firstName ILIKE '%${searchText.toLowerCase()}%'`
-                    : `LOWER(student.firstName) LIKE '%${searchText.toLowerCase()}%'`
-            )
-            .orWhere(
-                pg
-                    ? `student.middleName ILIKE '%${searchText.toLowerCase()}%'`
-                    : `LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`
-            )
-            .orWhere(
-                pg
-                    ? `student.lastName ILIKE '%${searchText.toLowerCase()}%'`
-                    : `LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
-            )
+
             .orderBy(orderBy)
             .skip(skip)
             .take(take);
-        // console.log(studentsQuery.getSql());
+        console.log(studentsQuery.getSql());
         const total = await studentsQuery.getCount();
         const students = await studentsQuery.getMany();
         console.log("ok");

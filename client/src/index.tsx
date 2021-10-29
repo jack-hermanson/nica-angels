@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { App } from "./App";
 import { StoreProvider } from "easy-peasy";
 import { store } from "./store/_store";
+import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
     <React.Fragment>
@@ -12,3 +13,4 @@ ReactDOM.render(
     </React.Fragment>,
     document.getElementById("root")
 );
+serviceWorker.register();

@@ -162,8 +162,8 @@ export const StudentsIndex: FunctionComponent = () => {
                             setMaxLevel(data.maxLevel);
                             getStudents({
                                 searchText: data.searchText,
-                                skip,
-                                take,
+                                skip: 0,
+                                take: 10,
                                 minLevel: parseInt(data.minLevel),
                                 maxLevel: parseInt(data.maxLevel),
                             });

@@ -5,6 +5,7 @@ import {
     AggregateRequest,
     AggregateResourceModel,
     HTTP,
+    DbDialect,
 } from "jack-hermanson-ts-utils";
 import { GetStudentsRequest, StudentRequest } from "../../../shared";
 
@@ -21,34 +22,52 @@ export class StudentService {
         skip,
         take,
         searchText,
-        orderBy = "firstName",
+        orderBy = "student.firstName",
     }: GetStudentsRequest): Promise<AggregateResourceModel<Student>> {
+        console.log();
+        console.log("getAll()");
         const { studentRepo } = this.getRepos();
+        const pg: boolean = process.env.databaseDialect === "postgres";
+
         const studentsQuery = studentRepo
             .createQueryBuilder("student")
             .where(
-                `LOWER(student.firstName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
+                pg
+                    ? `student.firstName || ' ' || student.lastName ILIKE '%${searchText.toLowerCase()}%'`
+                    : `LOWER(student.firstName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
             )
             .orWhere(
-                `LOWER(student.firstName) || ' ' || LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`
+                pg
+                    ? `student.firstName || ' ' || student.middleName ILIKE '%${searchText.toLowerCase()}%'`
+                    : `LOWER(student.firstName) || ' ' || LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`
             )
             .orWhere(
-                `LOWER(student.firstName) || ' ' || LOWER(student.middleName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
+                pg
+                    ? `student.firstName || ' ' || student.middleName || ' ' || student.lastName ILIKE '%${searchText.toLowerCase()}%'`
+                    : `LOWER(student.lastName) || ' ' || LOWER(student.middleName) || ' ' || LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
             )
             .orWhere(
-                `LOWER(student.firstName) LIKE '%${searchText.toLowerCase()}%'`
+                pg
+                    ? `student.firstName ILIKE '%${searchText.toLowerCase()}%'`
+                    : `LOWER(student.firstName) LIKE '%${searchText.toLowerCase()}%'`
             )
             .orWhere(
-                `LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`
+                pg
+                    ? `student.middleName ILIKE '%${searchText.toLowerCase()}%'`
+                    : `LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`
             )
             .orWhere(
-                `LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
+                pg
+                    ? `student.lastName ILIKE '%${searchText.toLowerCase()}%'`
+                    : `LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`
             )
             .orderBy(orderBy)
             .skip(skip)
             .take(take);
+        console.log(studentsQuery.getSql());
         const total = await studentsQuery.getCount();
         const students = await studentsQuery.getMany();
+        console.log("ok");
         return {
             items: students,
             skip,

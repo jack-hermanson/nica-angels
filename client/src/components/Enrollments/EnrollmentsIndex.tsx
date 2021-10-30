@@ -91,34 +91,40 @@ export const EnrollmentsIndex: FunctionComponent = () => {
             <Row>
                 <Col>
                     {students && enrollments && schools ? (
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        {spanish ? "Estudiante" : "Student"}
-                                    </th>
-                                    <th>{spanish ? "Escuela" : "School"}</th>
-                                    <th>
-                                        {spanish
-                                            ? "Fecha de Comienzo"
-                                            : "Start Date"}
-                                    </th>
-                                    <th>
-                                        {spanish
-                                            ? "Fecha de Cierre"
-                                            : "End Date"}
-                                    </th>
-                                    <th>{spanish ? "Acciones" : "Actions"}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {enrollments.map(enrollment => (
-                                    <tr key={enrollment.id}>
-                                        {renderEnrollmentRow(enrollment)}
+                        <div className="table-responsive-lg">
+                            <Table>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            {spanish ? "Estudiante" : "Student"}
+                                        </th>
+                                        <th>
+                                            {spanish ? "Escuela" : "School"}
+                                        </th>
+                                        <th>
+                                            {spanish
+                                                ? "Fecha de Comienzo"
+                                                : "Start Date"}
+                                        </th>
+                                        <th>
+                                            {spanish
+                                                ? "Fecha de Cierre"
+                                                : "End Date"}
+                                        </th>
+                                        <th>
+                                            {spanish ? "Acciones" : "Actions"}
+                                        </th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                                </thead>
+                                <tbody>
+                                    {enrollments.map(enrollment => (
+                                        <tr key={enrollment.id}>
+                                            {renderEnrollmentRow(enrollment)}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                        </div>
                     ) : (
                         <LoadingSpinner />
                     )}

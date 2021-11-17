@@ -8,6 +8,7 @@ import { Attendance1629089021978 } from "./1629089021978-Attendance";
 import { Sponsorship1629096251348 } from "./1629096251348-Sponsorship";
 import { Teacher1630213975611 } from "./1630213975611-Teacher";
 import { File1636951057302 } from "./1636951057302-File";
+import { FileName1637116829391 } from "./1637116829391-FileName";
 
 export const migrations = [
     Account1628820578982,
@@ -20,4 +21,5 @@ export const migrations = [
     Sponsorship1629096251348,
     Teacher1630213975611,
     File1636951057302,
+    FileName1637116829391,
 ];

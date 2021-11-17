@@ -21,6 +21,9 @@ export class File {
     @Column({ nullable: false })
     mimeType!: string;
 
+    @Column({ nullable: false })
+    name!: string;
+
     @CreateDateColumn()
     created!: Date;
 

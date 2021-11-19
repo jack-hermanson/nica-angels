@@ -4,6 +4,7 @@ import { ActionCardHeader } from "jack-hermanson-component-lib";
 import { FileRecord } from "../../../../shared";
 import { useStoreState } from "../../store/_store";
 import { FileClient } from "../../clients/FileClient";
+import { Link } from "react-router-dom";
 
 interface Props {
     id: number;
@@ -30,11 +31,13 @@ export const FilePreview: FunctionComponent<Props> = ({ id }: Props) => {
                 <Row>
                     <Col xs={4} lg={2} className="mb-3 mb-lg-0">
                         {file ? (
-                            <img
-                                className="img-thumbnail"
-                                src={file.data}
-                                alt={file.name}
-                            />
+                            <Link to={`/settings/files/${file.id}`}>
+                                <img
+                                    className="img-thumbnail"
+                                    src={file.data}
+                                    alt={file.name}
+                                />
+                            </Link>
                         ) : (
                             <div className="placeholder col-12 h-100" />
                         )}

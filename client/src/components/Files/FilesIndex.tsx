@@ -1,6 +1,6 @@
-import { FunctionComponent } from "react";
+import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Button, Col, Row } from "reactstrap";
-import { PageHeader } from "jack-hermanson-component-lib";
+import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { useStoreState } from "../../store/_store";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
@@ -8,13 +8,19 @@ import { FaUpload } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "../../../../shared";
+import { FileClient } from "../../clients/FileClient";
 
 export const FilesIndex: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
 
     const spanish = useStoreState(state => state.spanish);
+    const [fileIds, setFileIds] = useState<number[] | undefined>(undefined);
 
     const history = useHistory();
+
+    useEffect(() => {
+        FileClient.getIds().then(ids => setFileIds(ids));
+    }, [fileIds]);
 
     return (
         <div>
@@ -49,7 +55,17 @@ export const FilesIndex: FunctionComponent = () => {
     function renderList() {
         return (
             <Row>
-                <Col>adfs</Col>
+                <Col>
+                    {!fileIds ? (
+                        <LoadingSpinner />
+                    ) : (
+                        <Fragment>
+                            {fileIds.map(fileId => (
+                                <p key={fileId}>{fileId}</p>
+                            ))}
+                        </Fragment>
+                    )}
+                </Col>
             </Row>
         );
     }

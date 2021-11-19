@@ -21,4 +21,9 @@ export abstract class FileClient {
         );
         return response.data;
     }
+
+    static async getIds() {
+        const response = await axios.get<number[]>(`${this.baseUrl}/ids`);
+        return response.data;
+    }
 }

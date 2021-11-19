@@ -25,7 +25,7 @@ export const UploadForm: FunctionComponent<Props> = () => {
                         {
                             name: uploadedFile.name,
                             mimeType: uploadedFile.type,
-                            data: text,
+                            data: Buffer.from(text).toString("base64"),
                         },
                         token.data
                     );

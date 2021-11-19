@@ -28,7 +28,6 @@ router.post(
 
         if (!(await validateRequest(FileSchema, req, res))) {
             console.log("not valid request");
-            res.sendStatus(HTTP.SERVER_ERROR);
             return;
         }
 

@@ -28,6 +28,7 @@ import { CreateEnrollment } from "./components/Enrollments/CreateEnrollment";
 import { EditEnrollment } from "./components/Enrollments/EditEnrollment";
 import { Upload } from "./components/Files/Upload";
 import { FileDetails } from "./components/Files/FileDetails";
+import { FilesIndex } from "./components/Files/FilesIndex";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -119,8 +120,21 @@ export const App: React.FC = () => {
                         component={EditEnrollment}
                     />
 
-                    <Route exact path="/files/upload" component={Upload} />
-                    <Route exact path="/files/:id" component={FileDetails} />
+                    <Route
+                        exact
+                        path="/settings/files"
+                        component={FilesIndex}
+                    />
+                    <Route
+                        exact
+                        path="/settings/files/upload"
+                        component={Upload}
+                    />
+                    <Route
+                        exact
+                        path="/settings/files/:id"
+                        component={FileDetails}
+                    />
 
                     <Route exact path="/forbidden" component={Forbidden} />
                     <Route component={NotFound} />

@@ -5,16 +5,20 @@ import {
     PageHeader,
 } from "jack-hermanson-component-lib";
 import { Alert, Col, Row } from "reactstrap";
-import { FileRecord } from "../../../../shared";
+import { Clearance, FileRecord } from "../../../../shared";
 import { FileClient } from "../../clients/FileClient";
 import { RouteComponentProps } from "react-router-dom";
 import { useStoreState } from "../../store/_store";
+import { SettingsTabs } from "../Settings/SettingsTabs";
+import { useMinClearance } from "../../utils/useMinClearance";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
 export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
     const [file, setFile] = useState<FileRecord | undefined>(undefined);
     const token = useStoreState(state => state.token);
+
+    useMinClearance(Clearance.ADMIN);
 
     useEffect(() => {
         if (token) {
@@ -26,6 +30,7 @@ export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
 
     return (
         <div>
+            <SettingsTabs />
             <Row>
                 <Col>
                     <PageHeader title="File Details" />

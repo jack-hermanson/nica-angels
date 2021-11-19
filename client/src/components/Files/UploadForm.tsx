@@ -1,16 +1,19 @@
-import { FunctionComponent, useState } from "react";
+import { Fragment, FunctionComponent, useState } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 import { FileClient } from "../../clients/FileClient";
 import { useStoreState } from "../../store/_store";
+import { useHistory } from "react-router-dom";
+import { LoadingSpinner } from "jack-hermanson-component-lib";
 
-interface Props {}
-
-export const UploadForm: FunctionComponent<Props> = () => {
+export const UploadForm: FunctionComponent = () => {
     const [uploadedFile, setUploadedFile] = useState<File | undefined>(
         undefined
     );
+    const [loading, setLoading] = useState(false);
     const token = useStoreState(state => state.token);
+
+    const history = useHistory();
 
     return (
         <form
@@ -26,13 +29,19 @@ export const UploadForm: FunctionComponent<Props> = () => {
                             },
                             token.data
                         );
-                        console.log("submitted");
+                        history.push(`/settings/files/${createdFile.id}`);
                     });
                 }
             }}
         >
-            {renderFileUpload()}
-            {renderSubmit()}
+            {loading ? (
+                <LoadingSpinner />
+            ) : (
+                <Fragment>
+                    {renderFileUpload()}
+                    {renderSubmit()}
+                </Fragment>
+            )}
         </form>
     );
 

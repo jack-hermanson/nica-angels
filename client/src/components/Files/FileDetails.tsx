@@ -1,6 +1,10 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
-import { Col, Row } from "reactstrap";
+import {
+    KeyValTable,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
+import { Alert, Col, Row } from "reactstrap";
 import { FileRecord } from "../../../../shared";
 import { FileClient } from "../../clients/FileClient";
 import { RouteComponentProps } from "react-router-dom";
@@ -27,19 +31,49 @@ export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
                     <PageHeader title="File Details" />
                 </Col>
             </Row>
-            <Row>
-                <Col xs={6}>
-                    {!file ? (
+            {!file ? (
+                <Row>
+                    <Col>
                         <LoadingSpinner />
-                    ) : (
-                        <div>
-                            {file.mimeType.startsWith("image/") && (
-                                <img src={file.data} />
+                    </Col>
+                </Row>
+            ) : (
+                <div>
+                    <Row>
+                        <Col xs={6} className="mb-3">
+                            {file.mimeType.startsWith("image/") ? (
+                                <img
+                                    className="img-thumbnail"
+                                    alt={file.name}
+                                    src={file.data}
+                                />
+                            ) : (
+                                <Alert color="danger">
+                                    This file's mimeType is {file.mimeType},
+                                    which is not supported.
+                                </Alert>
                             )}
-                        </div>
-                    )}
-                </Col>
-            </Row>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={12} lg={6}>
+                            <KeyValTable
+                                striped
+                                keyValPairs={[
+                                    { key: "Name", val: file.name },
+                                    { key: "Type", val: file.mimeType },
+                                    {
+                                        key: "Uploaded",
+                                        val: new Date(
+                                            file.created
+                                        ).toLocaleString(),
+                                    },
+                                ]}
+                            />
+                        </Col>
+                    </Row>
+                </div>
+            )}
         </div>
     );
 };

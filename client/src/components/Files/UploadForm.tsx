@@ -20,17 +20,18 @@ export const UploadForm: FunctionComponent<Props> = () => {
                 console.log(uploadedFile);
                 if (uploadedFile && token) {
                     console.log("submitting");
-                    const text = await uploadedFile.text();
-                    const createdFile = await FileClient.create(
-                        {
-                            name: uploadedFile.name,
-                            mimeType: uploadedFile.type,
-                            data: Buffer.from(text).toString("base64"),
-                        },
-                        token.data
-                    );
-                    console.log("submitted");
-                    console.log(createdFile);
+                    getBase64(uploadedFile).then(async s => {
+                        const createdFile = await FileClient.create(
+                            {
+                                name: uploadedFile.name,
+                                mimeType: uploadedFile.type,
+                                data: s,
+                            },
+                            token.data
+                        );
+                        console.log("submitted");
+                        console.log(createdFile);
+                    });
                 }
             }}
         >
@@ -68,5 +69,27 @@ export const UploadForm: FunctionComponent<Props> = () => {
                 </Button>
             </div>
         );
+    }
+
+    function getBase64(file: File): Promise<string> {
+        return new Promise(resolve => {
+            let fileInfo;
+            let baseURL = "";
+            // Make new FileReader
+            let reader = new FileReader();
+
+            // Convert the file to base64 text
+            reader.readAsDataURL(file);
+
+            // on reader load somthing...
+            reader.onload = () => {
+                // Make a fileInfo Object
+                console.log("Called", reader);
+                baseURL = reader.result as string;
+                console.log(baseURL);
+                resolve(baseURL);
+            };
+            console.log(fileInfo);
+        });
     }
 };

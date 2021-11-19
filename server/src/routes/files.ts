@@ -59,3 +59,25 @@ router.get(
         res.json(files);
     }
 );
+
+router.get(
+    "/:id",
+    auth,
+    async (req: Request<{ id: number }>, res: Response<FileRecord>) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.SPONSOR,
+                res,
+            })
+        ) {
+            return undefined;
+        }
+
+        const file = await FileService.getOne(req.params.id, res);
+        if (!file) {
+            return;
+        }
+        res.json(file);
+    }
+);

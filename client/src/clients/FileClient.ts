@@ -15,4 +15,12 @@ export abstract class FileClient {
         console.log("return response.data");
         return response.data;
     }
+
+    static async getOne(id: number, token: string) {
+        const response = await axios.get<FileRecord>(
+            `${this.baseUrl}/${id}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

@@ -3,5 +3,13 @@ import { router as towns } from "./towns";
 import { router as schools } from "./schools";
 import { router as students } from "./students";
 import { router as enrollments } from "./enrollments";
+import { router as files } from "./files";
 
-export const routes = { accounts, towns, schools, students, enrollments };
+export const routes = {
+    accounts,
+    towns,
+    schools,
+    students,
+    enrollments,
+    files,
+};

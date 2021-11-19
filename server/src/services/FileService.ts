@@ -1,6 +1,8 @@
 import { getConnection, Repository } from "typeorm";
 import { Response } from "express";
 import { HTTP } from "jack-hermanson-ts-utils";
+import { FileRequest } from "../../../shared";
+import { File } from "../models/File";
 
 export abstract class FileService {
     static getRepos(): {
@@ -27,5 +29,13 @@ export abstract class FileService {
         }
 
         return file;
+    }
+
+    static async create(fileRequest: FileRequest): Promise<File> {
+        const { fileRepo } = this.getRepos();
+        console.log("create file service");
+        console.log(fileRequest);
+
+        return await fileRepo.save(fileRequest);
     }
 }

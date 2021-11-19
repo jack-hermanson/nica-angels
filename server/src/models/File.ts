@@ -6,6 +6,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
+import Joi from "joi";
 
 @Entity({ name: "file" })
 export class File {
@@ -16,7 +17,7 @@ export class File {
         nullable: false,
         type: process.env.DATABASE_DIALECT === "postgres" ? "bytea" : "blob",
     })
-    data!: Buffer;
+    data!: string;
 
     @Column({ nullable: false })
     mimeType!: string;
@@ -33,3 +34,9 @@ export class File {
     @DeleteDateColumn()
     deleted?: Date;
 }
+
+export const FileSchema = Joi.object().keys({
+    data: Joi.required(),
+    mimeType: Joi.string().required(),
+    name: Joi.string().required(),
+});

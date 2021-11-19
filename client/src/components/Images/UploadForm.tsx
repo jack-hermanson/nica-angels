@@ -1,12 +1,8 @@
-import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
-import { ChangeEvent, Fragment, FunctionComponent, useState } from "react";
-import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
+import { FunctionComponent, useState } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { SUBMIT_BUTTON_COLOR } from "../../utils/constants";
-
-interface FileRequest {
-    file: File | "";
-}
+import { FileClient } from "../../clients/FileClient";
+import { useStoreState } from "../../store/_store";
 
 interface Props {}
 
@@ -14,16 +10,28 @@ export const UploadForm: FunctionComponent<Props> = () => {
     const [uploadedFile, setUploadedFile] = useState<File | undefined>(
         undefined
     );
+    const token = useStoreState(state => state.token);
 
     return (
         <form
-            onSubmit={event => {
+            onSubmit={async event => {
                 event.preventDefault();
                 console.log(event);
                 console.log(uploadedFile);
-                uploadedFile?.text().then(a => {
-                    console.log(a);
-                });
+                if (uploadedFile && token) {
+                    console.log("submitting");
+                    const text = await uploadedFile.text();
+                    const createdFile = await FileClient.create(
+                        {
+                            name: uploadedFile.name,
+                            mimeType: uploadedFile.type,
+                            data: text,
+                        },
+                        token.data
+                    );
+                    console.log("submitted");
+                    console.log(createdFile);
+                }
             }}
         >
             {renderFileUpload()}

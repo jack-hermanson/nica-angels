@@ -6,3 +6,4 @@ export * from "./resource_models/school";
 export * from "./resource_models/student";
 export * from "./resource_models/token";
 export * from "./resource_models/town";
+export * from "./resource_models/file";

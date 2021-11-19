@@ -19,6 +19,13 @@ export abstract class FileService {
         return await fileRepo.find();
     }
 
+    static async getIds(): Promise<number[]> {
+        const { fileRepo } = this.getRepos();
+        const query = fileRepo.createQueryBuilder("file");
+        const files = await query.select(["file.id"]).getMany();
+        return files.map(f => f.id);
+    }
+
     static async getOne(id: number, res: Response): Promise<File | undefined> {
         const { fileRepo } = this.getRepos();
 

@@ -55,6 +55,11 @@ router.get(
     }
 );
 
+router.get("/ids", async (req: Request<any>, res: Response<number[]>) => {
+    const fileIds = await FileService.getIds();
+    res.json(fileIds);
+});
+
 router.get(
     "/:id",
     auth,

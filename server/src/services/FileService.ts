@@ -33,8 +33,6 @@ export abstract class FileService {
 
     static async create(fileRequest: FileRequest): Promise<File> {
         const { fileRepo } = this.getRepos();
-        console.log("create file service");
-        console.log(fileRequest);
 
         return await fileRepo.save(fileRequest);
     }

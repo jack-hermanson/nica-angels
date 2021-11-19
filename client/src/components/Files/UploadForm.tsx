@@ -16,10 +16,7 @@ export const UploadForm: FunctionComponent<Props> = () => {
         <form
             onSubmit={async event => {
                 event.preventDefault();
-                console.log(event);
-                console.log(uploadedFile);
                 if (uploadedFile && token) {
-                    console.log("submitting");
                     getBase64(uploadedFile).then(async s => {
                         const createdFile = await FileClient.create(
                             {
@@ -30,7 +27,6 @@ export const UploadForm: FunctionComponent<Props> = () => {
                             token.data
                         );
                         console.log("submitted");
-                        console.log(createdFile);
                     });
                 }
             }}
@@ -73,7 +69,6 @@ export const UploadForm: FunctionComponent<Props> = () => {
 
     function getBase64(file: File): Promise<string> {
         return new Promise(resolve => {
-            let fileInfo;
             let baseURL = "";
             // Make new FileReader
             let reader = new FileReader();
@@ -81,15 +76,11 @@ export const UploadForm: FunctionComponent<Props> = () => {
             // Convert the file to base64 text
             reader.readAsDataURL(file);
 
-            // on reader load somthing...
             reader.onload = () => {
                 // Make a fileInfo Object
-                console.log("Called", reader);
                 baseURL = reader.result as string;
-                console.log(baseURL);
                 resolve(baseURL);
             };
-            console.log(fileInfo);
         });
     }
 };

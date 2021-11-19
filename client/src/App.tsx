@@ -27,7 +27,6 @@ import { EnrollmentsIndex } from "./components/Enrollments/EnrollmentsIndex";
 import { CreateEnrollment } from "./components/Enrollments/CreateEnrollment";
 import { EditEnrollment } from "./components/Enrollments/EditEnrollment";
 import { Upload } from "./components/Files/Upload";
-import * as path from "path";
 import { FileDetails } from "./components/Files/FileDetails";
 
 export const App: React.FC = () => {

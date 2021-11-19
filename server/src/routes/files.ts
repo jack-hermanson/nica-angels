@@ -13,8 +13,6 @@ router.post(
     "/",
     auth,
     async (req: Request<FileRequest>, res: Response<FileRecord>) => {
-        console.log("post file");
-
         if (
             !authorized({
                 requestingAccount: req.account,
@@ -22,17 +20,14 @@ router.post(
                 res,
             })
         ) {
-            console.log("not authorized");
             return;
         }
 
         if (!(await validateRequest(FileSchema, req, res))) {
-            console.log("not valid request");
             return;
         }
 
         try {
-            console.log("before file service create");
             const file = await FileService.create(req.body);
             res.status(HTTP.CREATED).json(file);
         } catch (error) {

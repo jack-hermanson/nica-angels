@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "../../../../shared";
 import { FileClient } from "../../clients/FileClient";
+import { FilePreview } from "./FilePreview";
 
 export const FilesIndex: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -61,7 +62,9 @@ export const FilesIndex: FunctionComponent = () => {
                     ) : (
                         <Fragment>
                             {fileIds.map(fileId => (
-                                <p key={fileId}>{fileId}</p>
+                                <FilePreview id={fileId} key={fileId}>
+                                    {fileId}
+                                </FilePreview>
                             ))}
                         </Fragment>
                     )}

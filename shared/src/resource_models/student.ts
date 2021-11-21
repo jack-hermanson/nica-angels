@@ -11,6 +11,8 @@ export interface StudentRequest {
     dateOfBirth?: Date;
     sex: Sex;
     level: number;
+    imageId?: number;
+    uniform: boolean;
     backpack: boolean;
     shoes: boolean;
     supplies: boolean;

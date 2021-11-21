@@ -77,6 +77,6 @@ export class Sponsorship1629096251348 implements MigrationInterface {
             this.sponsorIdForeignKey,
             this.studentIdForeignKey,
         ]);
-        await queryRunner.createTable(this.sponsorship);
+        await queryRunner.dropTable(this.sponsorship);
     }
 }

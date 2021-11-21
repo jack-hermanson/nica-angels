@@ -118,6 +118,7 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
                     backpack: data.backpack,
                     shoes: data.shoes,
                     supplies: data.supplies,
+                    uniform: false, // todo
                 });
             }}
             validationSchema={validationSchema}

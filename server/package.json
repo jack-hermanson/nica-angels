@@ -2,7 +2,7 @@
     "name": "server",
     "version": "1.0.0",
     "scripts": {
-        "start": "kill-port 5000 && sleep 2 && nodemon -x ts-node src/server.ts",
+        "start": "kill-port 5000 && nodemon -x ts-node src/server.ts",
         "start:prod": "ts-node src/server.ts"
     },
     "license": "MIT",

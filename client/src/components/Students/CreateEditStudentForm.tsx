@@ -71,6 +71,10 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
             .boolean()
             .label(spanish ? "Útiles" : "School Supplies")
             .required(),
+        uniform: yup
+            .boolean()
+            .label(spanish ? "Uniforme" : "Uniform")
+            .required(),
     });
 
     interface FormValues {
@@ -83,6 +87,7 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
         backpack: boolean;
         shoes: boolean;
         supplies: boolean;
+        uniform: boolean;
     }
 
     return (
@@ -103,6 +108,7 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
                 backpack: existingStudent ? existingStudent.backpack : false,
                 shoes: existingStudent ? existingStudent.shoes : false,
                 supplies: existingStudent ? existingStudent.supplies : false,
+                uniform: existingStudent ? existingStudent.uniform : false,
             }}
             onSubmit={async (data, { setSubmitting }) => {
                 setSubmitting(true);
@@ -118,7 +124,7 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
                     backpack: data.backpack,
                     shoes: data.shoes,
                     supplies: data.supplies,
-                    uniform: false, // todo
+                    uniform: data.uniform,
                 });
             }}
             validationSchema={validationSchema}
@@ -269,6 +275,7 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
                 {renderBackpack()}
                 {renderShoes()}
                 {renderSupplies()}
+                {renderUniform()}
             </FormGroup>
         );
     }
@@ -304,6 +311,18 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
                 <Field id={id} type="checkbox" name="supplies" as={Input} />
                 <Label className="form-check-label" for={id}>
                     {spanish ? "Útiles" : "School Supplies"}
+                </Label>
+            </FormGroup>
+        );
+    }
+
+    function renderUniform() {
+        const id = "uniform-input";
+        return (
+            <FormGroup check>
+                <Field id={id} type="checkbox" name="uniform" as={Input} />
+                <Label className="form-check-label" for={id}>
+                    {spanish ? "Uniforme" : "Uniform"}
                 </Label>
             </FormGroup>
         );

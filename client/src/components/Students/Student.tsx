@@ -1,5 +1,5 @@
 import { Fragment, FunctionComponent } from "react";
-import { StudentRecord } from "../../../../shared";
+import { getAge, StudentRecord } from "../../../../shared";
 import { Card, CardBody, CardFooter, CardHeader, Col, Row } from "reactstrap";
 import { ActionCardHeader, KeyValTable } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
@@ -127,9 +127,7 @@ export const Student: FunctionComponent<Props> = ({
         const dateOfBirth: Date | undefined = student.dateOfBirth
             ? moment(student.dateOfBirth).toDate()
             : undefined;
-        const yearsOld: number | undefined = dateOfBirth
-            ? new Date().getFullYear() - dateOfBirth.getFullYear()
-            : undefined;
+        const yearsOld = getAge(student);
         return (
             <Fragment>
                 {dateOfBirth?.toLocaleDateString() || "N/A"}{" "}

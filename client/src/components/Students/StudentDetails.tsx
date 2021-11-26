@@ -1,10 +1,17 @@
 import { FunctionComponent, Fragment, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { StudentRecord } from "../../../../shared";
+import { getAge, sexToString, StudentRecord } from "../../../../shared";
 import { StudentClient } from "../../clients/StudentClient";
 import { useStoreState } from "../../store/_store";
-import { Col, Row } from "reactstrap";
-import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
+import { Card, CardBody, Col, Row } from "reactstrap";
+import {
+    ActionCardHeader,
+    KeyValCardBody,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
+import { UploadStudentImage } from "../Files/UploadStudentImage";
+import { Sex } from "jack-hermanson-ts-utils";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -18,6 +25,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
     );
 
     const token = useStoreState(state => state.token);
+    const spanish = useStoreState(state => state.spanish);
 
     useEffect(() => {
         if (token) {
@@ -39,7 +47,12 @@ export const StudentDetails: FunctionComponent<Props> = ({
                         </Col>
                     </Row>
                     <Row>
-                        <Col>Student info: {student.firstName}</Col>
+                        <Col xs={12} lg={8} className="mb-3 mb-lg-0">
+                            {renderInfo()}
+                        </Col>
+                        <Col xs={12} lg={4}>
+                            {renderUploadImage()}
+                        </Col>
                     </Row>
                 </Fragment>
             ) : (
@@ -58,4 +71,101 @@ export const StudentDetails: FunctionComponent<Props> = ({
             )}
         </div>
     );
+
+    function renderInfo() {
+        if (student) {
+            return (
+                <Fragment>
+                    {renderName()}
+                    {renderDemographicInfo()}
+                    <pre className="alert alert-secondary mb-0">
+                        TODO: school and sponsor info
+                    </pre>
+                </Fragment>
+            );
+        }
+    }
+
+    function renderUploadImage() {
+        if (student) {
+            return (
+                <Card>
+                    <ActionCardHeader title={"Upload Image"} />
+                    <CardBody>
+                        {student.imageId && (
+                            <p>
+                                Uploading an image here will replace the current
+                                image.
+                            </p>
+                        )}
+                        <UploadStudentImage studentId={student.id} />
+                    </CardBody>
+                </Card>
+            );
+        }
+    }
+
+    function renderDemographicInfo() {
+        if (student) {
+            return (
+                <Card className="mb-3">
+                    <ActionCardHeader
+                        title={
+                            spanish
+                                ? "Información Demográfico"
+                                : "Demographic Information"
+                        }
+                    />
+                    <KeyValCardBody
+                        keyValPairs={[
+                            {
+                                key: spanish
+                                    ? "Fecha de Nacimiento"
+                                    : "Date of Birth",
+                                val: student.dateOfBirth
+                                    ? new Date(
+                                          student.dateOfBirth
+                                      ).toLocaleDateString()
+                                    : "",
+                            },
+                            {
+                                key: spanish ? "Edad" : "Age",
+                                val: getAge(student),
+                            },
+                            {
+                                key: spanish ? "Sexo" : "Sex",
+                                val: sexToString(student.sex, spanish),
+                            },
+                        ]}
+                    />
+                </Card>
+            );
+        }
+    }
+
+    function renderName() {
+        if (student) {
+            return (
+                <Card className="mb-3">
+                    <ActionCardHeader title={spanish ? "Nombre" : "Name"} />
+                    <KeyValCardBody
+                        keyValPairs={[
+                            {
+                                key: spanish ? "Nombre" : "First Name",
+                                val: student.firstName,
+                            },
+                            {
+                                key: spanish ? "Segundo Nombre" : "Middle Name",
+                                val: student.middleName,
+                            },
+                            {
+                                key: spanish ? "Apellido" : "Last Name",
+                                val: student.lastName,
+                            },
+                        ]}
+                    />
+                </Card>
+            );
+        }
+    }
 };

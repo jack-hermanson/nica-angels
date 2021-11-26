@@ -118,7 +118,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
             return (
                 <Card>
                     <ActionCardHeader
-                        title={spanish ? "Barcode" : "Código de Barras"}
+                        title={spanish ? "Código de Barras" : "Barcode"}
                     />
                     <CardBody>
                         <StudentBarcode student={student} />

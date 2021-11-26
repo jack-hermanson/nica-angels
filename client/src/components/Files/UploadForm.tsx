@@ -1,36 +1,31 @@
 import { Fragment, FunctionComponent, useState } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { SUBMIT_BUTTON_COLOR } from "../../utils/constants";
-import { FileClient } from "../../clients/FileClient";
-import { useStoreState } from "../../store/_store";
-import { useHistory } from "react-router-dom";
 import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { FileRequest } from "../../../../shared";
 
-export const UploadForm: FunctionComponent = () => {
+interface Props {
+    onSubmit: (fileRequest: FileRequest) => Promise<any>;
+}
+
+export const UploadForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
     const [uploadedFile, setUploadedFile] = useState<File | undefined>(
         undefined
     );
     const [loading, setLoading] = useState(false);
-    const token = useStoreState(state => state.token);
-
-    const history = useHistory();
 
     return (
         <form
             onSubmit={async event => {
                 event.preventDefault();
-                if (uploadedFile && token) {
+                if (uploadedFile) {
                     setLoading(true);
                     getBase64(uploadedFile).then(async s => {
-                        const createdFile = await FileClient.create(
-                            {
-                                name: uploadedFile.name,
-                                mimeType: uploadedFile.type,
-                                data: s,
-                            },
-                            token.data
-                        );
-                        history.push(`/settings/files/${createdFile.id}`);
+                        await onSubmit({
+                            name: uploadedFile.name,
+                            mimeType: uploadedFile.type,
+                            data: s,
+                        });
                     });
                 }
             }}

@@ -3,6 +3,7 @@ import { FileRecord } from "../../../../shared";
 import { FileClient } from "../../clients/FileClient";
 import { useStoreState } from "../../store/_store";
 import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { PlaceholderImage } from "../Files/PlaceholderImage";
 
 interface Props {
     imageId: number | undefined;
@@ -34,17 +35,7 @@ export const StudentImage: FunctionComponent<Props> = ({ imageId }) => {
                     )}
                 </Fragment>
             ) : (
-                <div
-                    className="col-12 d-flex justify-content-center align-items-center bg-light"
-                    style={{
-                        height: "180px",
-                        fontSize: "2em",
-                        borderRadius: "8px",
-                        color: "black",
-                    }}
-                >
-                    ?
-                </div>
+                <PlaceholderImage />
             )}
         </div>
     );

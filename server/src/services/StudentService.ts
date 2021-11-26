@@ -27,7 +27,6 @@ export class StudentService {
         orderBy = "student.firstName",
     }: GetStudentsRequest): Promise<AggregateResourceModel<Student>> {
         console.log();
-        console.log("getAll()");
         const { studentRepo } = this.getRepos();
         const pg: boolean = process.env.databaseDialect === "postgres";
 
@@ -67,10 +66,9 @@ export class StudentService {
             .orderBy(orderBy)
             .skip(skip)
             .take(take);
-        console.log(studentsQuery.getSql());
         const total = await studentsQuery.getCount();
         const students = await studentsQuery.getMany();
-        console.log("ok");
+
         return {
             items: students,
             skip,

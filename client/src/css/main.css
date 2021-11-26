@@ -11325,6 +11325,14 @@ a:hover {
   color: white;
 }
 
+a.header-link {
+  text-decoration: none;
+  color: white;
+}
+a.header-link:hover {
+  text-decoration: underline;
+}
+
 body {
   overflow-x: hidden;
 }

@@ -29,6 +29,7 @@ import { EditEnrollment } from "./components/Enrollments/EditEnrollment";
 import { Upload } from "./components/Files/Upload";
 import { FileDetails } from "./components/Files/FileDetails";
 import { FilesIndex } from "./components/Files/FilesIndex";
+import { StudentDetails } from "./components/Students/StudentDetails";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -102,6 +103,11 @@ export const App: React.FC = () => {
                         exact
                         path="/students/edit/:id"
                         component={EditStudent}
+                    />
+                    <Route
+                        exact
+                        path="/students/:id"
+                        component={StudentDetails}
                     />
 
                     <Route

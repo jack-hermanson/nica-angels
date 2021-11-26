@@ -10,6 +10,14 @@ a {
   }
 }
 
+a.header-link {
+  text-decoration: none;
+  color: white;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 body {
   overflow-x: hidden;
 }

@@ -1,6 +1,6 @@
 import { Fragment, FunctionComponent } from "react";
 import { StudentRecord } from "../../../../shared";
-import { Card, CardBody, CardFooter, Col, Row } from "reactstrap";
+import { Card, CardBody, CardFooter, CardHeader, Col, Row } from "reactstrap";
 import { ActionCardHeader, KeyValTable } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { Clearance } from "../../../../shared";
@@ -24,9 +24,16 @@ export const Student: FunctionComponent<Props> = ({
 
     return (
         <Card className="mb-3 no-mb-last">
-            <ActionCardHeader
-                title={`Student #${String(student.id).padStart(3, "0")}`}
-            />
+            <CardHeader>
+                <h5 className="mb-0">
+                    <Link
+                        className="header-link"
+                        to={`/students/${student.id}`}
+                    >
+                        Student #{String(student.id).padStart(3, "0")}
+                    </Link>
+                </h5>
+            </CardHeader>
             <CardBody>
                 <Row>
                     <Col xs={4} lg={3} className="mb-3 mb-lg-0">

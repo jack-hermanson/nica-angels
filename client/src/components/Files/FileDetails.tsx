@@ -19,6 +19,7 @@ export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
     const [file, setFile] = useState<FileRecord | undefined>(undefined);
     const token = useStoreState(state => state.token);
     const addAlert = useStoreActions(actions => actions.addAlert);
+    const spanish = useStoreState(state => state.spanish);
 
     const history = useHistory();
 
@@ -37,7 +38,11 @@ export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
             <SettingsTabs />
             <Row>
                 <Col>
-                    <PageHeader title="File Details">
+                    <PageHeader
+                        title={
+                            spanish ? "Detalles del Archivo" : "File Details"
+                        }
+                    >
                         {renderDeleteButton()}
                     </PageHeader>
                 </Col>
@@ -116,7 +121,7 @@ export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
                         }
                     }}
                 >
-                    Delete
+                    {spanish ? "Eliminar" : "Delete"}
                 </Button>
             );
         }

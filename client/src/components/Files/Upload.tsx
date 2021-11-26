@@ -13,6 +13,7 @@ export const Upload: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
 
     const token = useStoreState(state => state.token);
+    const spanish = useStoreState(state => state.spanish);
 
     const history = useHistory();
 
@@ -21,7 +22,9 @@ export const Upload: FunctionComponent = () => {
             <SettingsTabs />
             <Row>
                 <Col>
-                    <PageHeader title="Upload File" />
+                    <PageHeader
+                        title={spanish ? "Subir Archivo" : "Upload File"}
+                    />
                 </Col>
             </Row>
             <Row>

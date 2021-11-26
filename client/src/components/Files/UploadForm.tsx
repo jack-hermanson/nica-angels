@@ -3,6 +3,7 @@ import { Button, FormGroup, Input, Label } from "reactstrap";
 import { SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 import { LoadingSpinner } from "jack-hermanson-component-lib";
 import { FileRequest } from "../../../../shared";
+import { useStoreState } from "../../store/_store";
 
 interface Props {
     onSubmit: (fileRequest: FileRequest) => Promise<any>;
@@ -13,6 +14,7 @@ export const UploadForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         undefined
     );
     const [loading, setLoading] = useState(false);
+    const spanish = useStoreState(state => state.spanish);
 
     return (
         <form
@@ -46,7 +48,7 @@ export const UploadForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         return (
             <FormGroup>
                 <Label for={id} className="form-label">
-                    File
+                    {spanish ? "Archivo" : "File"}
                 </Label>
                 <Input
                     type="file"
@@ -66,7 +68,7 @@ export const UploadForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         return (
             <div className="bottom-buttons">
                 <Button color={SUBMIT_BUTTON_COLOR} type="submit">
-                    Submit
+                    {spanish ? "Entregar" : "Submit"}
                 </Button>
             </div>
         );

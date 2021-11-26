@@ -1,6 +1,6 @@
 import { Fragment, FunctionComponent } from "react";
 import { StudentRecord } from "../../../../shared";
-import { Card, CardBody, CardFooter, Col, Row, Table } from "reactstrap";
+import { Card, CardBody, CardFooter, Col, Row } from "reactstrap";
 import { ActionCardHeader, KeyValTable } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { Clearance } from "../../../../shared";

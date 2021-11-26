@@ -20,7 +20,7 @@ export const FilePreview: FunctionComponent<Props> = ({ id }: Props) => {
                 setFile(f);
             });
         }
-    }, [setFile, token]);
+    }, [setFile, token, id]);
 
     return (
         <Card className="mb-3 no-mb-last">

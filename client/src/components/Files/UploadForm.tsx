@@ -20,6 +20,7 @@ export const UploadForm: FunctionComponent = () => {
             onSubmit={async event => {
                 event.preventDefault();
                 if (uploadedFile && token) {
+                    setLoading(true);
                     getBase64(uploadedFile).then(async s => {
                         const createdFile = await FileClient.create(
                             {

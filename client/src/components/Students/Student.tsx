@@ -1,12 +1,11 @@
 import { Fragment, FunctionComponent } from "react";
-import { getAge, StudentRecord } from "../../../../shared";
+import { getAge, sexToString, StudentRecord } from "../../../../shared";
 import { Card, CardBody, CardFooter, CardHeader, Col, Row } from "reactstrap";
-import { ActionCardHeader, KeyValTable } from "jack-hermanson-component-lib";
+import { KeyValTable } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { Clearance } from "../../../../shared";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { Sex } from "jack-hermanson-ts-utils";
 import { SchoolRecord } from "../../../../shared";
 import { StudentImage } from "./StudentImage";
 
@@ -67,9 +66,7 @@ export const Student: FunctionComponent<Props> = ({
                                 },
                                 {
                                     key: spanish ? "Sexo" : "Sex",
-                                    val: Sex[student.sex]
-                                        .toLowerCase()
-                                        .capitalizeFirst(),
+                                    val: sexToString(student.sex, spanish),
                                 },
                                 {
                                     key: spanish ? "Escuela" : "School",

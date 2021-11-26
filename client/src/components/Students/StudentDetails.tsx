@@ -11,7 +11,6 @@ import {
     PageHeader,
 } from "jack-hermanson-component-lib";
 import { UploadStudentImage } from "../Files/UploadStudentImage";
-import { Sex } from "jack-hermanson-ts-utils";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 

@@ -1,5 +1,10 @@
 import { Fragment, FunctionComponent } from "react";
-import { getAge, sexToString, StudentRecord } from "../../../../shared";
+import {
+    getAge,
+    getIdPadded,
+    sexToString,
+    StudentRecord,
+} from "../../../../shared";
 import { Card, CardBody, CardFooter, CardHeader, Col, Row } from "reactstrap";
 import { KeyValTable } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
@@ -8,6 +13,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { SchoolRecord } from "../../../../shared";
 import { StudentImage } from "./StudentImage";
+import { ID_PADDING } from "../../utils/constants";
 
 interface Props {
     student: StudentRecord;
@@ -29,7 +35,7 @@ export const Student: FunctionComponent<Props> = ({
                         className="header-link"
                         to={`/students/${student.id}`}
                     >
-                        Student #{String(student.id).padStart(3, "0")}
+                        Student #{getIdPadded(student, ID_PADDING)}
                     </Link>
                 </h5>
             </CardHeader>

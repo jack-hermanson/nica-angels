@@ -50,3 +50,7 @@ export function getAge(student: StudentRecord): number | undefined {
         ? new Date().getFullYear() - dateOfBirth.getFullYear()
         : undefined;
 }
+
+export function getIdPadded(student: StudentRecord, padding: number) {
+    return String(student.id).padStart(padding, "0");
+}

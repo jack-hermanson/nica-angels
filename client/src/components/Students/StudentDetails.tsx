@@ -1,6 +1,11 @@
 import { FunctionComponent, Fragment, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { getAge, sexToString, StudentRecord } from "../../../../shared";
+import {
+    getAge,
+    getIdPadded,
+    sexToString,
+    StudentRecord,
+} from "../../../../shared";
 import { StudentClient } from "../../clients/StudentClient";
 import { useStoreState } from "../../store/_store";
 import { Card, CardBody, Col, Row } from "reactstrap";
@@ -11,6 +16,7 @@ import {
     PageHeader,
 } from "jack-hermanson-component-lib";
 import { UploadStudentImage } from "../Files/UploadStudentImage";
+import { StudentBarcode } from "./StudentBarcode";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -51,6 +57,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
                         </Col>
                         <Col xs={12} lg={4}>
                             {renderUploadImage()}
+                            {renderBarcode()}
                         </Col>
                     </Row>
                 </Fragment>
@@ -88,8 +95,10 @@ export const StudentDetails: FunctionComponent<Props> = ({
     function renderUploadImage() {
         if (student) {
             return (
-                <Card>
-                    <ActionCardHeader title={"Upload Image"} />
+                <Card className="mb-3">
+                    <ActionCardHeader
+                        title={spanish ? "Subir Imagen" : "Upload Image"}
+                    />
                     <CardBody>
                         {student.imageId && (
                             <p>
@@ -98,6 +107,21 @@ export const StudentDetails: FunctionComponent<Props> = ({
                             </p>
                         )}
                         <UploadStudentImage studentId={student.id} />
+                    </CardBody>
+                </Card>
+            );
+        }
+    }
+
+    function renderBarcode() {
+        if (student) {
+            return (
+                <Card>
+                    <ActionCardHeader
+                        title={spanish ? "Barcode" : "Código de Barras"}
+                    />
+                    <CardBody>
+                        <StudentBarcode student={student} />
                     </CardBody>
                 </Card>
             );

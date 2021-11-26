@@ -43,4 +43,21 @@ export abstract class FileService {
 
         return await fileRepo.save(fileRequest);
     }
+
+    static async delete(
+        id: number,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { fileRepo } = this.getRepos();
+
+        const file = await fileRepo.findOne(id);
+        if (!file) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        await fileRepo.softDelete({ id: file.id });
+
+        return true;
+    }
 }

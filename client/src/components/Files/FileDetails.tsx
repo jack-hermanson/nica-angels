@@ -4,19 +4,23 @@ import {
     LoadingSpinner,
     PageHeader,
 } from "jack-hermanson-component-lib";
-import { Alert, Col, Row } from "reactstrap";
+import { Alert, Button, Col, Row } from "reactstrap";
 import { Clearance, FileRecord } from "../../../../shared";
 import { FileClient } from "../../clients/FileClient";
-import { RouteComponentProps } from "react-router-dom";
-import { useStoreState } from "../../store/_store";
+import { RouteComponentProps, useHistory } from "react-router-dom";
+import { useStoreActions, useStoreState } from "../../store/_store";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { useMinClearance } from "../../utils/useMinClearance";
+import { scrollToTop } from "jack-hermanson-ts-utils";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
 export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
     const [file, setFile] = useState<FileRecord | undefined>(undefined);
     const token = useStoreState(state => state.token);
+    const addAlert = useStoreActions(actions => actions.addAlert);
+
+    const history = useHistory();
 
     useMinClearance(Clearance.ADMIN);
 
@@ -33,7 +37,9 @@ export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
             <SettingsTabs />
             <Row>
                 <Col>
-                    <PageHeader title="File Details" />
+                    <PageHeader title="File Details">
+                        {renderDeleteButton()}
+                    </PageHeader>
                 </Col>
             </Row>
             {!file ? (
@@ -81,4 +87,38 @@ export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
             )}
         </div>
     );
+
+    function renderDeleteButton() {
+        if (file && token) {
+            return (
+                <Button
+                    size="sm"
+                    color="danger"
+                    onClick={async () => {
+                        try {
+                            const deleted = await FileClient.delete(
+                                file.id,
+                                token.data
+                            );
+                            if (deleted) {
+                                addAlert({
+                                    text: "File deleted successfully.",
+                                    color: "success",
+                                });
+                                history.push("/settings/files");
+                            }
+                        } catch (error: any) {
+                            addAlert({
+                                text: error.message,
+                                color: "danger",
+                            });
+                            scrollToTop();
+                        }
+                    }}
+                >
+                    Delete
+                </Button>
+            );
+        }
+    }
 };

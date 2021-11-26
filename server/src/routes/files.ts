@@ -81,3 +81,26 @@ router.get(
         res.json(file);
     }
 );
+
+router.delete(
+    "/:id",
+    auth,
+    async (req: Request<{ id: number }>, res: Response<boolean>) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const deleted = await FileService.delete(req.params.id, res);
+        if (!deleted) {
+            return;
+        }
+
+        res.json(deleted);
+    }
+);

@@ -1,6 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Card, CardBody, Col, Row } from "reactstrap";
-import { ActionCardHeader } from "jack-hermanson-component-lib";
+import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 import { FileRecord } from "../../../../shared";
 import { useStoreState } from "../../store/_store";
 import { FileClient } from "../../clients/FileClient";
@@ -24,9 +23,20 @@ export const FilePreview: FunctionComponent<Props> = ({ id }: Props) => {
 
     return (
         <Card className="mb-3 no-mb-last">
-            <ActionCardHeader
-                title={file ? file.name : `Loading file ${id}...`}
-            />
+            <CardHeader>
+                <h5 className="mb-0">
+                    {file ? (
+                        <Link
+                            className="header-link"
+                            to={`/settings/files/${file.id}`}
+                        >
+                            {file.name}
+                        </Link>
+                    ) : (
+                        "Loading file..."
+                    )}
+                </h5>
+            </CardHeader>
             <CardBody className="placeholder-glow">
                 <Row>
                     <Col xs={4} lg={2} className="mb-3 mb-lg-0">

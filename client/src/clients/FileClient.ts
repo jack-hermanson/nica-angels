@@ -26,4 +26,17 @@ export abstract class FileClient {
         const response = await axios.get<number[]>(`${this.baseUrl}/ids`);
         return response.data;
     }
+
+    static async delete(id: number, token: string) {
+        try {
+            const response = await axios.delete<boolean>(
+                `${this.baseUrl}/${id}`,
+                getAuthHeader(token)
+            );
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }

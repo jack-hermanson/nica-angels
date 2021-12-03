@@ -168,4 +168,22 @@ export class StudentService {
             res,
         });
     }
+
+    static async removeProfilePicture(imageId: number): Promise<boolean> {
+        const { studentRepo } = this.getRepos();
+        const studentsWithImage = await studentRepo.find({ imageId: imageId });
+
+        if (!studentsWithImage.length) {
+            return false;
+        }
+
+        for (let student of studentsWithImage) {
+            await studentRepo.save({
+                ...student,
+                imageId: null,
+            });
+        }
+
+        return true;
+    }
 }

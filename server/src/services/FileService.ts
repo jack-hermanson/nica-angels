@@ -58,6 +58,7 @@ export abstract class FileService {
         }
 
         await fileRepo.softDelete({ id: file.id });
+        await StudentService.removeProfilePicture(file.id);
 
         return true;
     }

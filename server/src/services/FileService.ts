@@ -1,8 +1,9 @@
 import { getConnection, Repository } from "typeorm";
 import { Response } from "express";
 import { HTTP } from "jack-hermanson-ts-utils";
-import { FileRequest } from "../../../shared";
+import { FileRecord, FileRequest, StudentImageRequest } from "../../../shared";
 import { File } from "../models/File";
+import { StudentService } from "./StudentService";
 
 export abstract class FileService {
     static getRepos(): {
@@ -59,5 +60,28 @@ export abstract class FileService {
         await fileRepo.softDelete({ id: file.id });
 
         return true;
+    }
+
+    static async uploadStudentImage(
+        studentImageRequest: StudentImageRequest,
+        res: Response
+    ): Promise<FileRecord | undefined> {
+        const file = await this.create({
+            data: studentImageRequest.data,
+            name: studentImageRequest.name,
+            mimeType: studentImageRequest.mimeType,
+        });
+
+        const updatedStudent = await StudentService.setProfilePicture({
+            studentId: studentImageRequest.studentId,
+            fileId: file.id,
+            res,
+        });
+
+        if (!updatedStudent) {
+            return undefined;
+        }
+
+        return file;
     }
 }

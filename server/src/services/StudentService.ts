@@ -8,6 +8,7 @@ import {
     DbDialect,
 } from "jack-hermanson-ts-utils";
 import { GetStudentsRequest, StudentRequest } from "../../../shared";
+import { FileService } from "./FileService";
 
 export class StudentService {
     static getRepos(): {
@@ -139,5 +140,32 @@ export class StudentService {
         }
 
         return await studentRepo.find();
+    }
+
+    static async setProfilePicture({
+        studentId,
+        fileId,
+        res,
+    }: {
+        studentId: number;
+        fileId: number;
+        res: Response;
+    }): Promise<Student | undefined> {
+        const student = await this.getOne(studentId, res);
+        if (!student) {
+            return undefined;
+        }
+        const file = await FileService.getOne(fileId, res);
+        if (!file) {
+            return undefined;
+        }
+        return await this.updateStudent({
+            id: studentId,
+            studentRequest: {
+                ...student,
+                imageId: file.id,
+            },
+            res,
+        });
     }
 }

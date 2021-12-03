@@ -2,9 +2,14 @@ import { Response, Router } from "express";
 import { auth } from "../middleware/auth";
 import { authorized } from "../utils/functions";
 import { Request } from "../utils/Request";
-import { Clearance, FileRecord, FileRequest } from "../../../shared";
+import {
+    Clearance,
+    FileRecord,
+    FileRequest,
+    StudentImageRequest,
+} from "../../../shared";
 import { HTTP, validateRequest } from "jack-hermanson-ts-utils";
-import { FileSchema } from "../models/File";
+import { FileSchema, StudentProfileImageSchema } from "../models/File";
 import { FileService } from "../services/FileService";
 
 export const router = Router();
@@ -29,6 +34,33 @@ router.post(
 
         try {
             const file = await FileService.create(req.body);
+            res.status(HTTP.CREATED).json(file);
+        } catch (error) {
+            res.status(HTTP.SERVER_ERROR).json(error);
+        }
+    }
+);
+
+router.post(
+    "/student-image",
+    auth,
+    async (req: Request<StudentImageRequest>, res: Response<FileRecord>) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        if (!(await validateRequest(StudentProfileImageSchema, req, res))) {
+            return;
+        }
+
+        try {
+            const file = await FileService.uploadStudentImage(req.body, res);
             res.status(HTTP.CREATED).json(file);
         } catch (error) {
             res.status(HTTP.SERVER_ERROR).json(error);

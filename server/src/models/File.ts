@@ -35,8 +35,15 @@ export class File {
     deleted?: Date;
 }
 
-export const FileSchema = Joi.object().keys({
+const schema = {
     data: Joi.required(),
     mimeType: Joi.string().required(),
     name: Joi.string().required(),
+};
+
+export const FileSchema = Joi.object().keys(schema);
+
+export const StudentProfileImageSchema = Joi.object().keys({
+    ...schema,
+    studentId: Joi.number().integer().positive().required(),
 });

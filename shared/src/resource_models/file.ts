@@ -7,3 +7,7 @@ export interface FileRequest {
 }
 
 export interface FileRecord extends FileRequest, DateResourceModel {}
+
+export interface StudentImageRequest extends FileRequest {
+    studentId: number;
+}

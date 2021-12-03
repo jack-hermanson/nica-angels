@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { useStoreState } from "../../store/_store";
 import { UploadForm } from "./UploadForm";
-import { FileRequest } from "../../../../shared";
+import { FileRequest, StudentImageRequest } from "../../../../shared";
 
 interface Props {
     studentId: number;
@@ -18,5 +18,10 @@ export const UploadStudentImage: FunctionComponent<Props> = ({
         </div>
     );
 
-    async function onSubmit(fileRequest: FileRequest): Promise<void> {}
+    async function onSubmit(fileRequest: FileRequest): Promise<void> {
+        const studentImageRequest: StudentImageRequest = {
+            ...fileRequest,
+            studentId,
+        };
+    }
 };

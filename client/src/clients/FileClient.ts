@@ -1,4 +1,4 @@
-import { FileRecord, FileRequest } from "../../../shared";
+import { FileRecord, FileRequest, StudentImageRequest } from "../../../shared";
 import axios from "axios";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 
@@ -36,6 +36,23 @@ export abstract class FileClient {
             return response.data;
         } catch (error) {
             console.error(error);
+            throw error;
+        }
+    }
+
+    static async uploadStudentImage(
+        studentImageRequest: StudentImageRequest,
+        token: string
+    ) {
+        try {
+            const response = await axios.post<FileRecord>(
+                `${this.baseUrl}/student-image`,
+                studentImageRequest,
+                getAuthHeader(token)
+            );
+            return response.data;
+        } catch (error) {
+            console.log(error);
             throw error;
         }
     }

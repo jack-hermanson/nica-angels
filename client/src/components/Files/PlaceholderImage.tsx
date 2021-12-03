@@ -6,7 +6,7 @@ export const PlaceholderImage: FunctionComponent = () => {
         <img
             className="img-thumbnail"
             src={profilePic}
-            alt={"No profile picture"}
+            alt={"No profile avatar uploaded"}
             style={{ borderRadius: "8px" }}
         />
     );

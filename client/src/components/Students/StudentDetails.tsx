@@ -1,11 +1,6 @@
 import { FunctionComponent, Fragment, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import {
-    getAge,
-    getIdPadded,
-    sexToString,
-    StudentRecord,
-} from "../../../../shared";
+import { getAge, sexToString, StudentRecord } from "../../../../shared";
 import { StudentClient } from "../../clients/StudentClient";
 import { useStoreState } from "../../store/_store";
 import { Card, CardBody, Col, Row } from "reactstrap";

@@ -1,7 +1,13 @@
 import { FunctionComponent } from "react";
 import { useStoreState } from "../../store/_store";
 import { UploadForm } from "./UploadForm";
-import { FileRequest, StudentImageRequest } from "../../../../shared";
+import {
+    Clearance,
+    FileRequest,
+    StudentImageRequest,
+} from "../../../../shared";
+import { useMinClearance } from "../../utils/useMinClearance";
+import { FileClient } from "../../clients/FileClient";
 
 interface Props {
     studentId: number;
@@ -10,6 +16,8 @@ interface Props {
 export const UploadStudentImage: FunctionComponent<Props> = ({
     studentId,
 }: Props) => {
+    useMinClearance(Clearance.ADMIN);
+
     const token = useStoreState(state => state.token);
 
     return (
@@ -19,9 +27,15 @@ export const UploadStudentImage: FunctionComponent<Props> = ({
     );
 
     async function onSubmit(fileRequest: FileRequest): Promise<void> {
-        const studentImageRequest: StudentImageRequest = {
-            ...fileRequest,
-            studentId,
-        };
+        if (token) {
+            const studentImageRequest: StudentImageRequest = {
+                ...fileRequest,
+                studentId,
+            };
+            await FileClient.uploadStudentImage(
+                studentImageRequest,
+                token.data
+            );
+        }
     }
 };

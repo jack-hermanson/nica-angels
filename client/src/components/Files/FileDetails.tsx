@@ -1,5 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import {
+    ConfirmationModal,
     KeyValTable,
     LoadingSpinner,
     PageHeader,
@@ -17,6 +18,7 @@ interface Props extends RouteComponentProps<{ id: string }> {}
 
 export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
     const [file, setFile] = useState<FileRecord | undefined>(undefined);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const token = useStoreState(state => state.token);
     const addAlert = useStoreActions(actions => actions.addAlert);
     const spanish = useStoreState(state => state.spanish);
@@ -55,51 +57,69 @@ export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
                 </Row>
             ) : (
                 <div>
-                    <Row>
-                        <Col xs={6} className="mb-3">
-                            {file.mimeType.startsWith("image/") ? (
-                                <img
-                                    className="img-thumbnail"
-                                    alt={file.name}
-                                    src={file.data}
-                                />
-                            ) : (
-                                <Alert color="danger">
-                                    This file's mimeType is {file.mimeType},
-                                    which is not supported.
-                                </Alert>
-                            )}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={12} lg={6}>
-                            <KeyValTable
-                                striped
-                                keyValPairs={[
-                                    { key: "Name", val: file.name },
-                                    { key: "Type", val: file.mimeType },
-                                    {
-                                        key: "Uploaded",
-                                        val: new Date(
-                                            file.created
-                                        ).toLocaleString(),
-                                    },
-                                ]}
-                            />
-                        </Col>
-                    </Row>
+                    {renderImage()}
+                    {renderKeyVals()}
+                    {renderDeleteModal()}
                 </div>
             )}
         </div>
     );
 
-    function renderDeleteButton() {
+    function renderImage() {
+        if (file) {
+            return (
+                <Row>
+                    <Col xs={6} className="mb-3">
+                        {file.mimeType.startsWith("image/") ? (
+                            <img
+                                className="img-thumbnail"
+                                alt={file.name}
+                                src={file.data}
+                            />
+                        ) : (
+                            <Alert color="danger">
+                                This file's mimeType is {file.mimeType}, which
+                                is not supported.
+                            </Alert>
+                        )}
+                    </Col>
+                </Row>
+            );
+        }
+    }
+
+    function renderKeyVals() {
+        if (file) {
+            return (
+                <Row>
+                    <Col xs={12} lg={6}>
+                        <KeyValTable
+                            striped
+                            keyValPairs={[
+                                { key: "Name", val: file.name },
+                                { key: "Type", val: file.mimeType },
+                                {
+                                    key: "Uploaded",
+                                    val: new Date(
+                                        file.created
+                                    ).toLocaleString(),
+                                },
+                            ]}
+                        />
+                    </Col>
+                </Row>
+            );
+        }
+    }
+
+    function renderDeleteModal() {
         if (file && token) {
             return (
-                <Button
-                    size="sm"
-                    color="danger"
-                    onClick={async () => {
+                <ConfirmationModal
+                    isOpen={showDeleteModal}
+                    setIsOpen={setShowDeleteModal}
+                    title={"Confirm File Deletion"}
+                    onConfirm={async () => {
                         try {
                             const deleted = await FileClient.delete(
                                 file.id,
@@ -119,6 +139,24 @@ export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
                             });
                             scrollToTop();
                         }
+                    }}
+                    buttonText={"Delete"}
+                    buttonColor={"danger"}
+                >
+                    Are you sure you want to delete this file?
+                </ConfirmationModal>
+            );
+        }
+    }
+
+    function renderDeleteButton() {
+        if (file) {
+            return (
+                <Button
+                    size="sm"
+                    color="danger"
+                    onClick={async () => {
+                        setShowDeleteModal(true);
                     }}
                 >
                     {spanish ? "Eliminar" : "Delete"}

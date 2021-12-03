@@ -1,17 +1,13 @@
 import { FunctionComponent } from "react";
+import profilePic from "../../images/profile-pic.svg";
 
 export const PlaceholderImage: FunctionComponent = () => {
     return (
-        <div
-            className="col-12 d-flex justify-content-center align-items-center bg-light"
-            style={{
-                height: "180px",
-                fontSize: "2em",
-                borderRadius: "8px",
-                color: "black",
-            }}
-        >
-            ?
-        </div>
+        <img
+            className="img-thumbnail"
+            src={profilePic}
+            alt={"No profile picture"}
+            style={{ borderRadius: "8px" }}
+        />
     );
 };

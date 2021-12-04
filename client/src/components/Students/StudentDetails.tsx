@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { getAge, sexToString, StudentRecord } from "../../../../shared";
 import { StudentClient } from "../../clients/StudentClient";
 import { useStoreState } from "../../store/_store";
-import { Card, CardBody, Col, Row } from "reactstrap";
+import { Card, CardBody, Col, Label, Row } from "reactstrap";
 import {
     ActionCardHeader,
     KeyValCardBody,
@@ -12,6 +12,7 @@ import {
 } from "jack-hermanson-component-lib";
 import { UploadStudentImage } from "../Files/UploadStudentImage";
 import { StudentBarcode } from "./StudentBarcode";
+import { StudentImage } from "./StudentImage";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -95,13 +96,35 @@ export const StudentDetails: FunctionComponent<Props> = ({
                         title={spanish ? "Subir Imagen" : "Upload Image"}
                     />
                     <CardBody>
-                        {student.imageId && (
-                            <p>
-                                Uploading an image here will replace the current
-                                image.
-                            </p>
-                        )}
-                        <UploadStudentImage studentId={student.id} />
+                        <Row>
+                            <Col xs={12} lg={9} className="mb-3 mb-lg-0">
+                                {student.imageId && (
+                                    <p>
+                                        Uploading an image here will replace the
+                                        current image.
+                                    </p>
+                                )}
+                                <UploadStudentImage
+                                    studentId={student.id}
+                                    setNewFileId={newId => {
+                                        setStudent(s => {
+                                            return {
+                                                ...s,
+                                                imageId: newId,
+                                            } as StudentRecord;
+                                        });
+                                    }}
+                                />
+                            </Col>
+                            <Col xs={2} lg={3}>
+                                <Label className="form-label">
+                                    {spanish
+                                        ? "Imagen Actual"
+                                        : "Current Image"}
+                                </Label>
+                                <StudentImage imageId={student.imageId} />
+                            </Col>
+                        </Row>
                     </CardBody>
                 </Card>
             );

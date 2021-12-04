@@ -11,10 +11,12 @@ import { FileClient } from "../../clients/FileClient";
 
 interface Props {
     studentId: number;
+    setNewFileId: (newId: number) => any;
 }
 
 export const UploadStudentImage: FunctionComponent<Props> = ({
     studentId,
+    setNewFileId,
 }: Props) => {
     useMinClearance(Clearance.ADMIN);
 
@@ -32,10 +34,11 @@ export const UploadStudentImage: FunctionComponent<Props> = ({
                 ...fileRequest,
                 studentId,
             };
-            await FileClient.uploadStudentImage(
+            const newFile = await FileClient.uploadStudentImage(
                 studentImageRequest,
                 token.data
             );
+            setNewFileId(newFile.id);
         }
     }
 };

@@ -28,6 +28,7 @@ export const UploadForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
                             mimeType: uploadedFile.type,
                             data: s,
                         });
+                        setLoading(false);
                     });
                 }
             }}

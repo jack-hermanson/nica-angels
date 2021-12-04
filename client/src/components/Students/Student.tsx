@@ -41,10 +41,10 @@ export const Student: FunctionComponent<Props> = ({
             </CardHeader>
             <CardBody>
                 <Row>
-                    <Col xs={4} lg={3} className="mb-3 mb-lg-0">
+                    <Col xs={4} lg={2} className="mb-3 mb-lg-0">
                         <StudentImage imageId={student.imageId} />
                     </Col>
-                    <Col xs={12} lg={9}>
+                    <Col xs={12} lg={10}>
                         <h4>
                             {student.firstName} {student.middleName || ""}{" "}
                             {student.lastName || ""}

@@ -6,6 +6,7 @@ import { Town } from "./Town";
 import { Student } from "./Student";
 import { Sponsorship } from "./Sponsorship";
 import { Enrollment } from "./Enrollment";
+import { File } from "./File";
 
 export const models = [
     Account,
@@ -16,4 +17,5 @@ export const models = [
     Town,
     Student,
     Sponsorship,
+    File,
 ];

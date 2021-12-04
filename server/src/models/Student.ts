@@ -32,6 +32,9 @@ export class Student {
     @Column({ nullable: false })
     level!: number;
 
+    @Column({ nullable: true })
+    imageId?: number;
+
     @Column({ nullable: false })
     backpack!: boolean;
 
@@ -40,6 +43,9 @@ export class Student {
 
     @Column({ nullable: false })
     supplies!: boolean;
+
+    @Column({ nullable: false })
+    uniform!: boolean;
 
     @CreateDateColumn()
     created!: Date;
@@ -58,6 +64,8 @@ export const studentSchema = Joi.object().keys({
     dateOfBirth: Joi.date().optional(),
     sex: Joi.number().min(Sex.FEMALE).max(Sex.MALE).integer().required(),
     level: Joi.number().integer().min(0).max(12).required(),
+    imageId: Joi.number().integer().positive().optional(),
+    uniform: Joi.boolean().required(),
     backpack: Joi.boolean().required(),
     shoes: Joi.boolean().required(),
     supplies: Joi.boolean().required(),

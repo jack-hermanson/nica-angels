@@ -38,7 +38,6 @@ export const auth = async (
                 return res.status(HTTP.UNAUTHORIZED).send(AuthError.EXPIRED);
             } else {
                 // not it isn't expired
-                console.log("NOT EXPIRED");
                 const accountRepo = connection.getRepository(Account);
                 const account = await accountRepo.findOne({
                     id: decodedToken.id,

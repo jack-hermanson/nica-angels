@@ -8,6 +8,7 @@ import {
     DbDialect,
 } from "jack-hermanson-ts-utils";
 import { GetStudentsRequest, StudentRequest } from "../../../shared";
+import { FileService } from "./FileService";
 
 export class StudentService {
     static getRepos(): {
@@ -27,7 +28,6 @@ export class StudentService {
         orderBy = "student.firstName",
     }: GetStudentsRequest): Promise<AggregateResourceModel<Student>> {
         console.log();
-        console.log("getAll()");
         const { studentRepo } = this.getRepos();
         const pg: boolean = process.env.databaseDialect === "postgres";
 
@@ -67,10 +67,9 @@ export class StudentService {
             .orderBy(orderBy)
             .skip(skip)
             .take(take);
-        console.log(studentsQuery.getSql());
         const total = await studentsQuery.getCount();
         const students = await studentsQuery.getMany();
-        console.log("ok");
+
         return {
             items: students,
             skip,
@@ -141,5 +140,50 @@ export class StudentService {
         }
 
         return await studentRepo.find();
+    }
+
+    static async setProfilePicture({
+        studentId,
+        fileId,
+        res,
+    }: {
+        studentId: number;
+        fileId: number;
+        res: Response;
+    }): Promise<Student | undefined> {
+        const student = await this.getOne(studentId, res);
+        if (!student) {
+            return undefined;
+        }
+        const file = await FileService.getOne(fileId, res);
+        if (!file) {
+            return undefined;
+        }
+        return await this.updateStudent({
+            id: studentId,
+            studentRequest: {
+                ...student,
+                imageId: file.id,
+            },
+            res,
+        });
+    }
+
+    static async removeProfilePicture(imageId: number): Promise<boolean> {
+        const { studentRepo } = this.getRepos();
+        const studentsWithImage = await studentRepo.find({ imageId: imageId });
+
+        if (!studentsWithImage.length) {
+            return false;
+        }
+
+        for (let student of studentsWithImage) {
+            await studentRepo.save({
+                ...student,
+                imageId: null,
+            });
+        }
+
+        return true;
     }
 }

@@ -17,7 +17,6 @@ import {
     FaCogs,
     FaFileCsv,
     FaHandHoldingHeart,
-    FaHandsHelping,
     FaSchool,
     FaUser,
     FaUserGraduate,

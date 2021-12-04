@@ -1,0 +1,7 @@
+{
+  "events": {
+    "restart": "kill-port 5000 && sleep 1 && echo 'nodemon restart!'",
+    "crash": "sh -c 'lsof -i :${PORT:-5000} -t | xargs kill'"
+  },
+  "delay": 1500
+}

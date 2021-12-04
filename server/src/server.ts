@@ -16,7 +16,11 @@ config({ path: envPath });
 
 // express server
 const app = express();
-app.use(express.json());
+app.use(
+    express.json({
+        limit: "50mb",
+    })
+);
 app.use(express.urlencoded({ extended: false }));
 app.set("port", process.env.PORT || 5000);
 
@@ -36,6 +40,7 @@ app.use("/api/towns", routes.towns);
 app.use("/api/schools", routes.schools);
 app.use("/api/students", routes.students);
 app.use("/api/enrollments", routes.enrollments);
+app.use("/api/files", routes.files);
 
 // production redirects
 if (process.env.NODE_ENV === "production") {

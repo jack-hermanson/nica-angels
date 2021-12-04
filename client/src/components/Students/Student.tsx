@@ -1,13 +1,19 @@
 import { Fragment, FunctionComponent } from "react";
-import { StudentRecord } from "../../../../shared";
-import { Card, CardBody, CardFooter, Col, Row } from "reactstrap";
-import { ActionCardHeader } from "jack-hermanson-component-lib";
+import {
+    getAge,
+    getIdPadded,
+    sexToString,
+    StudentRecord,
+} from "../../../../shared";
+import { Card, CardBody, CardFooter, CardHeader, Col, Row } from "reactstrap";
+import { KeyValTable } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { Clearance } from "../../../../shared";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { Sex } from "jack-hermanson-ts-utils";
 import { SchoolRecord } from "../../../../shared";
+import { StudentImage } from "./StudentImage";
+import { ID_PADDING } from "../../utils/constants";
 
 interface Props {
     student: StudentRecord;
@@ -23,71 +29,64 @@ export const Student: FunctionComponent<Props> = ({
 
     return (
         <Card className="mb-3 no-mb-last">
-            <ActionCardHeader
-                title={`${student.firstName} ${student.middleName || ""} ${
-                    student.lastName || ""
-                }`}
-            />
+            <CardHeader>
+                <h5 className="mb-0">
+                    <Link
+                        className="header-link"
+                        to={`/students/${student.id}`}
+                    >
+                        Student #{getIdPadded(student, ID_PADDING)}
+                    </Link>
+                </h5>
+            </CardHeader>
             <CardBody>
                 <Row>
-                    <Col xs={12} lg={6} className="mb-3">
-                        <dl>
-                            <dt>
-                                {spanish
-                                    ? "Fecha de Nacimiento"
-                                    : "Date of Birth"}
-                            </dt>
-                            <dd>{renderDateOfBirth()}</dd>
-                        </dl>
+                    <Col xs={4} lg={2} className="mb-3 mb-lg-0">
+                        <StudentImage imageId={student.imageId} />
                     </Col>
-                    <Col xs={12} lg={6} className="mb-3">
-                        <dl>
-                            <dt>{spanish ? "Nivel" : "Level"}</dt>
-                            <dd>
-                                {student.level === 0
-                                    ? spanish
-                                        ? "Preescolar"
-                                        : "Preschool"
-                                    : student.level}
-                            </dd>
-                        </dl>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={12} lg={6} className="mb-3">
-                        <dl>
-                            <dt>{spanish ? "Suministros" : "Supplies"}</dt>
-                            <dd>{listSupplies().join(", ") || "N/A"}</dd>
-                        </dl>
-                    </Col>
-                    <Col xs={12} lg={6} className="mb-3">
-                        <dl>
-                            <dt>{spanish ? "Sexo" : "Sex"}</dt>
-                            <dd>
-                                {Sex[student.sex]
-                                    .toLowerCase()
-                                    .capitalizeFirst()}
-                            </dd>
-                            {/*https://stackoverflow.com/questions/50784444/add-description-attribute-to-enum-and-read-this-description-in-typescript*/}
-                        </dl>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={12} lg={6} className="mb-3 mb-lg-0">
-                        <dl>
-                            <dt>{spanish ? "Escuela" : "School"}</dt>
-                            <dd>{school ? school.name : "N/A"}</dd>
-                        </dl>
-                    </Col>
-                    <Col xs={12} lg={6}>
-                        <dl>
-                            <dt>Sponsor</dt>
-                            <dd>Todo</dd>
-                        </dl>
+                    <Col xs={12} lg={10}>
+                        <h4>
+                            {student.firstName} {student.middleName || ""}{" "}
+                            {student.lastName || ""}
+                        </h4>
+                        <KeyValTable
+                            keyValPairs={[
+                                {
+                                    key: spanish
+                                        ? "Fecha de Nacimiento"
+                                        : "Date of Birth",
+                                    val: renderDateOfBirth(),
+                                },
+                                {
+                                    key: spanish ? "Nivel" : "Level",
+                                    val:
+                                        student.level === 0
+                                            ? spanish
+                                                ? "Preescolar"
+                                                : "Preschool"
+                                            : student.level,
+                                },
+                                {
+                                    key: spanish ? "Suministros" : "Supplies",
+                                    val: listSupplies().join(", "),
+                                },
+                                {
+                                    key: spanish ? "Sexo" : "Sex",
+                                    val: sexToString(student.sex, spanish),
+                                },
+                                {
+                                    key: spanish ? "Escuela" : "School",
+                                    val: "TODO",
+                                },
+                                {
+                                    key: spanish ? "Padrino" : "Sponsor",
+                                    val: "TODO",
+                                },
+                            ]}
+                        />
                     </Col>
                 </Row>
             </CardBody>
-
             {renderFooter()}
         </Card>
     );
@@ -102,6 +101,9 @@ export const Student: FunctionComponent<Props> = ({
         }
         if (student.supplies) {
             supplies.push(spanish ? "Útiles" : "School Supplies");
+        }
+        if (student.uniform) {
+            supplies.push(spanish ? "Uniforme" : "Uniform");
         }
         return supplies;
     }
@@ -128,9 +130,7 @@ export const Student: FunctionComponent<Props> = ({
         const dateOfBirth: Date | undefined = student.dateOfBirth
             ? moment(student.dateOfBirth).toDate()
             : undefined;
-        const yearsOld: number | undefined = dateOfBirth
-            ? new Date().getFullYear() - dateOfBirth.getFullYear()
-            : undefined;
+        const yearsOld = getAge(student);
         return (
             <Fragment>
                 {dateOfBirth?.toLocaleDateString() || "N/A"}{" "}

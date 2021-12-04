@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 384 384" style="enable-background:new 0 0 384 384;" xml:space="preserve">
+<style type="text/css">
+	.st0{display:none;}
+	.st1{display:inline;}
+	.st2{fill:#283646;}
+	.st3{fill:#FFFFFF;}
+</style>
+<g id="pallette" class="st0">
+	<g id="L4UsJy.tif" class="st1">
+		
+			<image style="overflow:visible;" width="169" height="82" id="Layer_0" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKkAAABSCAIAAACg4mOiAAAACXBIWXMAAAsSAAALEgHS3X78AAAA
+GXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKVJREFUeNrs0wENACAMA0Eg04YA
+FKCdkOlAx8KdhH7a59qNLw0TaI/2aI/2aI/2aI/2aI/2aI/2aI/2aI/2aI/2aI/2aI/2aI/2aI/2
+aI/2aI/2aI/22qM92qM92qM92qM9hcW5aQW/R3u0R3u0R3u0R3u0R3u0R3u0R3u0R3u0R3u0R3u0
+R3u0R3u0R3u0R3u0R3u01x7t0R7t0R7t0R7tqe4JMAAoiwRKQTXVzQAAAABJRU5ErkJggg==" transform="matrix(1 0 0 1 -229 53)">
+		</image>
+	</g>
+</g>
+<g id="bg">
+	<rect y="0" class="st2" width="384" height="384"/>
+</g>
+<g id="silhouette">
+	<path class="st3" d="M352,352H32v0c0-79.53,64.47-144,144-144h32C287.53,208,352,272.47,352,352L352,352z"/>
+	<circle class="st3" cx="192" cy="112" r="80"/>
+</g>
+<g id="bowtie">
+	<path class="st2" d="M232.82,224.49c-8.59,0-30.08,17.19-30.08,17.19l-0.49,0.49c-0.77-1.56-2.38-2.64-4.25-2.64H186
+		c-1.86,0-3.47,1.08-4.25,2.64l-0.49-0.49c0,0-21.48-17.19-30.08-17.19s-8.59,17.19-8.59,17.19v21.48h0.05c0,0,0,17.19,8.59,17.19
+		c8.59,0,30.08-17.19,30.08-17.19h-0.05l0.49-0.49c0.77,1.56,2.38,2.64,4.25,2.64H198c1.86,0,3.47-1.08,4.25-2.64l0.49,0.49h-0.05
+		c0,0,21.48,17.19,30.08,17.19c8.59,0,8.59-17.19,8.59-17.19h0.05v-21.48C241.42,241.68,241.42,224.49,232.82,224.49z"/>
+	<path class="st2" d="M192-48"/>
+	<line class="st2" x1="720" y1="208" x2="160" y2="-320"/>
+</g>
+</svg>

@@ -2,11 +2,17 @@ import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { Col, Row } from "reactstrap";
-import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
+import {
+    KeyValTable,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { AccountRecord, Clearance } from "@nica-angels/shared";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { AccountClient } from "../../clients/AccountClient";
+import { ClearanceBadge } from "../Utils/ClearanceBadge";
+import moment from "moment";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -15,6 +21,7 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
     const token = useStoreState(state => state.token);
 
     const [user, setUser] = useState<AccountRecord | undefined>(undefined);
+    const [numTokens, setNumTokens] = useState<number | undefined>(undefined);
 
     useMinClearance(Clearance.ADMIN);
 
@@ -26,8 +33,14 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
             ).then(data => {
                 setUser(data);
             });
+
+            AccountClient.getTokens(parseInt(match.params.id), token.data).then(
+                data => {
+                    setNumTokens(data);
+                }
+            );
         }
-    }, [setUser, token]);
+    }, [setUser, token, setNumTokens]);
 
     return (
         <div>
@@ -57,7 +70,45 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
                 <Col>
                     {user ? (
                         <Fragment>
-                            <p>Add edit user here</p>
+                            <KeyValTable
+                                keyValPairs={[
+                                    {
+                                        key: spanish ? "Nombre" : "Name",
+                                        val: `${user.firstName} ${user.lastName}`,
+                                    },
+                                    {
+                                        key: spanish
+                                            ? "Correo Electrónico"
+                                            : "Email",
+                                        val: user.email,
+                                    },
+                                    {
+                                        key: "Tokens",
+                                        val:
+                                            numTokens === undefined
+                                                ? "..."
+                                                : numTokens,
+                                    },
+                                    {
+                                        key: spanish
+                                            ? "Autorización"
+                                            : "Clearance",
+                                        val: (
+                                            <ClearanceBadge
+                                                clearance={user.clearance}
+                                            />
+                                        ),
+                                    },
+                                    {
+                                        key: spanish
+                                            ? "Actualizado"
+                                            : "Updated",
+                                        val: moment(user.updated)
+                                            .toDate()
+                                            .toLocaleString(),
+                                    },
+                                ]}
+                            />
                         </Fragment>
                     ) : (
                         <LoadingSpinner />

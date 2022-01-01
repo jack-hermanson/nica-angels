@@ -48,7 +48,7 @@ export const UserGlance: FunctionComponent<Props> = ({ account }: Props) => {
                         val: numTokens === undefined ? "..." : numTokens,
                     },
                     {
-                        key: "Clearance",
+                        key: spanish ? "Autorización" : "Clearance",
                         val: <ClearanceBadge clearance={account.clearance} />,
                     },
                 ]}

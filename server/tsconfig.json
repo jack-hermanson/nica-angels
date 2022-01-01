@@ -1,12 +1,13 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "module": "CommonJS",
+        "target": "esnext",
+        "module": "commonjs",
+        "moduleResolution": "Node",
         "sourceMap": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "esModuleInterop": true,
-        "target": "ES2017",
         "baseUrl": ".",
         "paths": {
             "*": ["node_modules/*"]

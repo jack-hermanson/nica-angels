@@ -1,5 +1,5 @@
 import { Fragment, FunctionComponent } from "react";
-import { TownRecord, TownRequest } from "../../../../shared";
+import { TownRecord, TownRequest } from "@nica-angels/shared";
 import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";

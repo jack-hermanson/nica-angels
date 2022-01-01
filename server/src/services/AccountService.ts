@@ -7,7 +7,7 @@ import {
     LogOutRequest,
     RegisterRequest,
     TokenLoginRequest,
-} from "../../../shared";
+} from "@nica-angels/shared";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Token } from "../models/Token";
 import * as bcrypt from "bcryptjs";

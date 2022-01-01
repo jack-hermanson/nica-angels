@@ -7,7 +7,7 @@ import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaUpload } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "../../../../shared";
+import { Clearance } from "@nica-angels/shared";
 import { FileClient } from "../../clients/FileClient";
 import { FilePreview } from "./FilePreview";
 

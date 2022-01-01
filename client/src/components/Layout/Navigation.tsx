@@ -23,7 +23,7 @@ import {
 } from "react-icons/fa";
 import { NavbarLink } from "../Utils/NavbarLink";
 import { useStoreState } from "../../store/_store";
-import { Clearance } from "../../../../shared";
+import { Clearance } from "@nica-angels/shared";
 import logo from "../../images/nica-logo.gif";
 
 export const Navigation: FC = () => {
@@ -36,57 +36,49 @@ export const Navigation: FC = () => {
 
     return (
         <Navbar dark color="secondary" className="mb-1 px-0" expand="lg">
-            <Container fluid={CONTAINER_FLUID}>
-                <NavbarBrand
-                    className="d-flex hover-mouse"
-                    onClick={() => {
-                        history.push("/");
-                        setIsOpen(false);
-                    }}
-                >
-                    <img src={logo} alt="logo" className="me-2 my-auto logo" />
-                    <div className="my-auto">{APP_NAME}</div>
-                </NavbarBrand>
-                <NavbarToggler onClick={toggle} />
-                <Collapse isOpen={isOpen} navbar>
-                    <Nav navbar style={{ marginRight: "auto" }}>
-                        {currentUser &&
-                            currentUser.clearance >= Clearance.SPONSOR && (
-                                <Fragment>
-                                    <NavbarLink
-                                        to={"/schools"}
-                                        onClick={close}
-                                        icon={
-                                            <FaSchool
-                                                className={NAV_ICON_CLASSES}
-                                            />
-                                        }
-                                        text={spanish ? "Escuelas" : "Schools"}
+            <NavbarBrand
+                id="navbar-brand"
+                className="d-flex hover-mouse"
+                onClick={() => {
+                    history.push("/");
+                    setIsOpen(false);
+                }}
+            >
+                <img src={logo} alt="logo" className="me-2 my-auto logo" />
+                <div className="my-auto">{APP_NAME}</div>
+            </NavbarBrand>
+            <NavbarToggler onClick={toggle} />
+            <Collapse isOpen={isOpen} navbar>
+                <Nav navbar style={{ marginRight: "auto" }}>
+                    {currentUser && currentUser.clearance >= Clearance.SPONSOR && (
+                        <Fragment>
+                            <NavbarLink
+                                to={"/schools"}
+                                onClick={close}
+                                icon={<FaSchool className={NAV_ICON_CLASSES} />}
+                                text={spanish ? "Escuelas" : "Schools"}
+                            />
+                            <NavbarLink
+                                to={"/students"}
+                                onClick={close}
+                                icon={
+                                    <FaUserGraduate
+                                        className={NAV_ICON_CLASSES}
                                     />
-                                    <NavbarLink
-                                        to={"/students"}
-                                        onClick={close}
-                                        icon={
-                                            <FaUserGraduate
-                                                className={NAV_ICON_CLASSES}
-                                            />
-                                        }
-                                        text={
-                                            spanish ? "Estudiantes" : "Students"
-                                        }
-                                    />
-                                </Fragment>
-                            )}
+                                }
+                                text={spanish ? "Estudiantes" : "Students"}
+                            />
+                        </Fragment>
+                    )}
 
-                        {renderSponsors()}
-                        {renderReports()}
-                        {renderSettings()}
-                    </Nav>
-                    <Nav navbar style={{ marginLeft: "auto" }}>
-                        {renderAccount()}
-                    </Nav>
-                </Collapse>
-            </Container>
+                    {renderSponsors()}
+                    {renderReports()}
+                    {renderSettings()}
+                </Nav>
+                <Nav navbar style={{ marginLeft: "auto" }}>
+                    {renderAccount()}
+                </Nav>
+            </Collapse>
         </Navbar>
     );
 

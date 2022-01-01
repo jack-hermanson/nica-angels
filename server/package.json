@@ -1,5 +1,5 @@
 {
-    "name": "server",
+    "name": "@nica-angels/server",
     "version": "1.0.0",
     "scripts": {
         "start": "kill-port 5000 && nodemon -x ts-node src/server.ts",
@@ -8,6 +8,7 @@
     "license": "MIT",
     "private": false,
     "dependencies": {
+        "@nica-angels/shared": "*",
         "@types/bcryptjs": "^2.4.2",
         "@types/express": "^4.17.13",
         "@types/jsonwebtoken": "^8.5.4",

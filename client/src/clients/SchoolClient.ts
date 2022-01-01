@@ -1,4 +1,4 @@
-import { SchoolRecord, SchoolRequest } from "../../../shared";
+import { SchoolRecord, SchoolRequest } from "@nica-angels/shared";
 import axios from "axios";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 

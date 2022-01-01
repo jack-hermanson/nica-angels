@@ -1,5 +1,5 @@
 import { Fragment, FunctionComponent, useEffect } from "react";
-import { getIdPadded, StudentRecord } from "../../../../shared";
+import { getIdPadded, StudentRecord } from "@nica-angels/shared";
 import { ID_PADDING } from "../../utils/constants";
 import JsBarcode from "jsbarcode";
 

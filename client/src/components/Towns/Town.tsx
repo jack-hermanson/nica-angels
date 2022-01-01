@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { TownRecord } from "../../../../shared";
+import { SchoolRecord, TownRecord } from "@nica-angels/shared";
 import { Card, CardBody, CardFooter } from "reactstrap";
 import {
     ActionCardHeader,
@@ -9,7 +9,6 @@ import {
 import { useStoreState } from "../../store/_store";
 import { LinkDropdownAction } from "jack-hermanson-ts-utils";
 import * as timeago from "timeago.js";
-import { SchoolRecord } from "../../../../shared";
 import { SchoolClient } from "../../clients/SchoolClient";
 
 interface Props {

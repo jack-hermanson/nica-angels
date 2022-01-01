@@ -1,13 +1,11 @@
 import express, { Response } from "express";
 import { auth } from "../middleware/auth";
 import { Request } from "../utils/Request";
-import { SchoolRecord, SchoolRequest } from "../../../shared";
+import { Clearance, SchoolRecord, SchoolRequest } from "@nica-angels/shared";
 import { authorized } from "../utils/functions";
-import { Clearance } from "../../../shared";
 import { SchoolService } from "../services/SchoolService";
 import { HTTP, validateRequest } from "jack-hermanson-ts-utils";
 import { schoolSchema } from "../models/School";
-import { AccountService } from "../services/AccountService";
 
 export const router = express.Router();
 

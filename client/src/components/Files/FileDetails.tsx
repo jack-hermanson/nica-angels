@@ -6,7 +6,7 @@ import {
     PageHeader,
 } from "jack-hermanson-component-lib";
 import { Alert, Button, Col, Row } from "reactstrap";
-import { Clearance, FileRecord } from "../../../../shared";
+import { Clearance, FileRecord } from "@nica-angels/shared";
 import { FileClient } from "../../clients/FileClient";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import { useStoreActions, useStoreState } from "../../store/_store";

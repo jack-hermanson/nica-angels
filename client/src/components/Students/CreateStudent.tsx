@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { useStoreActions, useStoreState } from "../../store/_store";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "../../../../shared";
+import { Clearance } from "@nica-angels/shared";
 import { Col, Row } from "reactstrap";
 import { CreateEditStudentForm } from "./CreateEditStudentForm";
 import { useHistory } from "react-router-dom";

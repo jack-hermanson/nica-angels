@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TownRecord, TownRequest } from "../../../shared";
+import { TownRecord, TownRequest } from "@nica-angels/shared";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 
 export abstract class TownClient {

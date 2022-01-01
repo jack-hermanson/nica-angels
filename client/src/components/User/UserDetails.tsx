@@ -1,6 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { AccountRecord } from "../../../../shared";
-import { Clearance } from "../../../../shared";
+import { AccountRecord, Clearance } from "@nica-angels/shared";
 
 interface Props {
     user: AccountRecord;

@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { Col, Row } from "reactstrap";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance, FileRequest } from "../../../../shared";
+import { Clearance, FileRequest } from "@nica-angels/shared";
 import { UploadForm } from "./UploadForm";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { FileClient } from "../../clients/FileClient";

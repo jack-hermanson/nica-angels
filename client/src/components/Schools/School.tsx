@@ -1,14 +1,12 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { SchoolRecord } from "../../../../shared";
+import { Clearance, SchoolRecord, TownRecord } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { Card, CardBody, CardFooter, Table } from "reactstrap";
 import {
     ActionCardHeader,
     ActionsDropdown,
 } from "jack-hermanson-component-lib";
-import { Clearance } from "../../../../shared";
 import { LinkDropdownAction } from "jack-hermanson-ts-utils";
-import { TownRecord } from "../../../../shared";
 import { TownClient } from "../../clients/TownClient";
 
 interface Props {
@@ -28,7 +26,7 @@ export const School: FunctionComponent<Props> = ({
 
     useEffect(() => {
         if (token) {
-            TownClient.getTown(school.id, token.data).then(data => {
+            TownClient.getTown(school.townId, token.data).then(data => {
                 setTown(data);
             });
         }
@@ -93,7 +91,7 @@ export const School: FunctionComponent<Props> = ({
                     <tbody>
                         <tr>
                             <td>{spanish ? "Preescolar" : "Preschool"}</td>
-                            <td>16</td>
+                            <td>{Math.floor(Math.random() * 12 + 3)}</td>
                         </tr>
                         {grades.map(grade => (
                             <tr key={grade[0]}>

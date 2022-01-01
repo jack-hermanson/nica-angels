@@ -1,9 +1,8 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "../../../../shared";
+import { Clearance, EnrollmentRecord } from "@nica-angels/shared";
 import { useStoreActions, useStoreState } from "../../store/_store";
-import { EnrollmentRecord } from "../../../../shared";
 import { EnrollmentClient } from "../../clients/EnrollmentClient";
 import { Col, Row } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";

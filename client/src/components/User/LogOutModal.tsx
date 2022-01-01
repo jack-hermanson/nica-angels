@@ -1,7 +1,7 @@
 import { ConfirmationModal } from "jack-hermanson-component-lib";
 import { Dispatch, FunctionComponent, SetStateAction, useState } from "react";
 import { LogOutRequest, TokenRecord } from "@nica-angels/shared";
-import { useStoreActions } from "../../store/_store";
+import { useStoreActions, useStoreState } from "../../store/_store";
 import { FormGroup, Input, Label } from "reactstrap";
 
 interface Props {
@@ -19,17 +19,21 @@ export const LogOutModal: FunctionComponent<Props> = ({
 }: Props) => {
     const [logOutEverywhere, setLogOutEverywhere] = useState(false);
     const logOut = useStoreActions(actions => actions.logOut);
+    const spanish = useStoreState(state => state.spanish);
 
     return (
         <ConfirmationModal
             isOpen={isOpen}
             setIsOpen={setIsOpen}
-            title={"Log Out Confirmation"}
+            title={spanish ? "Confirmar Cerrar Sesión" : "Log Out Confirmation"}
             onConfirm={executeLogOut}
+            buttonText={spanish ? "Cerrar Sesión" : "Log Out"}
+            buttonColor="danger"
         >
             <p>
-                Please confirm that you would like to log out. Check the box
-                below to log out of all devices, not just this one.
+                {spanish
+                    ? `Favor de confirmar que quiere cerrar esta sesión. Activar la casilla para cerrar cada sesión en cada dispositivo electrónico.`
+                    : `Please confirm that you would like to log out. Check the box below to log out of all devices, not just this one.`}
             </p>
             <form>{renderLogOutEverywhereCheck()}</form>
         </ConfirmationModal>
@@ -46,7 +50,7 @@ export const LogOutModal: FunctionComponent<Props> = ({
                     id={id}
                 />
                 <Label className="form-check-label" for={id}>
-                    Log out everywhere
+                    {spanish ? "Cerrar cada sesión" : "Log out everywhere"}
                 </Label>
             </FormGroup>
         );

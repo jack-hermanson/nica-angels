@@ -1,9 +1,10 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Card } from "reactstrap";
+import { Card, CardHeader } from "reactstrap";
 import { ActionCardHeader, KeyValCardBody } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { AccountRecord } from "@nica-angels/shared";
 import { AccountClient } from "../../clients/AccountClient";
+import { Link } from "react-router-dom";
 
 interface Props {
     account: AccountRecord;
@@ -25,9 +26,16 @@ export const UserGlance: FunctionComponent<Props> = ({ account }: Props) => {
 
     return (
         <Card className="mb-3 no-mb-last">
-            <ActionCardHeader
-                title={`${account.firstName} ${account.lastName}`}
-            />
+            <CardHeader>
+                <h5 className="mb-0">
+                    <Link
+                        className="text-white"
+                        to={`/settings/users/${account.id}`}
+                    >
+                        {account.firstName} {account.lastName}
+                    </Link>
+                </h5>
+            </CardHeader>
             <KeyValCardBody
                 keyValPairs={[
                     {

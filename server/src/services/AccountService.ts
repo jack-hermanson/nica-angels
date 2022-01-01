@@ -2,6 +2,7 @@ import { Account } from "../models/Account";
 import { Response } from "express";
 import { getConnection, Repository } from "typeorm";
 import {
+    AdminEditAccountRequest,
     Clearance,
     LoginRequest,
     LogOutRequest,
@@ -74,10 +75,16 @@ export abstract class AccountService {
         account.lastName = registerRequest.lastName;
         account.email = registerRequest.email;
 
-        const salt = await bcrypt.genSalt(10);
-        account.password = await bcrypt.hash(registerRequest.password, salt);
+        account.password = await AccountService.hashPassword(
+            registerRequest.password
+        );
 
         return await accountRepo.save(account);
+    }
+
+    static async hashPassword(plainText: string): Promise<string> {
+        const salt = await bcrypt.genSalt(10);
+        return await bcrypt.hash(plainText, salt);
     }
 
     static async delete(
@@ -215,5 +222,46 @@ export abstract class AccountService {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Admin is updating another user's (or their own) account.
+     * Don't use for promoting another user to admin.
+     * @param accountId - the ID of the account you are modifying
+     * @param editAccountRequest - the body of the request from the route function
+     * @param res - the response from the route function
+     * @returns - either the modified account (if successful) or undefined (if unsuccessful)
+     */
+    static async adminUpdate(
+        accountId: number,
+        editAccountRequest: AdminEditAccountRequest,
+        res: Response
+    ): Promise<Account | undefined> {
+        const { accountRepo } = getRepos();
+        const account = await accountRepo.findOne(accountId);
+        if (!account) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        // only change password if it's provided
+        const newPassword: string = editAccountRequest.password
+            ? await AccountService.hashPassword(editAccountRequest.password)
+            : account.password;
+
+        // only change clearance if it's < admin (use separate service for clearance promotions)
+        // only change clearance if not modifying a super admin
+        const newClearance: Clearance =
+            editAccountRequest.clearance >= Clearance.ADMIN ||
+            account.clearance >= Clearance.SUPER_ADMIN
+                ? account.clearance
+                : editAccountRequest.clearance;
+
+        return await accountRepo.save({
+            ...account,
+            ...editAccountRequest,
+            clearance: newClearance,
+            password: newPassword,
+        });
     }
 }

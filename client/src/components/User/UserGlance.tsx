@@ -5,6 +5,7 @@ import { useStoreState } from "../../store/_store";
 import { AccountRecord } from "@nica-angels/shared";
 import { AccountClient } from "../../clients/AccountClient";
 import { Link } from "react-router-dom";
+import { ClearanceBadge } from "../Utils/ClearanceBadge";
 
 interface Props {
     account: AccountRecord;
@@ -45,6 +46,10 @@ export const UserGlance: FunctionComponent<Props> = ({ account }: Props) => {
                     {
                         key: "Tokens",
                         val: numTokens === undefined ? "..." : numTokens,
+                    },
+                    {
+                        key: "Clearance",
+                        val: <ClearanceBadge clearance={account.clearance} />,
                     },
                 ]}
             />

@@ -1,30 +1,12 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { AccountRecord, Clearance } from "@nica-angels/shared";
+import { ClearanceBadge } from "../Utils/ClearanceBadge";
 
 interface Props {
     user: AccountRecord;
 }
 
 export const AccountDetails: FunctionComponent<Props> = ({ user }: Props) => {
-    const [clearance, setClearance] = useState<string>("");
-
-    useEffect(() => {
-        switch (user.clearance) {
-            case Clearance.NONE:
-                setClearance("none");
-                break;
-            case Clearance.SPONSOR:
-                setClearance("sponsor");
-                break;
-            case Clearance.ADMIN:
-                setClearance("admin");
-                break;
-            case Clearance.SUPER_ADMIN:
-                setClearance("super admin");
-                break;
-        }
-    }, [user]);
-
     return (
         <div>
             <dl>
@@ -40,7 +22,9 @@ export const AccountDetails: FunctionComponent<Props> = ({ user }: Props) => {
                 <dd>{new Date(user.created).toLocaleDateString()}</dd>
 
                 <dt>Clearance</dt>
-                <dd>{clearance}</dd>
+                <dd>
+                    <ClearanceBadge clearance={user.clearance} />
+                </dd>
             </dl>
         </div>
     );

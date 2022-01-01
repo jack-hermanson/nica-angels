@@ -51,4 +51,12 @@ export abstract class AccountClient {
         );
         return response.data;
     }
+
+    static async getTokens(accountId: number, token: string) {
+        const response = await axios.get<number>(
+            `${this.baseUrl}/tokens/${accountId}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

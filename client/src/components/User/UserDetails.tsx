@@ -33,6 +33,7 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
         <div>
             <SettingsTabs />
             {renderPageHeader()}
+            {renderUserInfo()}
         </div>
     );
 
@@ -53,7 +54,15 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
     function renderUserInfo() {
         return (
             <Row>
-                <Col>{user ? <Fragment></Fragment> : <LoadingSpinner />}</Col>
+                <Col>
+                    {user ? (
+                        <Fragment>
+                            <p>Add edit user here</p>
+                        </Fragment>
+                    ) : (
+                        <LoadingSpinner />
+                    )}
+                </Col>
             </Row>
         );
     }

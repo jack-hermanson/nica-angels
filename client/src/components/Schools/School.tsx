@@ -26,7 +26,7 @@ export const School: FunctionComponent<Props> = ({
 
     useEffect(() => {
         if (token) {
-            TownClient.getTown(school.id, token.data).then(data => {
+            TownClient.getTown(school.townId, token.data).then(data => {
                 setTown(data);
             });
         }

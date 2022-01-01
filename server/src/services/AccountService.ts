@@ -264,4 +264,16 @@ export abstract class AccountService {
             password: newPassword,
         });
     }
+
+    /**
+     * Count the number of tokens currently saved for a particular user
+     * @param accountId
+     */
+    static async countTokens(accountId: number): Promise<number> {
+        const { tokenRepo } = getRepos();
+
+        return await tokenRepo.count({
+            accountId: accountId,
+        });
+    }
 }

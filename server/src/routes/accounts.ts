@@ -150,6 +150,26 @@ router.post(
 );
 
 router.get(
+    "/tokens/:accountId",
+    auth,
+    async (req: Request<{ accountId: string }>, res: Response) => {
+        const accountId = parseInt(req.params.accountId);
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                matchingAccountId: accountId,
+                res,
+            })
+        ) {
+            return;
+        }
+        const tokens = await AccountService.countTokens(accountId);
+        res.json(tokens);
+    }
+);
+
+router.get(
     "/:id",
     auth,
     async (req: Request<{ id: string }>, res: Response<AccountRecord>) => {

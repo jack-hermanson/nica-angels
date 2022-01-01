@@ -3,6 +3,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { Col, Row } from "reactstrap";
 import {
+    ActionsDropdown,
     KeyValTable,
     LoadingSpinner,
     PageHeader,
@@ -13,6 +14,7 @@ import { useMinClearance } from "../../utils/useMinClearance";
 import { AccountClient } from "../../clients/AccountClient";
 import { ClearanceBadge } from "../Utils/ClearanceBadge";
 import moment from "moment";
+import { LinkDropdownAction } from "jack-hermanson-ts-utils";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -58,7 +60,20 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
                         title={
                             spanish ? "Detalles del Usuario" : "User Details"
                         }
-                    />
+                    >
+                        {user && (
+                            <ActionsDropdown
+                                size="sm"
+                                options={[
+                                    new LinkDropdownAction(
+                                        spanish ? "Editar" : "Edit",
+                                        `/settings/users/edit/${user.id}`
+                                    ),
+                                ]}
+                                menuName={spanish ? "Acciones" : "Actions"}
+                            />
+                        )}
+                    </PageHeader>
                 </Col>
             </Row>
         );

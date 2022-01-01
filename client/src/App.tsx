@@ -30,6 +30,7 @@ import { Upload } from "./components/Files/Upload";
 import { FileDetails } from "./components/Files/FileDetails";
 import { FilesIndex } from "./components/Files/FilesIndex";
 import { StudentDetails } from "./components/Students/StudentDetails";
+import { UsersIndex } from "./components/User/UsersIndex";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -140,6 +141,12 @@ export const App: React.FC = () => {
                         exact
                         path="/settings/files/:id"
                         component={FileDetails}
+                    />
+
+                    <Route
+                        exact
+                        path="/settings/users"
+                        component={UsersIndex}
                     />
 
                     <Route exact path="/forbidden" component={Forbidden} />

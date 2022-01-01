@@ -4,6 +4,7 @@ import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
 import { Button, FormGroup, Input, Label } from "reactstrap";
+import { useStoreState } from "../../store/_store";
 
 interface Props {
     onSubmit: (loginRequest: LoginRequest) => Promise<void>;
@@ -15,6 +16,8 @@ const validationSchema = yup.object().shape({
 });
 
 export const LoginForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
+    const spanish = useStoreState(state => state.spanish);
+
     return (
         <Formik
             initialValues={{
@@ -53,7 +56,7 @@ export const LoginForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         return (
             <FormGroup>
                 <Label className="form-label required" for={id}>
-                    Email
+                    {spanish ? "Correo Electrónico" : "Email"}
                 </Label>
                 <Field
                     autoFocus={true}
@@ -72,7 +75,7 @@ export const LoginForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         return (
             <FormGroup>
                 <Label className="form-label required" for={id}>
-                    Password
+                    {spanish ? "Contraseña" : "Password"}
                 </Label>
                 <Field name="password" id={id} type="password" as={Input} />
                 <FormError>{errors.password}</FormError>
@@ -84,10 +87,10 @@ export const LoginForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         return (
             <div className="bottom-buttons">
                 <Button type="submit" color="primary">
-                    Log In
+                    {spanish ? "Iniciar Sesión" : "Log In"}
                 </Button>
                 <Button type="reset" color="secondary">
-                    Reset
+                    {spanish ? "Restablecer" : "Reset"}
                 </Button>
             </div>
         );

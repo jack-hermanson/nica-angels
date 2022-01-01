@@ -16,7 +16,18 @@ const validationSchema = yup.object().shape({
     lastName: yup.string().label("Last Name").required().min(2).max(100),
     email: yup.string().label("Email").email().required().max(100),
     password: yup.string().label("Password").required().min(3).max(100),
+    confirmPassword: yup
+        .string()
+        .label("Confirm Password")
+        .required()
+        .test("passwords-match", "Passwords must match", function (value) {
+            return this.parent.password === value;
+        }),
 });
+
+interface FormValues extends RegisterRequest {
+    confirmPassword: string;
+}
 
 export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
     const spanish = useStoreState(state => state.spanish);
@@ -28,6 +39,7 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
                 lastName: "",
                 email: "",
                 password: "",
+                confirmPassword: "",
             }}
             onSubmit={async (data, { setSubmitting }) => {
                 setSubmitting(true);
@@ -42,7 +54,7 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
             validateOnChange={false}
             validateOnBlur={false}
         >
-            {({ errors, isSubmitting }: FormikProps<RegisterRequest>) => (
+            {({ errors, isSubmitting }: FormikProps<FormValues>) => (
                 <Form>
                     {isSubmitting ? (
                         <LoadingSpinner />
@@ -52,6 +64,7 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
                             {renderLastName(errors)}
                             {renderEmail(errors)}
                             {renderPassword(errors)}
+                            {renderConfirmPassword(errors)}
                             {renderButtons()}
                         </Fragment>
                     )}
@@ -60,7 +73,7 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         </Formik>
     );
 
-    function renderFirstName(errors: FormikErrors<RegisterRequest>) {
+    function renderFirstName(errors: FormikErrors<FormValues>) {
         const id = "first-name-input";
         return (
             <FormGroup>
@@ -79,7 +92,7 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         );
     }
 
-    function renderLastName(errors: FormikErrors<RegisterRequest>) {
+    function renderLastName(errors: FormikErrors<FormValues>) {
         const id = "last-name-input";
 
         return (
@@ -93,7 +106,7 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         );
     }
 
-    function renderEmail(errors: FormikErrors<RegisterRequest>) {
+    function renderEmail(errors: FormikErrors<FormValues>) {
         const id = "email-input";
 
         return (
@@ -107,7 +120,7 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         );
     }
 
-    function renderPassword(errors: FormikErrors<RegisterRequest>) {
+    function renderPassword(errors: FormikErrors<FormValues>) {
         const id = "password-input";
 
         return (
@@ -117,6 +130,25 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
                 </Label>
                 <Field name="password" id={id} type="password" as={Input} />
                 <FormError>{errors.password}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderConfirmPassword(errors: FormikErrors<FormValues>) {
+        const id = "confirm-password-input";
+
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    {spanish ? "Confirmar Contraseña" : "Confirm Password"}
+                </Label>
+                <Field
+                    name="confirmPassword"
+                    id={id}
+                    type="password"
+                    as={Input}
+                />
+                <FormError>{errors.confirmPassword}</FormError>
             </FormGroup>
         );
     }

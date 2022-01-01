@@ -91,7 +91,7 @@ export const School: FunctionComponent<Props> = ({
                     <tbody>
                         <tr>
                             <td>{spanish ? "Preescolar" : "Preschool"}</td>
-                            <td>16</td>
+                            <td>{Math.floor(Math.random() * 12 + 3)}</td>
                         </tr>
                         {grades.map(grade => (
                             <tr key={grade[0]}>

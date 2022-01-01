@@ -5,7 +5,7 @@ interface Props {
     user: AccountRecord;
 }
 
-export const UserDetails: FunctionComponent<Props> = ({ user }: Props) => {
+export const AccountDetails: FunctionComponent<Props> = ({ user }: Props) => {
     const [clearance, setClearance] = useState<string>("");
 
     useEffect(() => {

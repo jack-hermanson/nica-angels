@@ -5,7 +5,7 @@ import { Layout } from "./components/Layout/Layout";
 import { AccountPage } from "./components/Account/AccountPage";
 import { DashboardPage } from "./components/Dashboard/DashboardPage";
 import { RegisterPage } from "./components/Account/RegisterPage";
-import { LoginPage } from "./components/User/LoginPage";
+import { LoginPage } from "./components/Account/LoginPage";
 import { useStoreActions } from "./store/_store";
 import { LocalStorage } from "./utils/LocalStorage";
 import { AccountClient } from "./clients/AccountClient";

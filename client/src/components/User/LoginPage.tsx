@@ -9,6 +9,7 @@ import { LocalStorage } from "../../utils/LocalStorage";
 export const LoginPage: FunctionComponent = () => {
     const logIn = useStoreActions(actions => actions.logIn);
     const currentUser = useStoreState(state => state.currentUser);
+    const spanish = useStoreState(state => state.spanish);
 
     const history = useHistory();
 
@@ -27,7 +28,7 @@ export const LoginPage: FunctionComponent = () => {
         <div>
             <Row>
                 <Col>
-                    <PageHeader title="Log In" />
+                    <PageHeader title={spanish ? "Iniciar Sesión" : "Log In"} />
                 </Col>
             </Row>
             <Row>
@@ -48,8 +49,12 @@ export const LoginPage: FunctionComponent = () => {
                     />
                     <hr className="mt-4" />
                     <p>
-                        Need an account?{" "}
-                        <Link to="/account/register">Register.</Link>
+                        {spanish
+                            ? "¿Necesitas una cuenta?"
+                            : "Need an account?"}{" "}
+                        <Link to="/account/register">
+                            {spanish ? "Registrar" : "Register"}.
+                        </Link>
                     </p>
                 </Col>
             </Row>

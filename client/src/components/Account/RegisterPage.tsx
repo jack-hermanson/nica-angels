@@ -10,6 +10,7 @@ export const RegisterPage: FunctionComponent = () => {
     const currentUser = useStoreState(state => state.currentUser);
     const history = useHistory();
     const logIn = useStoreActions(actions => actions.logIn);
+    const spanish = useStoreState(state => state.spanish);
 
     useEffect(() => {
         if (currentUser) {
@@ -21,7 +22,7 @@ export const RegisterPage: FunctionComponent = () => {
         <div>
             <Row>
                 <Col>
-                    <PageHeader title="Register" />
+                    <PageHeader title={spanish ? "Registrar" : "Register"} />
                 </Col>
             </Row>
             <Row>
@@ -44,8 +45,12 @@ export const RegisterPage: FunctionComponent = () => {
                     />
                     <hr className="mt-4" />
                     <p>
-                        Already have an account?{" "}
-                        <Link to="/account/login">Log in.</Link>
+                        {spanish
+                            ? "¿Ya tiene una cuenta?"
+                            : "Already have an account?"}{" "}
+                        <Link to="/account/login">
+                            {spanish ? "Iniciar sesión." : "Log in."}
+                        </Link>
                     </p>
                 </Col>
             </Row>

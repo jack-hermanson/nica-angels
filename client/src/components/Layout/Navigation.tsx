@@ -1,17 +1,6 @@
 import { FC, Fragment, useCallback, useState } from "react";
-import {
-    Collapse,
-    Container,
-    Nav,
-    Navbar,
-    NavbarBrand,
-    NavbarToggler,
-} from "reactstrap";
-import {
-    APP_NAME,
-    CONTAINER_FLUID,
-    NAV_ICON_CLASSES,
-} from "../../utils/constants";
+import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler } from "reactstrap";
+import { APP_NAME, NAV_ICON_CLASSES } from "../../utils/constants";
 import { useHistory } from "react-router-dom";
 import {
     FaCogs,

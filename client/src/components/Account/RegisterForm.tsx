@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
+import { useStoreState } from "../../store/_store";
 
 interface Props {
     onSubmit: (requestBody: RegisterRequest) => Promise<void>;
@@ -18,6 +19,8 @@ const validationSchema = yup.object().shape({
 });
 
 export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
+    const spanish = useStoreState(state => state.spanish);
+
     return (
         <Formik
             initialValues={{
@@ -62,7 +65,7 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         return (
             <FormGroup>
                 <Label className="form-label required" for={id}>
-                    First Name
+                    {spanish ? "Nombre" : "First Name"}
                 </Label>
                 <Field
                     autoFocus={true}
@@ -82,7 +85,7 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         return (
             <FormGroup>
                 <Label className="form-label required" for={id}>
-                    Last Name
+                    {spanish ? "Apellido" : "Last Name"}
                 </Label>
                 <Field name="lastName" id={id} type="text" as={Input} />
                 <FormError>{errors.lastName}</FormError>
@@ -96,7 +99,7 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         return (
             <FormGroup>
                 <Label className="form-label required" for={id}>
-                    Email
+                    {spanish ? "Correo Electrónico" : "Email"}
                 </Label>
                 <Field name="email" id={id} type="text" as={Input} />
                 <FormError>{errors.email}</FormError>
@@ -110,7 +113,7 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         return (
             <FormGroup>
                 <Label className="form-label required" for={id}>
-                    Password
+                    {spanish ? "Contraseña" : "Password"}
                 </Label>
                 <Field name="password" id={id} type="password" as={Input} />
                 <FormError>{errors.password}</FormError>
@@ -122,10 +125,10 @@ export const RegisterForm: FunctionComponent<Props> = ({ onSubmit }: Props) => {
         return (
             <div className="bottom-buttons">
                 <Button type="submit" color={SUBMIT_BUTTON_COLOR}>
-                    Register
+                    {spanish ? "Registrar" : "Register"}
                 </Button>
                 <Button type="reset" color={RESET_BUTTON_COLOR}>
-                    Reset
+                    {spanish ? "Restablecer" : "Reset"}
                 </Button>
             </div>
         );

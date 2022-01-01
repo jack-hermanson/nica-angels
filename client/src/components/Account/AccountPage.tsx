@@ -45,11 +45,15 @@ export const AccountPage: FunctionComponent = () => {
                 <Col>
                     <PageHeader title={spanish ? "Cuenta" : "Account"}>
                         <ActionsDropdown
+                            menuName={spanish ? "Acciones" : "Actions"}
                             size="sm"
                             options={[
-                                new ClickDropdownAction("Log Out", () => {
-                                    setShowLogOutModal(true);
-                                }),
+                                new ClickDropdownAction(
+                                    spanish ? "Cerrar Sesión" : "Log Out",
+                                    () => {
+                                        setShowLogOutModal(true);
+                                    }
+                                ),
                             ]}
                         />
                     </PageHeader>

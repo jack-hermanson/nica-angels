@@ -21,17 +21,20 @@ import {
     PageHeader,
 } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "../../../../shared";
+import {
+    Clearance,
+    GetStudentsRequest,
+    StudentRecord,
+} from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { StudentClient } from "../../clients/StudentClient";
-import { GetStudentsRequest, StudentRecord } from "../../../../shared";
 import { Student } from "./Student";
 import {
     ClickDropdownAction,
     LinkDropdownAction,
 } from "jack-hermanson-ts-utils";
 import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
-import { Formik, Field, Form } from "formik";
+import { Field, Form, Formik } from "formik";
 
 export const StudentsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.SPONSOR);

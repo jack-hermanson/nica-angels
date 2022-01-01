@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
-import { FileRecord } from "../../../../shared";
+import { FileRecord } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { FileClient } from "../../clients/FileClient";
 import { Link } from "react-router-dom";

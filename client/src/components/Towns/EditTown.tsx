@@ -1,11 +1,10 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "../../../../shared";
+import { Clearance, TownRecord, TownRequest } from "@nica-angels/shared";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { Col, Row } from "reactstrap";
-import { TownRecord, TownRequest } from "../../../../shared";
 import { TownClient } from "../../clients/TownClient";
 import { useStoreActions, useStoreState } from "../../store/_store";
 import { conflictError, HTTP } from "jack-hermanson-ts-utils";

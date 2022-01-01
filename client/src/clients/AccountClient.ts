@@ -1,6 +1,11 @@
-import { AccountRecord, LoginRequest, RegisterRequest } from "../../../shared";
+import {
+    AccountRecord,
+    LoginRequest,
+    LogOutRequest,
+    RegisterRequest,
+    TokenRecord,
+} from "@nica-angels/shared";
 import axios from "axios";
-import { LogOutRequest, TokenRecord } from "../../../shared";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 
 export abstract class AccountClient {

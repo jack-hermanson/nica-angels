@@ -2,7 +2,7 @@ import { Fragment, FunctionComponent, useState } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 import { LoadingSpinner } from "jack-hermanson-component-lib";
-import { FileRequest } from "../../../../shared";
+import { FileRequest } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 
 interface Props {

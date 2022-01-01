@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EnrollmentRecord, EnrollmentRequest } from "../../../shared";
+import { EnrollmentRecord, EnrollmentRequest } from "@nica-angels/shared";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 
 export abstract class EnrollmentClient {

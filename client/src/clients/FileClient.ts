@@ -1,4 +1,8 @@
-import { FileRecord, FileRequest, StudentImageRequest } from "../../../shared";
+import {
+    FileRecord,
+    FileRequest,
+    StudentImageRequest,
+} from "@nica-angels/shared";
 import axios from "axios";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 

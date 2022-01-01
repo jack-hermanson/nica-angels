@@ -1,14 +1,12 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { SchoolRecord } from "../../../../shared";
+import { Clearance, SchoolRecord, TownRecord } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { Card, CardBody, CardFooter, Table } from "reactstrap";
 import {
     ActionCardHeader,
     ActionsDropdown,
 } from "jack-hermanson-component-lib";
-import { Clearance } from "../../../../shared";
 import { LinkDropdownAction } from "jack-hermanson-ts-utils";
-import { TownRecord } from "../../../../shared";
 import { TownClient } from "../../clients/TownClient";
 
 interface Props {

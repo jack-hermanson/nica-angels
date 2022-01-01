@@ -1,8 +1,7 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "../../../../shared";
-import { SchoolRecord } from "../../../../shared";
+import { Clearance, SchoolRecord } from "@nica-angels/shared";
 import { useStoreActions, useStoreState } from "../../store/_store";
 import { SchoolClient } from "../../clients/SchoolClient";
 import { HTTP } from "jack-hermanson-ts-utils";

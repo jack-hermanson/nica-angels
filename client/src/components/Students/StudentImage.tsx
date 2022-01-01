@@ -1,5 +1,5 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { FileRecord } from "../../../../shared";
+import { FileRecord } from "@nica-angels/shared";
 import { FileClient } from "../../clients/FileClient";
 import { useStoreState } from "../../store/_store";
 import { LoadingSpinner } from "jack-hermanson-component-lib";

@@ -4,7 +4,7 @@ import { PageHeader } from "jack-hermanson-component-lib";
 import { useStoreActions, useStoreState } from "../../store/_store";
 import { Col, Row } from "reactstrap";
 import { CreateEditTownForm } from "./CreateEditTownForm";
-import { TownRequest } from "../../../../shared";
+import { TownRequest } from "@nica-angels/shared";
 import { TownClient } from "../../clients/TownClient";
 import { useHistory } from "react-router-dom";
 import { conflictError, HTTP, scrollToTop } from "jack-hermanson-ts-utils";

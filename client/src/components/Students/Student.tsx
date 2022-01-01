@@ -1,17 +1,17 @@
 import { Fragment, FunctionComponent } from "react";
 import {
+    Clearance,
     getAge,
     getIdPadded,
+    SchoolRecord,
     sexToString,
     StudentRecord,
-} from "../../../../shared";
+} from "@nica-angels/shared";
 import { Card, CardBody, CardFooter, CardHeader, Col, Row } from "reactstrap";
 import { KeyValTable } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
-import { Clearance } from "../../../../shared";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { SchoolRecord } from "../../../../shared";
 import { StudentImage } from "./StudentImage";
 import { ID_PADDING } from "../../utils/constants";
 

@@ -1,14 +1,17 @@
-import { StudentRecord } from "../../../../shared";
+import {
+    EnrollmentRecord,
+    EnrollmentRequest,
+    SchoolRecord,
+    StudentRecord,
+} from "@nica-angels/shared";
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { EnrollmentRecord, EnrollmentRequest } from "../../../../shared";
 import * as yup from "yup";
 import { useStoreState } from "../../store/_store";
-import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
+import { Field, Form, Formik, FormikErrors, FormikProps } from "formik";
 import moment from "moment";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
 import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
 import { StudentClient } from "../../clients/StudentClient";
-import { SchoolRecord } from "../../../../shared";
 import { SchoolClient } from "../../clients/SchoolClient";
 import {
     DATE_FORMAT,

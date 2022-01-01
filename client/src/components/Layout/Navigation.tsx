@@ -23,7 +23,7 @@ import {
 } from "react-icons/fa";
 import { NavbarLink } from "../Utils/NavbarLink";
 import { useStoreState } from "../../store/_store";
-import { Clearance } from "../../../../shared";
+import { Clearance } from "@nica-angels/shared";
 import logo from "../../images/nica-logo.gif";
 
 export const Navigation: FC = () => {

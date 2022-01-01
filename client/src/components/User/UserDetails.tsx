@@ -100,6 +100,12 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
                                         ),
                                     },
                                     {
+                                        key: spanish ? "Creado" : "Created",
+                                        val: moment(user.created)
+                                            .toDate()
+                                            .toLocaleString(),
+                                    },
+                                    {
                                         key: spanish
                                             ? "Actualizado"
                                             : "Updated",

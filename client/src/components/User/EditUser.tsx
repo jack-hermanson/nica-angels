@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { Col, Row } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
@@ -7,6 +7,7 @@ import { useStoreState } from "../../store/_store";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { AccountRecord, Clearance } from "@nica-angels/shared";
 import { AccountClient } from "../../clients/AccountClient";
+import { AdminEditUserForm } from "./AdminEditUserForm";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -15,6 +16,8 @@ export const EditUser: FunctionComponent<Props> = ({ match }: Props) => {
     const spanish = useStoreState(state => state.spanish);
 
     const [user, setUser] = useState<AccountRecord | undefined>(undefined);
+
+    const history = useHistory();
 
     useMinClearance(Clearance.ADMIN);
 
@@ -52,7 +55,21 @@ export const EditUser: FunctionComponent<Props> = ({ match }: Props) => {
     function renderForm() {
         return (
             <Row>
-                <Col>{user ? <p>Form here</p> : <LoadingSpinner />}</Col>
+                <Col>
+                    {user ? (
+                        <AdminEditUserForm
+                            existingRecord={user}
+                            onSubmit={async adminEditAccountRequest => {
+                                console.log(adminEditAccountRequest);
+                            }}
+                            callback={() => {
+                                history.push(`/settings/users/${user.id}`);
+                            }}
+                        />
+                    ) : (
+                        <LoadingSpinner />
+                    )}
+                </Col>
             </Row>
         );
     }

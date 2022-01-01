@@ -7,7 +7,7 @@ import {
     FileRecord,
     FileRequest,
     StudentImageRequest,
-} from "../../../shared";
+} from "@nica-angels/shared";
 import { HTTP, validateRequest } from "jack-hermanson-ts-utils";
 import { FileSchema, StudentProfileImageSchema } from "../models/File";
 import { FileService } from "../services/FileService";

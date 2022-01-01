@@ -1,6 +1,6 @@
 import express, { Response } from "express";
 import { Request } from "../utils/Request";
-import { TownRecord, TownRequest } from "../../../shared";
+import { TownRecord, TownRequest } from "@nica-angels/shared";
 import { auth } from "../middleware/auth";
 import { Clearance } from "../../../shared";
 import { HTTP, validateRequest } from "jack-hermanson-ts-utils";

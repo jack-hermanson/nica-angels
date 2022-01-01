@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "module": "ES6",
+    "module": "commonjs",
     "target": "ES5",
     "sourceMap": true,
     "outDir": "lib",
     "declaration": true,
     "declarationMap": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node"
   },
   "exclude": [
     "node_modules"

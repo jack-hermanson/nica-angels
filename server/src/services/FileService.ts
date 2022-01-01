@@ -1,7 +1,11 @@
 import { getConnection, Repository } from "typeorm";
 import { Response } from "express";
 import { HTTP } from "jack-hermanson-ts-utils";
-import { FileRecord, FileRequest, StudentImageRequest } from "../../../shared";
+import {
+    FileRecord,
+    FileRequest,
+    StudentImageRequest,
+} from "@nica-angels/shared";
 import { File } from "../models/File";
 import { StudentService } from "./StudentService";
 

@@ -1,4 +1,4 @@
-import { TownRequest } from "../../../shared";
+import { TownRequest } from "@nica-angels/shared";
 import { Response } from "express";
 import { Town } from "../models/Town";
 import { getConnection, Repository } from "typeorm";

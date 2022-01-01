@@ -1,13 +1,8 @@
 import { getConnection, Repository } from "typeorm";
 import { Student } from "../models/Student";
 import { Response } from "express";
-import {
-    AggregateRequest,
-    AggregateResourceModel,
-    HTTP,
-    DbDialect,
-} from "jack-hermanson-ts-utils";
-import { GetStudentsRequest, StudentRequest } from "../../../shared";
+import { AggregateResourceModel, HTTP } from "jack-hermanson-ts-utils";
+import { GetStudentsRequest, StudentRequest } from "@nica-angels/shared";
 import { FileService } from "./FileService";
 
 export class StudentService {
@@ -63,7 +58,6 @@ export class StudentService {
                         : `LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`) +
                     " )"
             )
-
             .orderBy(orderBy)
             .skip(skip)
             .take(take);

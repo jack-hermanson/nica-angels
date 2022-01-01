@@ -1,6 +1,7 @@
 {
     "name": "nica-angels",
     "version": "1.0.0",
+    "type": "module",
     "scripts": {
         "build": "(cd shared && yarn build) && (cd client && yarn build)",
         "heroku-postbuild": "yarn build",
@@ -10,7 +11,12 @@
     },
     "author": "Jack Hermanson <jack.hermanson@live.com>",
     "license": "MIT",
-    "private": false,
+    "private": true,
+    "workspaces": [
+        "client",
+        "server",
+        "shared"
+    ],
     "devDependencies": {
         "kill-port": "^1.6.1",
         "prettier": "^2.3.2"

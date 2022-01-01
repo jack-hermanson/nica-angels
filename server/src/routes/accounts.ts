@@ -1,14 +1,20 @@
 import express, { Response } from "express";
 import { Request } from "../utils/Request";
 import { AccountService } from "../services/AccountService";
-import { AccountRecord, LoginRequest, RegisterRequest } from "../../../shared";
+import {
+    AccountRecord,
+    Clearance,
+    LoginRequest,
+    LogOutRequest,
+    RegisterRequest,
+    TokenLoginRequest,
+    TokenRecord,
+} from "@nica-angels/shared";
 import { HTTP, sendError, validateRequest } from "jack-hermanson-ts-utils";
 import { loginSchema, logoutSchema, newAccountSchema } from "../models/Account";
-import { LogOutRequest, TokenLoginRequest, TokenRecord } from "../../../shared";
 import { tokenLoginSchema } from "../models/Token";
 import { auth } from "../middleware/auth";
 import { authorized } from "../utils/functions";
-import { Clearance } from "../../../shared";
 
 export const router = express.Router();
 

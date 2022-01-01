@@ -3,14 +3,13 @@ import { Request } from "../utils/Request";
 import { auth } from "../middleware/auth";
 import { StudentService } from "../services/StudentService";
 import {
+    Clearance,
     GetStudentsRequest,
     StudentRecord,
     StudentRequest,
-} from "../../../shared";
+} from "@nica-angels/shared";
 import { authorized } from "../utils/functions";
-import { Clearance } from "../../../shared";
 import {
-    AggregateRequest,
     AggregateResourceModel,
     HTTP,
     validateRequest,

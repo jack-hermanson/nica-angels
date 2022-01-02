@@ -8,6 +8,7 @@ import {
     LogOutRequest,
     RegisterRequest,
     TokenLoginRequest,
+    PromoteRequest,
 } from "@nica-angels/shared";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Token } from "../models/Token";
@@ -286,6 +287,19 @@ export abstract class AccountService {
 
         return await tokenRepo.count({
             accountId: accountId,
+        });
+    }
+
+    static async promoteClearance(
+        accountId: number,
+        promoteRequest: PromoteRequest
+    ): Promise<Account> {
+        const { accountRepo } = getRepos();
+
+        const account = await accountRepo.findOne(accountId);
+        return await accountRepo.save({
+            ...account,
+            clearance: promoteRequest.clearance,
         });
     }
 }

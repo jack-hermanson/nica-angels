@@ -244,7 +244,7 @@ router.put(
 );
 
 router.put(
-    "/clearance",
+    "/clearance/:id",
     auth,
     async (
         req: Request<PromoteRequest & { id: string }>,

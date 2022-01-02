@@ -3,6 +3,7 @@ import {
     AdminEditAccountRequest,
     LoginRequest,
     LogOutRequest,
+    PromoteRequest,
     RegisterRequest,
     TokenRecord,
 } from "@nica-angels/shared";
@@ -69,6 +70,19 @@ export abstract class AccountClient {
         const response = await axios.put<AccountRecord>(
             `${this.baseUrl}/admin/${accountId}`,
             adminEditAccountRequest,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async promoteClearance(
+        accountId: number,
+        promoteRequest: PromoteRequest,
+        token: string
+    ) {
+        const response = await axios.put<AccountRecord>(
+            `${this.baseUrl}/clearance/${accountId}`,
+            promoteRequest,
             getAuthHeader(token)
         );
         return response.data;

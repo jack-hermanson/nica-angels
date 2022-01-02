@@ -3,15 +3,22 @@ import { Request } from "../utils/Request";
 import { AccountService } from "../services/AccountService";
 import {
     AccountRecord,
+    AdminEditAccountRequest,
     Clearance,
     LoginRequest,
     LogOutRequest,
+    PromoteRequest,
     RegisterRequest,
     TokenLoginRequest,
     TokenRecord,
 } from "@nica-angels/shared";
 import { HTTP, sendError, validateRequest } from "jack-hermanson-ts-utils";
-import { loginSchema, logoutSchema, newAccountSchema } from "../models/Account";
+import {
+    adminEditAccountSchema,
+    loginSchema,
+    logoutSchema,
+    newAccountSchema,
+} from "../models/Account";
 import { tokenLoginSchema } from "../models/Token";
 import { auth } from "../middleware/auth";
 import { authorized } from "../utils/functions";
@@ -144,6 +151,26 @@ router.post(
 );
 
 router.get(
+    "/tokens/:accountId",
+    auth,
+    async (req: Request<{ accountId: string }>, res: Response) => {
+        const accountId = parseInt(req.params.accountId);
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                matchingAccountId: accountId,
+                res,
+            })
+        ) {
+            return;
+        }
+        const tokens = await AccountService.countTokens(accountId);
+        res.json(tokens);
+    }
+);
+
+router.get(
     "/:id",
     auth,
     async (req: Request<{ id: string }>, res: Response<AccountRecord>) => {
@@ -168,5 +195,76 @@ router.get(
         } catch (error) {
             sendError(error, res);
         }
+    }
+);
+
+router.put(
+    "/admin/:id",
+    auth,
+    async (
+        req: Request<AdminEditAccountRequest & { id: string }>,
+        res: Response<AccountRecord | string>
+    ) => {
+        let accountId: number;
+        try {
+            accountId = parseInt(req.params.id);
+        } catch (error) {
+            console.error(error);
+            return res
+                .status(HTTP.SERVER_ERROR)
+                .send(`Failed to parse account ID ${req.params.id}`);
+        }
+
+        if (!(await validateRequest(adminEditAccountSchema, req, res))) {
+            return;
+        }
+        const adminEditAccountRequest: AdminEditAccountRequest = req.body;
+
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                res,
+                minClearance: Clearance.ADMIN,
+            })
+        ) {
+            return;
+        }
+
+        const updatedAccount = await AccountService.adminUpdate(
+            accountId,
+            adminEditAccountRequest,
+            res
+        );
+        if (!updatedAccount) {
+            return;
+        }
+
+        res.json(updatedAccount);
+    }
+);
+
+router.put(
+    "/clearance/:id",
+    auth,
+    async (
+        req: Request<PromoteRequest & { id: string }>,
+        res: Response<AccountRecord>
+    ) => {
+        const id = parseInt(req.params.id);
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.SUPER_ADMIN,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const updatedAccount = await AccountService.promoteClearance(
+            id,
+            req.body
+        );
+        res.json(updatedAccount);
     }
 );

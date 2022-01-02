@@ -7,6 +7,7 @@ import { EnrollmentClient } from "../../clients/EnrollmentClient";
 import { Col, Row } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { CreateEditEnrollmentForm } from "./CreateEditEnrollmentForm";
+import { SettingsTabs } from "../Settings/SettingsTabs";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -44,6 +45,7 @@ export const EditEnrollment: FunctionComponent<Props> = ({ match }: Props) => {
 
     return (
         <div>
+            <SettingsTabs />
             {renderHeader()}
             <Row>
                 <Col>

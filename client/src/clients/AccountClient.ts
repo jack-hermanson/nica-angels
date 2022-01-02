@@ -1,7 +1,9 @@
 import {
     AccountRecord,
+    AdminEditAccountRequest,
     LoginRequest,
     LogOutRequest,
+    PromoteRequest,
     RegisterRequest,
     TokenRecord,
 } from "@nica-angels/shared";
@@ -40,6 +42,48 @@ export abstract class AccountClient {
             `${this.baseUrl}/logout`,
             logOutRequest,
             getAuthHeader(logOutRequest.token)
+        );
+        return response.data;
+    }
+
+    static async getAccounts(token: string) {
+        const response = await axios.get<AccountRecord[]>(
+            this.baseUrl,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async getTokens(accountId: number, token: string) {
+        const response = await axios.get<number>(
+            `${this.baseUrl}/tokens/${accountId}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async adminUpdate(
+        accountId: number,
+        adminEditAccountRequest: AdminEditAccountRequest,
+        token: string
+    ) {
+        const response = await axios.put<AccountRecord>(
+            `${this.baseUrl}/admin/${accountId}`,
+            adminEditAccountRequest,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async promoteClearance(
+        accountId: number,
+        promoteRequest: PromoteRequest,
+        token: string
+    ) {
+        const response = await axios.put<AccountRecord>(
+            `${this.baseUrl}/clearance/${accountId}`,
+            promoteRequest,
+            getAuthHeader(token)
         );
         return response.data;
     }

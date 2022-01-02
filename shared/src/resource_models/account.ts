@@ -26,3 +26,7 @@ export interface EditAccountRequest extends Omit<RegisterRequest, "password"> {
 export interface AdminEditAccountRequest extends EditAccountRequest {
     clearance: Clearance;
 }
+
+export interface PromoteRequest {
+    clearance: Clearance;
+}

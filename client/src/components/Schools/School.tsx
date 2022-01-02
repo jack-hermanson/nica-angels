@@ -30,7 +30,7 @@ export const School: FunctionComponent<Props> = ({
                 setTown(data);
             });
         }
-    }, [setTown, token, school.id]);
+    }, [setTown, token, school.townId]);
 
     return (
         <div className={className}>

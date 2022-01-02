@@ -5,7 +5,7 @@ import { Layout } from "./components/Layout/Layout";
 import { AccountPage } from "./components/Account/AccountPage";
 import { DashboardPage } from "./components/Dashboard/DashboardPage";
 import { RegisterPage } from "./components/Account/RegisterPage";
-import { LoginPage } from "./components/User/LoginPage";
+import { LoginPage } from "./components/Account/LoginPage";
 import { useStoreActions } from "./store/_store";
 import { LocalStorage } from "./utils/LocalStorage";
 import { AccountClient } from "./clients/AccountClient";
@@ -30,6 +30,9 @@ import { Upload } from "./components/Files/Upload";
 import { FileDetails } from "./components/Files/FileDetails";
 import { FilesIndex } from "./components/Files/FilesIndex";
 import { StudentDetails } from "./components/Students/StudentDetails";
+import { UsersIndex } from "./components/User/UsersIndex";
+import { UserDetails } from "./components/User/UserDetails";
+import { EditUser } from "./components/User/EditUser";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -140,6 +143,22 @@ export const App: React.FC = () => {
                         exact
                         path="/settings/files/:id"
                         component={FileDetails}
+                    />
+
+                    <Route
+                        exact
+                        path="/settings/users"
+                        component={UsersIndex}
+                    />
+                    <Route
+                        exact
+                        path="/settings/users/edit/:id"
+                        component={EditUser}
+                    />
+                    <Route
+                        exact
+                        path="/settings/users/:id"
+                        component={UserDetails}
                     />
 
                     <Route exact path="/forbidden" component={Forbidden} />

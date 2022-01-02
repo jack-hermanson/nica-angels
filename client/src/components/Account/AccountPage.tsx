@@ -9,9 +9,9 @@ import {
 import { Col, Row } from "reactstrap";
 import * as timeago from "timeago.js";
 import { tokenExpiration } from "@nica-angels/shared";
-import { UserDetails } from "../User/UserDetails";
+import { AccountDetails } from "./AccountDetails";
 import { ClickDropdownAction } from "jack-hermanson-ts-utils";
-import { LogOutModal } from "../User/LogOutModal";
+import { LogOutModal } from "./LogOutModal";
 import { useHistory } from "react-router-dom";
 
 export const AccountPage: FunctionComponent = () => {
@@ -70,7 +70,7 @@ export const AccountPage: FunctionComponent = () => {
             <Row>
                 <Col>
                     {currentUser ? (
-                        <UserDetails user={currentUser} />
+                        <AccountDetails user={currentUser} />
                     ) : (
                         <LoadingSpinner />
                     )}

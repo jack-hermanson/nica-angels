@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Card, CardHeader } from "reactstrap";
-import { ActionCardHeader, KeyValCardBody } from "jack-hermanson-component-lib";
+import { KeyValCardBody } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { AccountRecord } from "@nica-angels/shared";
 import { AccountClient } from "../../clients/AccountClient";
@@ -23,7 +23,7 @@ export const UserGlance: FunctionComponent<Props> = ({ account }: Props) => {
                 setNumTokens(data);
             });
         }
-    }, [setNumTokens, token]);
+    }, [setNumTokens, token, account.id]);
 
     return (
         <Card className="mb-3 no-mb-last">

@@ -1,5 +1,5 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { Col, Row } from "reactstrap";
 import {
@@ -8,7 +8,7 @@ import {
     LoadingSpinner,
     PageHeader,
 } from "jack-hermanson-component-lib";
-import { useStoreState } from "../../store/_store";
+import { useStoreActions, useStoreState } from "../../store/_store";
 import { AccountRecord, Clearance } from "@nica-angels/shared";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { AccountClient } from "../../clients/AccountClient";
@@ -26,10 +26,13 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
     const spanish = useStoreState(state => state.spanish);
     const token = useStoreState(state => state.token);
     const currentUser = useStoreState(state => state.currentUser);
+    const addAlert = useStoreActions(actions => actions.addAlert);
 
     const [user, setUser] = useState<AccountRecord | undefined>(undefined);
     const [numTokens, setNumTokens] = useState<number | undefined>(undefined);
     const [showPromotionModal, setShowPromotionModal] = useState(false);
+
+    const history = useHistory();
 
     useMinClearance(Clearance.ADMIN);
 
@@ -48,7 +51,7 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
                 }
             );
         }
-    }, [setUser, token, setNumTokens]);
+    }, [setUser, token, setNumTokens, match.params.id]);
 
     return (
         <div>
@@ -168,6 +171,13 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
                     user={user}
                     isOpen={showPromotionModal}
                     setIsOpen={setShowPromotionModal}
+                    callback={() => {
+                        addAlert({
+                            text: "Clearance updated successfully.",
+                            color: "success",
+                        });
+                        history.push("/settings/users");
+                    }}
                 />
             );
         }

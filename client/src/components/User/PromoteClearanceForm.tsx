@@ -4,7 +4,7 @@ import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import * as yup from "yup";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
 import { Button, FormGroup, Input, Label } from "reactstrap";
-import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
+import { SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 
 interface Props {
     onSubmit: (promoteRequest: PromoteRequest) => Promise<void>;

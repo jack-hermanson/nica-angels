@@ -32,7 +32,7 @@ export const EditUser: FunctionComponent<Props> = ({ match }: Props) => {
                 setUser(data);
             });
         }
-    }, [setUser, token]);
+    }, [setUser, token, match.params.id]);
 
     return (
         <div>

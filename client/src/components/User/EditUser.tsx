@@ -55,7 +55,7 @@ export const EditUser: FunctionComponent<Props> = ({ match }: Props) => {
     function renderForm() {
         return (
             <Row>
-                <Col>
+                <Col xs={12} lg={6}>
                     {user ? (
                         <AdminEditUserForm
                             existingRecord={user}

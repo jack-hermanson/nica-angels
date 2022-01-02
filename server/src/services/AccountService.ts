@@ -257,6 +257,18 @@ export abstract class AccountService {
                 ? account.clearance
                 : editAccountRequest.clearance;
 
+        // check for existing
+        editAccountRequest.email = editAccountRequest.email.toLowerCase();
+        if (
+            !(await this.emailIsAvailable(
+                editAccountRequest.email,
+                res,
+                account
+            ))
+        ) {
+            return undefined;
+        }
+
         return await accountRepo.save({
             ...account,
             ...editAccountRequest,

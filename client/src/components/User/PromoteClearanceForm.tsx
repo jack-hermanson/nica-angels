@@ -83,7 +83,7 @@ export const PromoteClearanceForm: FunctionComponent<Props> = ({
                 <Button color={SUBMIT_BUTTON_COLOR} type="submit">
                     Submit
                 </Button>
-                <Button color={RESET_BUTTON_COLOR} type="reset">
+                <Button color="dark" type="reset">
                     Reset
                 </Button>
             </div>

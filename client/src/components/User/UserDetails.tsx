@@ -14,16 +14,22 @@ import { useMinClearance } from "../../utils/useMinClearance";
 import { AccountClient } from "../../clients/AccountClient";
 import { ClearanceBadge } from "../Utils/ClearanceBadge";
 import moment from "moment";
-import { LinkDropdownAction } from "jack-hermanson-ts-utils";
+import {
+    ClickDropdownAction,
+    LinkDropdownAction,
+} from "jack-hermanson-ts-utils";
+import { PromoteClearanceModal } from "./PromoteClearanceModal";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
 export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
     const spanish = useStoreState(state => state.spanish);
     const token = useStoreState(state => state.token);
+    const currentUser = useStoreState(state => state.currentUser);
 
     const [user, setUser] = useState<AccountRecord | undefined>(undefined);
     const [numTokens, setNumTokens] = useState<number | undefined>(undefined);
+    const [showPromotionModal, setShowPromotionModal] = useState(false);
 
     useMinClearance(Clearance.ADMIN);
 
@@ -49,10 +55,27 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
             <SettingsTabs />
             {renderPageHeader()}
             {renderUserInfo()}
+            {renderPromoteModal()}
         </div>
     );
 
     function renderPageHeader() {
+        const options = [];
+        if (user) {
+            options.push(
+                new LinkDropdownAction(
+                    spanish ? "Editar" : "Edit",
+                    `/settings/users/edit/${user.id}`
+                )
+            );
+        }
+        if (currentUser && currentUser.clearance >= Clearance.SUPER_ADMIN) {
+            options.push(
+                new ClickDropdownAction("Clearance", () => {
+                    setShowPromotionModal(true);
+                })
+            );
+        }
         return (
             <Row>
                 <Col>
@@ -64,12 +87,7 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
                         {user && (
                             <ActionsDropdown
                                 size="sm"
-                                options={[
-                                    new LinkDropdownAction(
-                                        spanish ? "Editar" : "Edit",
-                                        `/settings/users/edit/${user.id}`
-                                    ),
-                                ]}
+                                options={options}
                                 menuName={spanish ? "Acciones" : "Actions"}
                             />
                         )}
@@ -137,5 +155,21 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
                 </Col>
             </Row>
         );
+    }
+
+    function renderPromoteModal() {
+        if (
+            user &&
+            currentUser &&
+            currentUser.clearance >= Clearance.SUPER_ADMIN
+        ) {
+            return (
+                <PromoteClearanceModal
+                    user={user}
+                    isOpen={showPromotionModal}
+                    setIsOpen={setShowPromotionModal}
+                />
+            );
+        }
     }
 };

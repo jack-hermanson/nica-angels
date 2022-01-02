@@ -67,6 +67,7 @@ export const FileDetails: FunctionComponent<Props> = ({ match }: Props) => {
 
     function renderImage() {
         if (file) {
+            console.log(file);
             return (
                 <Row>
                     <Col xs={6} className="mb-3">

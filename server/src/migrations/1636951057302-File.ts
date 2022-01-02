@@ -16,10 +16,7 @@ export class File1636951057302 implements MigrationInterface {
             deletedColumn,
             {
                 name: "data",
-                type:
-                    process.env.DATABASE_DIALECT === "postgres"
-                        ? "bytea"
-                        : "blob",
+                type: "varchar",
                 isNullable: false,
             },
             {

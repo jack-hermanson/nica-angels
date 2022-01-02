@@ -13,10 +13,7 @@ export class File {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({
-        nullable: false,
-        type: process.env.DATABASE_DIALECT === "postgres" ? "bytea" : "blob",
-    })
+    @Column({ nullable: false })
     data!: string;
 
     @Column({ nullable: false })

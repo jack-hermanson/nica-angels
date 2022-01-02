@@ -1,5 +1,5 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { AccountRecord, Clearance } from "@nica-angels/shared";
+import { FunctionComponent } from "react";
+import { AccountRecord } from "@nica-angels/shared";
 import { ClearanceBadge } from "../Utils/ClearanceBadge";
 
 interface Props {

@@ -3,17 +3,19 @@ import { RouteComponentProps, useHistory } from "react-router-dom";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { Col, Row } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
-import { useStoreState } from "../../store/_store";
+import { useStoreActions, useStoreState } from "../../store/_store";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { AccountRecord, Clearance } from "@nica-angels/shared";
 import { AccountClient } from "../../clients/AccountClient";
 import { AdminEditUserForm } from "./AdminEditUserForm";
+import { scrollToTop } from "jack-hermanson-ts-utils";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
 export const EditUser: FunctionComponent<Props> = ({ match }: Props) => {
     const token = useStoreState(state => state.token);
     const spanish = useStoreState(state => state.spanish);
+    const addAlert = useStoreActions(actions => actions.addAlert);
 
     const [user, setUser] = useState<AccountRecord | undefined>(undefined);
 
@@ -60,10 +62,29 @@ export const EditUser: FunctionComponent<Props> = ({ match }: Props) => {
                         <AdminEditUserForm
                             existingRecord={user}
                             onSubmit={async adminEditAccountRequest => {
-                                console.log(adminEditAccountRequest);
-                            }}
-                            callback={() => {
-                                history.push(`/settings/users/${user.id}`);
+                                if (token) {
+                                    try {
+                                        await AccountClient.adminUpdate(
+                                            user.id,
+                                            adminEditAccountRequest,
+                                            token.data
+                                        );
+                                        addAlert({
+                                            text: "User updated successfully.",
+                                            color: "success",
+                                        });
+                                        history.push(
+                                            `/settings/users/${user.id}`
+                                        );
+                                    } catch (error: any) {
+                                        console.error(error);
+                                        addAlert({
+                                            text: error.message,
+                                            color: "danger",
+                                        });
+                                        scrollToTop();
+                                    }
+                                }
                             }}
                         />
                     ) : (

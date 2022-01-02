@@ -15,7 +15,6 @@ interface Props {
     onSubmit: (
         adminEditAccountRequest: AdminEditAccountRequest
     ) => Promise<void>;
-    callback?: () => any;
     existingRecord?: AccountRecord;
 }
 
@@ -30,7 +29,6 @@ interface FormValues {
 
 export const AdminEditUserForm: FunctionComponent<Props> = ({
     onSubmit,
-    callback,
     existingRecord,
 }: Props) => {
     const spanish = useStoreState(state => state.spanish);

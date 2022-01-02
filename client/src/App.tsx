@@ -33,6 +33,7 @@ import { StudentDetails } from "./components/Students/StudentDetails";
 import { UsersIndex } from "./components/User/UsersIndex";
 import { UserDetails } from "./components/User/UserDetails";
 import { EditUser } from "./components/User/EditUser";
+import { ReportsIndex } from "./components/Reports/ReportsIndex";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -160,6 +161,8 @@ export const App: React.FC = () => {
                         path="/settings/users/:id"
                         component={UserDetails}
                     />
+
+                    <Route exact path="/reports" component={ReportsIndex} />
 
                     <Route exact path="/forbidden" component={Forbidden} />
                     <Route component={NotFound} />

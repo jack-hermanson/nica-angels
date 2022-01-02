@@ -7,6 +7,7 @@ import {
     Clearance,
     LoginRequest,
     LogOutRequest,
+    PromoteRequest,
     RegisterRequest,
     TokenLoginRequest,
     TokenRecord,
@@ -238,6 +239,32 @@ router.put(
             return;
         }
 
+        res.json(updatedAccount);
+    }
+);
+
+router.put(
+    "/clearance",
+    auth,
+    async (
+        req: Request<PromoteRequest & { id: string }>,
+        res: Response<AccountRecord>
+    ) => {
+        const id = parseInt(req.params.id);
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.SUPER_ADMIN,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const updatedAccount = await AccountService.promoteClearance(
+            id,
+            req.body
+        );
         res.json(updatedAccount);
     }
 );

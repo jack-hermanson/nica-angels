@@ -76,7 +76,7 @@ export const Student: FunctionComponent<Props> = ({
                                 },
                                 {
                                     key: spanish ? "Escuela" : "School",
-                                    val: "TODO",
+                                    val: school ? school.name : "N/A",
                                 },
                                 {
                                     key: spanish ? "Padrino" : "Sponsor",

@@ -1,7 +1,7 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { useStoreState } from "../../store/_store";
-import { Button, Col, Row, Table } from "reactstrap";
+import { Badge, Button, Col, Row, Table } from "reactstrap";
 import {
     ActionsDropdown,
     LoadingSpinner,
@@ -148,6 +148,12 @@ export const EnrollmentsIndex: FunctionComponent = () => {
                             {student.firstName} {student.middleName || ""}{" "}
                             {student.lastName || ""}
                         </Link>
+                        {enrollment.endDate &&
+                            new Date(enrollment.endDate) < new Date() && (
+                                <Badge className="ms-2" color="danger">
+                                    {spanish ? "Expirado" : "Expired"}
+                                </Badge>
+                            )}
                     </td>
                     <td>{school.name}</td>
                     <td>

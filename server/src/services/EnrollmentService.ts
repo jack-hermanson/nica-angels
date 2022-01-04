@@ -31,7 +31,10 @@ export abstract class EnrollmentService {
     static async getAll(): Promise<Enrollment[]> {
         const { enrollmentRepo } = this.getRepos();
 
-        return await enrollmentRepo.find();
+        return await enrollmentRepo
+            .createQueryBuilder()
+            .orderBy("startDate", "DESC")
+            .getMany();
     }
 
     static async create(

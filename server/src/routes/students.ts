@@ -15,6 +15,7 @@ import {
     validateRequest,
 } from "jack-hermanson-ts-utils";
 import { studentSchema } from "../models/Student";
+import { EnrollmentService } from "../services/EnrollmentService";
 
 export const router = Router();
 
@@ -47,7 +48,10 @@ router.get(
         if (!student) {
             return;
         }
-        res.json(student);
+        const enrollment = await EnrollmentService.getCurrentEnrollment(
+            student.id
+        );
+        res.json({ ...student, schoolId: enrollment?.schoolId });
     }
 );
 

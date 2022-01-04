@@ -26,7 +26,7 @@ export class StudentService {
         minLevel,
         maxLevel,
         orderBy = "student.firstName",
-    }: GetStudentsRequest): Promise<AggregateResourceModel<Student>> {
+    }: GetStudentsRequest): Promise<AggregateResourceModel<StudentRecord>> {
         console.log();
         const { studentRepo } = this.getRepos();
         const pg: boolean = process.env.databaseDialect === "postgres";

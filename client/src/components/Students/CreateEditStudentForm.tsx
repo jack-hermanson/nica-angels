@@ -75,6 +75,10 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
             .boolean()
             .label(spanish ? "Uniforme" : "Uniform")
             .required(),
+        schoolId: yup
+            .number()
+            .label(spanish ? "Escuela" : "School")
+            .optional(),
     });
 
     interface FormValues {
@@ -82,12 +86,13 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
         middleName: string;
         lastName: string;
         dateOfBirth: string;
-        sex: "" | Sex;
-        level: "" | number;
+        sex: string;
+        level: string;
         backpack: boolean;
         shoes: boolean;
         supplies: boolean;
         uniform: boolean;
+        schoolId: string;
     }
 
     return (
@@ -103,12 +108,13 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
                 dateOfBirth: existingStudent?.dateOfBirth
                     ? moment(existingStudent.dateOfBirth).format(DATE_FORMAT)
                     : "",
-                sex: existingStudent ? existingStudent.sex : "",
-                level: existingStudent ? existingStudent.level : "",
+                sex: existingStudent ? existingStudent.sex.toString() : "",
+                level: existingStudent ? existingStudent.level.toString() : "",
                 backpack: existingStudent ? existingStudent.backpack : false,
                 shoes: existingStudent ? existingStudent.shoes : false,
                 supplies: existingStudent ? existingStudent.supplies : false,
                 uniform: existingStudent ? existingStudent.uniform : false,
+                schoolId: "",
             }}
             onSubmit={async (data, { setSubmitting }) => {
                 setSubmitting(true);
@@ -119,8 +125,8 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
                     dateOfBirth: data.dateOfBirth
                         ? moment(data.dateOfBirth).toDate()
                         : undefined,
-                    sex: parseInt(data.sex as string),
-                    level: data.level as number,
+                    sex: parseInt(data.sex),
+                    level: parseInt(data.level),
                     backpack: data.backpack,
                     shoes: data.shoes,
                     supplies: data.supplies,

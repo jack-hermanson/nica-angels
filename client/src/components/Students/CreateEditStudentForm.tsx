@@ -114,92 +114,114 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
     }
 
     return (
-        <Formik
-            initialValues={{
-                firstName: existingStudent ? existingStudent.firstName : "",
-                middleName: existingStudent?.middleName
-                    ? existingStudent.middleName
-                    : "",
-                lastName: existingStudent?.lastName
-                    ? existingStudent.lastName
-                    : "",
-                dateOfBirth: existingStudent?.dateOfBirth
-                    ? moment(existingStudent.dateOfBirth).format(DATE_FORMAT)
-                    : "",
-                sex: existingStudent ? existingStudent.sex.toString() : "",
-                level: existingStudent ? existingStudent.level.toString() : "",
-                backpack: existingStudent ? existingStudent.backpack : false,
-                shoes: existingStudent ? existingStudent.shoes : false,
-                supplies: existingStudent ? existingStudent.supplies : false,
-                uniform: existingStudent ? existingStudent.uniform : false,
-                schoolId: "",
-            }}
-            onSubmit={async (data, { setSubmitting }) => {
-                setSubmitting(true);
-                await onSubmit({
-                    firstName: data.firstName,
-                    middleName: data.middleName || undefined,
-                    lastName: data.lastName || undefined,
-                    dateOfBirth: data.dateOfBirth
-                        ? moment(data.dateOfBirth).toDate()
-                        : undefined,
-                    sex: parseInt(data.sex),
-                    level: parseInt(data.level),
-                    backpack: data.backpack,
-                    shoes: data.shoes,
-                    supplies: data.supplies,
-                    uniform: data.uniform,
-                    schoolId: data.schoolId
-                        ? parseInt(data.schoolId)
-                        : undefined,
-                });
-            }}
-            validationSchema={validationSchema}
-            validateOnBlur={false}
-            validateOnChange={false}
-        >
-            {({ errors, isSubmitting }: FormikProps<FormValues>) => (
-                <Form>
-                    {isSubmitting ? (
-                        <LoadingSpinner />
-                    ) : (
-                        <Fragment>
-                            <Row>
-                                <Col xs={12} lg={4}>
-                                    {renderFirstName(errors)}
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    {renderMiddleName(errors)}
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    {renderLastName(errors)}
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col xs={12} lg={3}>
-                                    {renderDateOfBirth(errors)}
-                                </Col>
-                                <Col xs={12} lg={3}>
-                                    {renderSex(errors)}
-                                </Col>
-                                <Col xs={12} lg={3}>
-                                    {renderLevel(errors)}
-                                </Col>
-                                <Col xs={12} lg={3}>
-                                    {renderSchoolId(errors)}
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>{renderGeneralSupplies()}</Col>
-                            </Row>
-                            <Row>
-                                <Col>{renderButtons()}</Col>
-                            </Row>
-                        </Fragment>
+        <Fragment>
+            {schools ? (
+                <Formik
+                    initialValues={{
+                        firstName: existingStudent
+                            ? existingStudent.firstName
+                            : "",
+                        middleName: existingStudent?.middleName
+                            ? existingStudent.middleName
+                            : "",
+                        lastName: existingStudent?.lastName
+                            ? existingStudent.lastName
+                            : "",
+                        dateOfBirth: existingStudent?.dateOfBirth
+                            ? moment(existingStudent.dateOfBirth).format(
+                                  DATE_FORMAT
+                              )
+                            : "",
+                        sex: existingStudent
+                            ? existingStudent.sex.toString()
+                            : "",
+                        level: existingStudent
+                            ? existingStudent.level.toString()
+                            : "",
+                        backpack: existingStudent
+                            ? existingStudent.backpack
+                            : false,
+                        shoes: existingStudent ? existingStudent.shoes : false,
+                        supplies: existingStudent
+                            ? existingStudent.supplies
+                            : false,
+                        uniform: existingStudent
+                            ? existingStudent.uniform
+                            : false,
+                        schoolId: existingStudent?.schoolId
+                            ? existingStudent.schoolId.toString()
+                            : "",
+                    }}
+                    onSubmit={async (data, { setSubmitting }) => {
+                        setSubmitting(true);
+                        await onSubmit({
+                            firstName: data.firstName,
+                            middleName: data.middleName || undefined,
+                            lastName: data.lastName || undefined,
+                            dateOfBirth: data.dateOfBirth
+                                ? moment(data.dateOfBirth).toDate()
+                                : undefined,
+                            sex: parseInt(data.sex),
+                            level: parseInt(data.level),
+                            backpack: data.backpack,
+                            shoes: data.shoes,
+                            supplies: data.supplies,
+                            uniform: data.uniform,
+                            schoolId: data.schoolId
+                                ? parseInt(data.schoolId)
+                                : undefined,
+                        });
+                    }}
+                    validationSchema={validationSchema}
+                    validateOnBlur={false}
+                    validateOnChange={false}
+                >
+                    {({ errors, isSubmitting }: FormikProps<FormValues>) => (
+                        <Form>
+                            {isSubmitting ? (
+                                <LoadingSpinner />
+                            ) : (
+                                <Fragment>
+                                    <Row>
+                                        <Col xs={12} lg={4}>
+                                            {renderFirstName(errors)}
+                                        </Col>
+                                        <Col xs={12} lg={4}>
+                                            {renderMiddleName(errors)}
+                                        </Col>
+                                        <Col xs={12} lg={4}>
+                                            {renderLastName(errors)}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={12} lg={3}>
+                                            {renderDateOfBirth(errors)}
+                                        </Col>
+                                        <Col xs={12} lg={3}>
+                                            {renderSex(errors)}
+                                        </Col>
+                                        <Col xs={12} lg={3}>
+                                            {renderLevel(errors)}
+                                        </Col>
+                                        <Col xs={12} lg={3}>
+                                            {renderSchoolId(errors)}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>{renderGeneralSupplies()}</Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>{renderButtons()}</Col>
+                                    </Row>
+                                </Fragment>
+                            )}
+                        </Form>
                     )}
-                </Form>
+                </Formik>
+            ) : (
+                <LoadingSpinner />
             )}
-        </Formik>
+        </Fragment>
     );
 
     function renderFirstName(errors: FormikErrors<FormValues>) {

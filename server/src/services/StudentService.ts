@@ -4,6 +4,8 @@ import { Response } from "express";
 import { AggregateResourceModel, HTTP } from "jack-hermanson-ts-utils";
 import { GetStudentsRequest, StudentRequest } from "@nica-angels/shared";
 import { FileService } from "./FileService";
+import { EnrollmentService } from "./EnrollmentService";
+import { Enrollment } from "../models/Enrollment";
 
 export class StudentService {
     static getRepos(): {
@@ -87,10 +89,13 @@ export class StudentService {
     }
 
     static async createStudent(
-        studentRequest: StudentRequest
+        studentRequest: StudentRequest,
+        res: Response
     ): Promise<Student> {
         const { studentRepo } = this.getRepos();
-        return await studentRepo.save(studentRequest);
+        const newStudent = await studentRepo.save(studentRequest);
+        await this.enroll(newStudent.id, studentRequest.schoolId, res);
+        return newStudent;
     }
 
     static async updateStudent({
@@ -109,11 +114,33 @@ export class StudentService {
             return undefined;
         }
 
+        // enroll
+        await this.enroll(student.id, studentRequest.schoolId, res);
+
         return await studentRepo.save({
             id: student.id,
             imageId: student.imageId,
             ...studentRequest,
         });
+    }
+
+    static async enroll(
+        studentId: number,
+        schoolId: number | undefined,
+        res: Response
+    ): Promise<void> {
+        // enroll
+        if (schoolId) {
+            await EnrollmentService.create(
+                {
+                    schoolId: schoolId,
+                    studentId: studentId,
+                },
+                res
+            );
+        } else {
+            await EnrollmentService.endEnrollments(studentId);
+        }
     }
 
     static async newSchoolYear(): Promise<Student[]> {

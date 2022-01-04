@@ -34,7 +34,7 @@ export abstract class EnrollmentService {
         return await enrollmentRepo.find();
     }
 
-    static async createEnrollment(
+    static async create(
         enrollmentRequest: EnrollmentRequest,
         res: Response
     ): Promise<Enrollment | undefined> {
@@ -48,6 +48,9 @@ export abstract class EnrollmentService {
         if (!student || !school) {
             return undefined;
         }
+
+        // end all existing enrollments
+        await this.endEnrollments(student.id);
 
         return await enrollmentRepo.save(enrollmentRequest);
     }
@@ -108,5 +111,46 @@ export abstract class EnrollmentService {
             return undefined;
         }
         return { school, student };
+    }
+
+    /**
+     * Get the most recent enrollment for this student, if available.
+     * @param studentId - The ID of the student whose enrollment you're looking for
+     */
+    static async getCurrentEnrollment(
+        studentId: number
+    ): Promise<Enrollment | undefined> {
+        const { enrollmentRepo } = this.getRepos();
+        const enrollments = await enrollmentRepo.find({
+            studentId,
+        });
+        return enrollments
+            .filter(e => e.endDate !== undefined)
+            .sort((a, b) => {
+                if (a.startDate < b.startDate) {
+                    return -1; // earlier
+                }
+                if (a.startDate > b.startDate) {
+                    return 1; // later
+                }
+                return 0; // same
+            })
+            .reverse()[0];
+    }
+
+    static async endEnrollments(studentId: number): Promise<void> {
+        const { enrollmentRepo } = this.getRepos();
+
+        const enrollments = await enrollmentRepo.find({
+            studentId: studentId,
+        });
+        if (enrollments.some(e => e.endDate !== undefined)) {
+            for (const enrollment of enrollments) {
+                await enrollmentRepo.save({
+                    ...enrollment,
+                    endDate: new Date(),
+                });
+            }
+        }
     }
 }

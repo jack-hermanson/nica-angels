@@ -62,7 +62,7 @@ router.post(
         if (!studentRequest) {
             return;
         }
-        const student = await StudentService.createStudent(studentRequest);
+        const student = await StudentService.createStudent(studentRequest, res);
         res.status(HTTP.CREATED).json(student);
     }
 );

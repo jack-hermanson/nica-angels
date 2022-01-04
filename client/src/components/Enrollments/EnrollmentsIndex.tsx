@@ -22,6 +22,7 @@ import { SchoolClient } from "../../clients/SchoolClient";
 import { StudentClient } from "../../clients/StudentClient";
 import moment from "moment";
 import { LinkDropdownAction } from "jack-hermanson-ts-utils";
+import { Link } from "react-router-dom";
 
 export const EnrollmentsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -143,8 +144,10 @@ export const EnrollmentsIndex: FunctionComponent = () => {
             return (
                 <Fragment>
                     <td>
-                        {student.firstName} {student.middleName || ""}{" "}
-                        {student.lastName || ""}
+                        <Link to={`/students/${student.id}`}>
+                            {student.firstName} {student.middleName || ""}{" "}
+                            {student.lastName || ""}
+                        </Link>
                     </td>
                     <td>{school.name}</td>
                     <td>

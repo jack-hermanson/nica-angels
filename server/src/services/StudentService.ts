@@ -122,8 +122,17 @@ export class StudentService {
 
         return await studentRepo.save({
             id: student.id,
-            imageId: student.imageId,
-            ...studentRequest,
+            firstName: studentRequest.firstName,
+            middleName: studentRequest.middleName || null,
+            lastName: studentRequest.lastName || null,
+            dateOfBirth: studentRequest.dateOfBirth || null,
+            sex: studentRequest.sex,
+            level: studentRequest.level,
+            imageId: student.imageId, // keep the same
+            uniform: studentRequest.uniform,
+            shoes: studentRequest.shoes,
+            supplies: studentRequest.supplies,
+            schoolId: studentRequest.schoolId,
         });
     }
 
@@ -132,18 +141,35 @@ export class StudentService {
         schoolId: number | undefined,
         res: Response
     ): Promise<void> {
-        // enroll
-        if (schoolId) {
-            await EnrollmentService.create(
-                {
-                    schoolId: schoolId,
-                    studentId: studentId,
-                },
-                res
-            );
-        } else {
-            await EnrollmentService.endEnrollments(studentId);
+        const currentEnrollment = await EnrollmentService.getCurrentEnrollment(
+            studentId
+        );
+
+        // if request has no school ID and there is no current enrollment,
+        // or the school ID is the same as the current enrollment school ID
+        if (
+            (!currentEnrollment && !schoolId) ||
+            (currentEnrollment && currentEnrollment.schoolId === schoolId)
+        ) {
+            // do nothing
+            return;
         }
+
+        // if there is a current enrollment but no school ID
+        if (currentEnrollment && !schoolId) {
+            // end enrollments
+            await EnrollmentService.endEnrollments(studentId);
+            return;
+        }
+
+        // otherwise, just create the enrollment
+        await EnrollmentService.create(
+            {
+                schoolId: schoolId,
+                studentId: studentId,
+            },
+            res
+        );
     }
 
     static async newSchoolYear(): Promise<Student[]> {

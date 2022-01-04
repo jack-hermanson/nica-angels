@@ -52,7 +52,10 @@ export abstract class EnrollmentService {
         // end all existing enrollments
         await this.endEnrollments(student.id);
 
-        return await enrollmentRepo.save(enrollmentRequest);
+        return await enrollmentRepo.save({
+            ...enrollmentRequest,
+            startDate: new Date(),
+        });
     }
 
     static async editEnrollment({
@@ -81,8 +84,11 @@ export abstract class EnrollmentService {
         }
 
         return await enrollmentRepo.save({
-            ...enrollment,
-            ...enrollmentRequest,
+            id: enrollment.id,
+            schoolId: enrollmentRequest.schoolId,
+            studentId: enrollmentRequest.studentId,
+            startDate: enrollmentRequest.startDate || null,
+            endDate: enrollmentRequest.endDate || null,
         });
     }
 
@@ -127,6 +133,15 @@ export abstract class EnrollmentService {
         return enrollments
             .filter(e => e.endDate !== undefined)
             .sort((a, b) => {
+                if (a.startDate === undefined && b.startDate !== undefined) {
+                    return -1;
+                }
+                if (a.startDate !== undefined && b.startDate === undefined) {
+                    return 1;
+                }
+                if (a.startDate === undefined && b.startDate === undefined) {
+                    return 0;
+                }
                 if (a.startDate < b.startDate) {
                     return -1; // earlier
                 }

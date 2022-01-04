@@ -13,6 +13,9 @@ import {
 import { UploadStudentImage } from "../Files/UploadStudentImage";
 import { StudentBarcode } from "./StudentBarcode";
 import { StudentImage } from "./StudentImage";
+import { Link } from "react-router-dom";
+import { FaPencilAlt } from "react-icons/fa";
+import { NAV_ICON_CLASSES } from "../../utils/constants";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -44,7 +47,15 @@ export const StudentDetails: FunctionComponent<Props> = ({
                         <Col>
                             <PageHeader
                                 title={`${student.firstName} ${student.middleName} ${student.lastName}`}
-                            />
+                            >
+                                <Link
+                                    to={`/students/edit/${student.id}`}
+                                    className="btn btn-secondary btn-sm"
+                                >
+                                    <FaPencilAlt className={NAV_ICON_CLASSES} />
+                                    {spanish ? "Editar" : "Edit"}
+                                </Link>
+                            </PageHeader>
                         </Col>
                     </Row>
                     <Row>

@@ -110,15 +110,9 @@ export class StudentService {
         }
 
         return await studentRepo.save({
-            ...student,
+            id: student.id,
+            imageId: student.imageId,
             ...studentRequest,
-            lastName: studentRequest.lastName ? studentRequest.lastName : null,
-            middleName: studentRequest.middleName
-                ? studentRequest.middleName
-                : null,
-            dateOfBirth: studentRequest.dateOfBirth
-                ? studentRequest.dateOfBirth
-                : null,
         });
     }
 

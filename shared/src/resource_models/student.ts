@@ -16,6 +16,7 @@ export interface StudentRequest {
     backpack: boolean;
     shoes: boolean;
     supplies: boolean;
+    schoolId?: number;
 }
 
 export interface StudentRecord extends StudentRequest, DateResourceModel {}

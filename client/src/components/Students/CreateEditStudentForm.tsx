@@ -149,6 +149,9 @@ export const CreateEditStudentForm: FunctionComponent<Props> = ({
                     shoes: data.shoes,
                     supplies: data.supplies,
                     uniform: data.uniform,
+                    schoolId: data.schoolId
+                        ? parseInt(data.schoolId)
+                        : undefined,
                 });
             }}
             validationSchema={validationSchema}

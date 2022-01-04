@@ -68,7 +68,7 @@ router.post(
             return;
         }
 
-        const enrollment = await EnrollmentService.createEnrollment(
+        const enrollment = await EnrollmentService.create(
             enrollmentRequest,
             res
         );

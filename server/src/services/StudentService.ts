@@ -2,8 +2,13 @@ import { getConnection, Repository } from "typeorm";
 import { Student } from "../models/Student";
 import { Response } from "express";
 import { AggregateResourceModel, HTTP } from "jack-hermanson-ts-utils";
-import { GetStudentsRequest, StudentRequest } from "@nica-angels/shared";
+import {
+    GetStudentsRequest,
+    StudentRecord,
+    StudentRequest,
+} from "@nica-angels/shared";
 import { FileService } from "./FileService";
+import { EnrollmentService } from "./EnrollmentService";
 
 export class StudentService {
     static getRepos(): {
@@ -87,10 +92,13 @@ export class StudentService {
     }
 
     static async createStudent(
-        studentRequest: StudentRequest
+        studentRequest: StudentRequest,
+        res: Response
     ): Promise<Student> {
         const { studentRepo } = this.getRepos();
-        return await studentRepo.save(studentRequest);
+        const newStudent = await studentRepo.save(studentRequest);
+        await this.enroll(newStudent.id, studentRequest.schoolId, res);
+        return newStudent;
     }
 
     static async updateStudent({
@@ -109,17 +117,59 @@ export class StudentService {
             return undefined;
         }
 
+        // enroll
+        await this.enroll(student.id, studentRequest.schoolId, res);
+
         return await studentRepo.save({
-            ...student,
-            ...studentRequest,
-            lastName: studentRequest.lastName ? studentRequest.lastName : null,
-            middleName: studentRequest.middleName
-                ? studentRequest.middleName
-                : null,
-            dateOfBirth: studentRequest.dateOfBirth
-                ? studentRequest.dateOfBirth
-                : null,
+            id: student.id,
+            firstName: studentRequest.firstName,
+            middleName: studentRequest.middleName || null,
+            lastName: studentRequest.lastName || null,
+            dateOfBirth: studentRequest.dateOfBirth || null,
+            sex: studentRequest.sex,
+            level: studentRequest.level,
+            imageId: student.imageId, // keep the same
+            uniform: studentRequest.uniform,
+            shoes: studentRequest.shoes,
+            supplies: studentRequest.supplies,
+            schoolId: studentRequest.schoolId,
         });
+    }
+
+    static async enroll(
+        studentId: number,
+        schoolId: number | undefined,
+        res: Response
+    ): Promise<void> {
+        const currentEnrollment = await EnrollmentService.getCurrentEnrollment(
+            studentId
+        );
+
+        // if request has no school ID and there is no current enrollment,
+        // or the school ID is the same as the current enrollment school ID
+        if (
+            (!currentEnrollment && !schoolId) ||
+            (currentEnrollment && currentEnrollment.schoolId === schoolId)
+        ) {
+            // do nothing
+            return;
+        }
+
+        // if there is a current enrollment but no school ID
+        if (currentEnrollment && !schoolId) {
+            // end enrollments
+            await EnrollmentService.endEnrollments(studentId);
+            return;
+        }
+
+        // otherwise, just create the enrollment
+        await EnrollmentService.create(
+            {
+                schoolId: schoolId,
+                studentId: studentId,
+            },
+            res
+        );
     }
 
     static async newSchoolYear(): Promise<Student[]> {

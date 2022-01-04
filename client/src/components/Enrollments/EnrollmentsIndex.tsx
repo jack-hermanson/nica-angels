@@ -1,7 +1,7 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { SettingsTabs } from "../Settings/SettingsTabs";
 import { useStoreState } from "../../store/_store";
-import { Button, Col, Row, Table } from "reactstrap";
+import { Badge, Button, Col, Row, Table } from "reactstrap";
 import {
     ActionsDropdown,
     LoadingSpinner,
@@ -22,6 +22,7 @@ import { SchoolClient } from "../../clients/SchoolClient";
 import { StudentClient } from "../../clients/StudentClient";
 import moment from "moment";
 import { LinkDropdownAction } from "jack-hermanson-ts-utils";
+import { Link } from "react-router-dom";
 
 export const EnrollmentsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -143,8 +144,16 @@ export const EnrollmentsIndex: FunctionComponent = () => {
             return (
                 <Fragment>
                     <td>
-                        {student.firstName} {student.middleName || ""}{" "}
-                        {student.lastName || ""}
+                        <Link to={`/students/${student.id}`}>
+                            {student.firstName} {student.middleName || ""}{" "}
+                            {student.lastName || ""}
+                        </Link>
+                        {enrollment.endDate &&
+                            new Date(enrollment.endDate) < new Date() && (
+                                <Badge className="ms-2" color="danger">
+                                    {spanish ? "Expirado" : "Expired"}
+                                </Badge>
+                            )}
                     </td>
                     <td>{school.name}</td>
                     <td>

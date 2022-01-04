@@ -31,10 +31,13 @@ export abstract class EnrollmentService {
     static async getAll(): Promise<Enrollment[]> {
         const { enrollmentRepo } = this.getRepos();
 
-        return await enrollmentRepo.find();
+        return await enrollmentRepo
+            .createQueryBuilder()
+            .orderBy("startDate", "DESC")
+            .getMany();
     }
 
-    static async createEnrollment(
+    static async create(
         enrollmentRequest: EnrollmentRequest,
         res: Response
     ): Promise<Enrollment | undefined> {
@@ -49,7 +52,13 @@ export abstract class EnrollmentService {
             return undefined;
         }
 
-        return await enrollmentRepo.save(enrollmentRequest);
+        // end all existing enrollments
+        await this.endEnrollments(student.id);
+
+        return await enrollmentRepo.save({
+            ...enrollmentRequest,
+            startDate: new Date(),
+        });
     }
 
     static async editEnrollment({
@@ -78,8 +87,11 @@ export abstract class EnrollmentService {
         }
 
         return await enrollmentRepo.save({
-            ...enrollment,
-            ...enrollmentRequest,
+            id: enrollment.id,
+            schoolId: enrollmentRequest.schoolId,
+            studentId: enrollmentRequest.studentId,
+            startDate: enrollmentRequest.startDate || null,
+            endDate: enrollmentRequest.endDate || null,
         });
     }
 
@@ -108,5 +120,55 @@ export abstract class EnrollmentService {
             return undefined;
         }
         return { school, student };
+    }
+
+    /**
+     * Get the most recent enrollment for this student, if available.
+     * @param studentId - The ID of the student whose enrollment you're looking for
+     */
+    static async getCurrentEnrollment(
+        studentId: number
+    ): Promise<Enrollment | undefined> {
+        const { enrollmentRepo } = this.getRepos();
+        const enrollments = await enrollmentRepo.find({
+            studentId,
+        });
+        return enrollments
+            .filter(e => e.endDate !== undefined)
+            .sort((a, b) => {
+                if (a.startDate === undefined && b.startDate !== undefined) {
+                    return -1;
+                }
+                if (a.startDate !== undefined && b.startDate === undefined) {
+                    return 1;
+                }
+                if (a.startDate === undefined && b.startDate === undefined) {
+                    return 0;
+                }
+                if (a.startDate < b.startDate) {
+                    return -1; // earlier
+                }
+                if (a.startDate > b.startDate) {
+                    return 1; // later
+                }
+                return 0; // same
+            })
+            .reverse()[0];
+    }
+
+    static async endEnrollments(studentId: number): Promise<void> {
+        const { enrollmentRepo } = this.getRepos();
+
+        const enrollments = await enrollmentRepo.find({
+            studentId: studentId,
+        });
+        if (enrollments.some(e => e.endDate !== undefined)) {
+            for (const enrollment of enrollments) {
+                await enrollmentRepo.save({
+                    ...enrollment,
+                    endDate: new Date(),
+                });
+            }
+        }
     }
 }

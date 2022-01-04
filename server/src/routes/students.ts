@@ -15,6 +15,7 @@ import {
     validateRequest,
 } from "jack-hermanson-ts-utils";
 import { studentSchema } from "../models/Student";
+import { EnrollmentService } from "../services/EnrollmentService";
 
 export const router = Router();
 
@@ -26,7 +27,21 @@ router.get(
         res: Response<AggregateResourceModel<StudentRecord>>
     ) => {
         const students = await StudentService.getAll(req.query);
-        res.json(students);
+
+        const studentsWithEnrollments: StudentRecord[] = [];
+        for (let student of students.items) {
+            const currentEnrollment =
+                await EnrollmentService.getCurrentEnrollment(student.id);
+            studentsWithEnrollments.push({
+                ...student,
+                schoolId: currentEnrollment?.schoolId,
+            });
+        }
+
+        res.json({
+            ...students,
+            items: studentsWithEnrollments,
+        });
     }
 );
 
@@ -47,7 +62,10 @@ router.get(
         if (!student) {
             return;
         }
-        res.json(student);
+        const enrollment = await EnrollmentService.getCurrentEnrollment(
+            student.id
+        );
+        res.json({ ...student, schoolId: enrollment?.schoolId });
     }
 );
 
@@ -62,7 +80,7 @@ router.post(
         if (!studentRequest) {
             return;
         }
-        const student = await StudentService.createStudent(studentRequest);
+        const student = await StudentService.createStudent(studentRequest, res);
         res.status(HTTP.CREATED).json(student);
     }
 );

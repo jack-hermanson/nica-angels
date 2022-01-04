@@ -69,4 +69,5 @@ export const studentSchema = Joi.object().keys({
     backpack: Joi.boolean().required(),
     shoes: Joi.boolean().required(),
     supplies: Joi.boolean().required(),
+    schoolId: Joi.number().integer().positive().optional(),
 });

@@ -24,6 +24,7 @@ import { useMinClearance } from "../../utils/useMinClearance";
 import {
     Clearance,
     GetStudentsRequest,
+    SchoolRecord,
     StudentRecord,
 } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
@@ -35,6 +36,7 @@ import {
 } from "jack-hermanson-ts-utils";
 import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 import { Field, Form, Formik } from "formik";
+import { SchoolClient } from "../../clients/SchoolClient";
 
 export const StudentsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.SPONSOR);
@@ -44,6 +46,9 @@ export const StudentsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
 
     const [students, setStudents] = useState<StudentRecord[] | undefined>(
+        undefined
+    );
+    const [schools, setSchools] = useState<SchoolRecord[] | undefined>(
         undefined
     );
 
@@ -82,7 +87,6 @@ export const StudentsIndex: FunctionComponent = () => {
     );
 
     useEffect(() => {
-        console.log("useEffect");
         getStudents({
             searchText: "",
             skip: 0,
@@ -90,7 +94,12 @@ export const StudentsIndex: FunctionComponent = () => {
             minLevel: 0,
             maxLevel: 12,
         });
-    }, [getStudents]);
+        if (token) {
+            SchoolClient.getSchools(token.data).then(data => {
+                setSchools(data);
+            });
+        }
+    }, [getStudents, token, setSchools]);
 
     return (
         <div>
@@ -253,11 +262,17 @@ export const StudentsIndex: FunctionComponent = () => {
     }
 
     function renderStudents() {
-        if (students) {
+        if (students && schools) {
             return (
                 <Fragment>
                     {students.map(student => (
-                        <Student key={student.id} student={student} />
+                        <Student
+                            key={student.id}
+                            student={student}
+                            school={schools.find(
+                                s => s.id === student.schoolId
+                            )}
+                        />
                     ))}
                 </Fragment>
             );

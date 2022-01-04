@@ -26,7 +26,7 @@ export class StudentService {
         minLevel,
         maxLevel,
         orderBy = "student.firstName",
-    }: GetStudentsRequest): Promise<AggregateResourceModel<StudentRecord>> {
+    }: GetStudentsRequest): Promise<AggregateResourceModel<Student>> {
         console.log();
         const { studentRepo } = this.getRepos();
         const pg: boolean = process.env.databaseDialect === "postgres";
@@ -69,18 +69,8 @@ export class StudentService {
         const total = await studentsQuery.getCount();
         const students = await studentsQuery.getMany();
 
-        const studentsWithEnrollments: StudentRecord[] = [];
-        for (let student of students) {
-            const currentEnrollment =
-                await EnrollmentService.getCurrentEnrollment(student.id);
-            studentsWithEnrollments.push({
-                ...student,
-                schoolId: currentEnrollment?.schoolId,
-            });
-        }
-
         return {
-            items: studentsWithEnrollments,
+            items: students,
             skip,
             take,
             total,

@@ -27,7 +27,21 @@ router.get(
         res: Response<AggregateResourceModel<StudentRecord>>
     ) => {
         const students = await StudentService.getAll(req.query);
-        res.json(students);
+
+        const studentsWithEnrollments: StudentRecord[] = [];
+        for (let student of students.items) {
+            const currentEnrollment =
+                await EnrollmentService.getCurrentEnrollment(student.id);
+            studentsWithEnrollments.push({
+                ...student,
+                schoolId: currentEnrollment?.schoolId,
+            });
+        }
+
+        res.json({
+            ...students,
+            items: studentsWithEnrollments,
+        });
     }
 );
 

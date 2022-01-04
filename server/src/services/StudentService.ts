@@ -2,10 +2,13 @@ import { getConnection, Repository } from "typeorm";
 import { Student } from "../models/Student";
 import { Response } from "express";
 import { AggregateResourceModel, HTTP } from "jack-hermanson-ts-utils";
-import { GetStudentsRequest, StudentRequest } from "@nica-angels/shared";
+import {
+    GetStudentsRequest,
+    StudentRecord,
+    StudentRequest,
+} from "@nica-angels/shared";
 import { FileService } from "./FileService";
 import { EnrollmentService } from "./EnrollmentService";
-import { Enrollment } from "../models/Enrollment";
 
 export class StudentService {
     static getRepos(): {
@@ -66,8 +69,18 @@ export class StudentService {
         const total = await studentsQuery.getCount();
         const students = await studentsQuery.getMany();
 
+        const studentsWithEnrollments: StudentRecord[] = [];
+        for (let student of students) {
+            const currentEnrollment =
+                await EnrollmentService.getCurrentEnrollment(student.id);
+            studentsWithEnrollments.push({
+                ...student,
+                schoolId: currentEnrollment?.schoolId,
+            });
+        }
+
         return {
-            items: students,
+            items: studentsWithEnrollments,
             skip,
             take,
             total,

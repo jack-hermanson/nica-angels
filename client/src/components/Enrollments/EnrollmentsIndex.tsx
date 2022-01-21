@@ -138,8 +138,17 @@ export const EnrollmentsIndex: FunctionComponent = () => {
 
     function renderEnrollmentRow(enrollment: EnrollmentRecord) {
         if (schools && students) {
-            const school = schools.find(s => s.id === enrollment.schoolId)!;
-            const student = students.find(s => s.id === enrollment.studentId)!;
+            const school = schools.find(s => s.id === enrollment.schoolId);
+            const student = students.find(s => s.id === enrollment.studentId);
+
+            if (!school || !student) {
+                return (
+                    <Fragment>
+                        <p>School null? {school === undefined}</p>
+                        <p>Student null? {student === undefined}</p>
+                    </Fragment>
+                );
+            }
 
             return (
                 <Fragment>

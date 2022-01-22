@@ -129,7 +129,12 @@ export const EnrollmentsIndex: FunctionComponent = () => {
                             </Table>
                         </div>
                     ) : (
-                        <LoadingSpinner />
+                        <div>
+                            <LoadingSpinner />
+                            <p>schools null? {schools === undefined}</p>
+                            <p>enrollments null? {enrollments === undefined}</p>
+                            <p>students null? {students === undefined}</p>
+                        </div>
                     )}
                 </Col>
             </Row>

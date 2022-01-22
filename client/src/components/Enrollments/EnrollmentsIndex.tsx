@@ -131,9 +131,18 @@ export const EnrollmentsIndex: FunctionComponent = () => {
                     ) : (
                         <div>
                             <LoadingSpinner />
-                            <p>schools null? {schools === undefined}</p>
-                            <p>enrollments null? {enrollments === undefined}</p>
-                            <p>students null? {students === undefined}</p>
+                            <p>
+                                schools null?{" "}
+                                {(schools === undefined).toString()}
+                            </p>
+                            <p>
+                                enrollments null?{" "}
+                                {(enrollments === undefined).toString()}
+                            </p>
+                            <p>
+                                students null?{" "}
+                                {(students === undefined).toString()}
+                            </p>
                         </div>
                     )}
                 </Col>

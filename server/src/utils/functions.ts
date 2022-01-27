@@ -33,3 +33,11 @@ export function authorized({
     }
     return true;
 }
+
+export function parseNumber(raw: any): number {
+    const num = parseInt(raw);
+    if (isNaN(num)) {
+        throw new Error(`Could not parse ${raw} to a number`);
+    }
+    return num;
+}

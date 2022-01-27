@@ -2,13 +2,10 @@ import { getConnection, Repository } from "typeorm";
 import { Student } from "../models/Student";
 import { Response } from "express";
 import { AggregateResourceModel, HTTP } from "jack-hermanson-ts-utils";
-import {
-    GetStudentsRequest,
-    StudentRecord,
-    StudentRequest,
-} from "@nica-angels/shared";
+import { GetStudentsRequest, StudentRequest } from "@nica-angels/shared";
 import { FileService } from "./FileService";
 import { EnrollmentService } from "./EnrollmentService";
+import { logger } from "../utils/logger";
 
 export class StudentService {
     static getRepos(): {
@@ -66,6 +63,9 @@ export class StudentService {
             .orderBy(orderBy)
             .skip(skip)
             .take(take);
+
+        logger.info(studentsQuery.getSql());
+
         const total = await studentsQuery.getCount();
         const students = await studentsQuery.getMany();
 

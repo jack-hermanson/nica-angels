@@ -7,6 +7,7 @@ import { SchoolService } from "./SchoolService";
 import { School } from "../models/School";
 import { Student } from "../models/Student";
 import { HTTP } from "jack-hermanson-ts-utils";
+import { logger } from "../utils/logger";
 
 export abstract class EnrollmentService {
     static getRepos(): { enrollmentRepo: Repository<Enrollment> } {
@@ -28,13 +29,20 @@ export abstract class EnrollmentService {
         return enrollment;
     }
 
-    static async getAll(): Promise<Enrollment[]> {
+    static async getAll(): Promise<Enrollment[] | undefined> {
         const { enrollmentRepo } = this.getRepos();
 
-        return await enrollmentRepo
-            .createQueryBuilder()
-            .orderBy("startDate", "DESC")
-            .getMany();
+        try {
+            const query = enrollmentRepo
+                .createQueryBuilder("enrollment")
+                .orderBy("enrollment.startDate", "DESC");
+            logger.info("Get enrollment query");
+            logger.info(query.getSql());
+            return await query.getMany();
+        } catch (error) {
+            logger.fatal(error);
+            return undefined;
+        }
     }
 
     static async create(

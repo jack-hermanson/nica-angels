@@ -28,6 +28,9 @@ router.get(
         }
 
         const enrollments = await EnrollmentService.getAll();
+        if (enrollments === undefined) {
+            res.sendStatus(HTTP.SERVER_ERROR);
+        }
         res.json(enrollments);
     }
 );

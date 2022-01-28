@@ -46,7 +46,7 @@ export abstract class SponsorService {
         const sponsorQuery = sponsorRepo
             .createQueryBuilder("sponsor")
             .orderBy("sponsor.lastName");
-        logger.info(sponsorQuery.getSql());
+        logger.debug(sponsorQuery.getSql());
         return await sponsorQuery.getMany();
     }
 

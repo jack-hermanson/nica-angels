@@ -3,12 +3,15 @@ import { logger } from "../utils/logger";
 import { auth } from "../middleware/auth";
 import { HTTP } from "jack-hermanson-ts-utils";
 import { parseNumber } from "../utils/functions";
+import { SponsorService } from "../services/SponsorService";
 
 export const router = Router();
 
 // get all
 router.get("/", auth, async (req: Request, res: Response) => {
     logger.debug("GET /sponsors");
+    const sponsors = await SponsorService.getAll();
+    res.json(sponsors);
 });
 
 // get one

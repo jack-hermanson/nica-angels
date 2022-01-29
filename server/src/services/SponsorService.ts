@@ -2,7 +2,8 @@ import { getConnection, Repository } from "typeorm";
 import { Sponsor } from "../models/Sponsor";
 import { Response } from "express";
 import { logger } from "../utils/logger";
-import { HTTP } from "jack-hermanson-ts-utils";
+import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
+import { SponsorRequest } from "@nica-angels/shared";
 
 export abstract class SponsorService {
     static getRepos(): {
@@ -13,7 +14,36 @@ export abstract class SponsorService {
         return { sponsorRepo };
     }
 
-    static async create() {}
+    static async create(
+        sponsorRequest: SponsorRequest,
+        res: Response
+    ): Promise<Sponsor | undefined> {
+        const { sponsorRepo } = this.getRepos();
+        if (
+            !(await doesNotConflict({
+                repo: sponsorRepo,
+                properties: [
+                    {
+                        name: "email",
+                        value: sponsorRequest.email,
+                    },
+                ],
+                res,
+            }))
+        ) {
+            logger.fatal(
+                `A sponsor with the email ${sponsorRequest.email} already exists`
+            );
+            return undefined;
+        }
+
+        const sponsor = new Sponsor();
+        sponsor.email = sponsorRequest.email;
+        sponsor.firstName = sponsorRequest.firstName;
+        sponsor.lastName = sponsorRequest.lastName;
+        sponsor.accountId = sponsorRequest.accountId;
+        return await sponsorRepo.save(sponsor);
+    }
 
     static async edit(id: number, res: Response): Promise<Sponsor | undefined> {
         logger.info(`Editing sponsor with ID ${id}`);

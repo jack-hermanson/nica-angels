@@ -49,6 +49,7 @@ router.post(
         }
 
         if (!(await validateRequest(sponsorSchema, req, res))) {
+            logger.fatal("Schema not valid");
             return;
         }
         const sponsor = await SponsorService.create(req.body, res);
@@ -61,12 +62,39 @@ router.post(
 );
 
 // edit
-router.put("/:id", auth, async (req: Request<any>, res: Response) => {
-    try {
-        const id = parseNumber(req.params.id);
-        logger.info(`PUT /sponsors/${id}`);
-    } catch (error) {
-        logger.fatal(error);
-        res.sendStatus(HTTP.SERVER_ERROR);
+router.put(
+    "/:id",
+    auth,
+    async (
+        req: Request<SponsorRequest & { id: string }>,
+        res: Response<SponsorRecord>
+    ) => {
+        try {
+            const id = parseNumber(req.params.id);
+            logger.info(`PUT /sponsors/${id}`);
+            if (
+                !authorized({
+                    requestingAccount: req.account,
+                    minClearance: Clearance.ADMIN,
+                    res,
+                })
+            ) {
+                return;
+            }
+
+            if (!(await validateRequest(sponsorSchema, req, res))) {
+                logger.fatal("Schema not valid");
+                return;
+            }
+
+            const updatedSponsor = await SponsorService.edit(id, req.body, res);
+            if (!updatedSponsor) {
+                return;
+            }
+            res.json(updatedSponsor);
+        } catch (error) {
+            logger.fatal(error);
+            res.sendStatus(HTTP.SERVER_ERROR);
+        }
     }
-});
+);

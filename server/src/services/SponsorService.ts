@@ -4,6 +4,7 @@ import { Response } from "express";
 import { logger } from "../utils/logger";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { SponsorRequest } from "@nica-angels/shared";
+import { AccountService } from "./AccountService";
 
 export abstract class SponsorService {
     static getRepos(): {
@@ -14,26 +15,44 @@ export abstract class SponsorService {
         return { sponsorRepo };
     }
 
+    static async emailIsAvailable({
+        newEmail,
+        res,
+        existingRecord,
+    }: {
+        newEmail: string;
+        res: Response;
+        existingRecord?: Sponsor;
+    }): Promise<boolean> {
+        const { sponsorRepo } = this.getRepos();
+        const isOkay: boolean = await doesNotConflict({
+            repo: sponsorRepo,
+            properties: [
+                {
+                    name: "email",
+                    value: newEmail,
+                },
+            ],
+            res,
+            existingRecord,
+        });
+        if (!isOkay) {
+            logger.fatal(`A sponsor with the email ${newEmail} already exists`);
+        }
+        return isOkay;
+    }
+
     static async create(
         sponsorRequest: SponsorRequest,
         res: Response
     ): Promise<Sponsor | undefined> {
         const { sponsorRepo } = this.getRepos();
         if (
-            !(await doesNotConflict({
-                repo: sponsorRepo,
-                properties: [
-                    {
-                        name: "email",
-                        value: sponsorRequest.email,
-                    },
-                ],
+            !(await this.emailIsAvailable({
+                newEmail: sponsorRequest.email,
                 res,
             }))
         ) {
-            logger.fatal(
-                `A sponsor with the email ${sponsorRequest.email} already exists`
-            );
             return undefined;
         }
 
@@ -41,18 +60,65 @@ export abstract class SponsorService {
         sponsor.email = sponsorRequest.email;
         sponsor.firstName = sponsorRequest.firstName;
         sponsor.lastName = sponsorRequest.lastName;
+
+        if (
+            sponsorRequest.accountId &&
+            !(await AccountService.getOne(sponsorRequest.accountId, res))
+        ) {
+            logger.fatal(
+                `There is no account with ID ${sponsorRequest.accountId}`
+            );
+            return undefined;
+        }
+
         sponsor.accountId = sponsorRequest.accountId;
+
         return await sponsorRepo.save(sponsor);
     }
 
-    static async edit(id: number, res: Response): Promise<Sponsor | undefined> {
+    static async edit(
+        id: number,
+        sponsorRequest: SponsorRequest,
+        res: Response
+    ): Promise<Sponsor | undefined> {
         logger.info(`Editing sponsor with ID ${id}`);
         const sponsor = await this.getOne(id, res);
         if (!sponsor) {
             return undefined;
         }
-        // todo edit sponsor
-        return sponsor;
+
+        if (
+            !(await this.emailIsAvailable({
+                newEmail: sponsorRequest.email,
+                res,
+                existingRecord: sponsor,
+            }))
+        ) {
+            return undefined;
+        }
+
+        const { sponsorRepo } = this.getRepos();
+
+        sponsor.email = sponsorRequest.email;
+        sponsor.firstName = sponsorRequest.firstName;
+        sponsor.lastName = sponsorRequest.lastName;
+
+        if (
+            sponsorRequest.accountId &&
+            !(await AccountService.getOne(sponsorRequest.accountId, res))
+        ) {
+            logger.fatal(
+                `There is no account with ID ${sponsorRequest.accountId}`
+            );
+            return undefined;
+        }
+
+        sponsor.accountId = sponsorRequest.accountId;
+
+        logger.info(`Updated sponsor with ID ${sponsor.id}`);
+        logger.debug(sponsor);
+
+        return await sponsorRepo.save(sponsor);
     }
 
     static async getOne(

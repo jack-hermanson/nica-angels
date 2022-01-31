@@ -1,10 +1,16 @@
-import { Fragment, FunctionComponent } from "react";
-import { SponsorRecord, SponsorRequest } from "@nica-angels/shared";
+import { Fragment, FunctionComponent, useEffect, useState } from "react";
+import {
+    AccountRecord,
+    SponsorRecord,
+    SponsorRequest,
+} from "@nica-angels/shared";
 import { Form, Formik, FormikErrors, FormikProps, Field } from "formik";
 import * as yup from "yup";
 import { useStoreState } from "../../store/_store";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
-import { Col, FormGroup, Input, Label, Row } from "reactstrap";
+import { Button, Col, FormGroup, Input, Label, Row } from "reactstrap";
+import { AccountClient } from "../../clients/AccountClient";
+import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 
 interface Props {
     onSubmit: (sponsorRequest: SponsorRequest) => Promise<void>;
@@ -16,6 +22,19 @@ export const CreateEditSponsorForm: FunctionComponent<Props> = ({
     existingSponsor,
 }: Props) => {
     const spanish = useStoreState(state => state.spanish);
+    const token = useStoreState(state => state.token);
+
+    const [accounts, setAccounts] = useState<AccountRecord[] | undefined>(
+        undefined
+    );
+
+    useEffect(() => {
+        if (token?.data) {
+            AccountClient.getAccounts(token.data).then(data => {
+                setAccounts(data);
+            });
+        }
+    }, [setAccounts, token]);
 
     interface FormValues {
         accountId: string;
@@ -79,6 +98,12 @@ export const CreateEditSponsorForm: FunctionComponent<Props> = ({
                                 <Col xs={12} lg={6}>
                                     {renderEmail(errors)}
                                 </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderAccountId(errors)}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>{renderButtons()}</Col>
                             </Row>
                         </Fragment>
                     )}
@@ -129,6 +154,56 @@ export const CreateEditSponsorForm: FunctionComponent<Props> = ({
                 <Field as={Input} id={id} name="email" type="email" />
                 <FormError>{errors.email}</FormError>
             </FormGroup>
+        );
+    }
+
+    function renderAccountId(errors: FormikErrors<FormValues>) {
+        const id = "account-id-input";
+        return (
+            <FormGroup>
+                <Label className="form-label" for={id}>
+                    {spanish ? "Cuenta" : "Account"}
+                </Label>
+                {!accounts ? (
+                    <LoadingSpinner />
+                ) : (
+                    <Field id={id} name="accountId" type="select" as={Input}>
+                        <option value="">
+                            {spanish
+                                ? "Elegir una cuenta..."
+                                : "Select an account..."}
+                        </option>
+                        {accounts
+                            .sort((a, b) => {
+                                if (a.lastName > b.lastName) {
+                                    return 1;
+                                } else {
+                                    return -1;
+                                }
+                            })
+                            .map(account => (
+                                <option key={account.id} value={account.id}>
+                                    {account.firstName} {account.lastName} (
+                                    {account.id})
+                                </option>
+                            ))}
+                    </Field>
+                )}
+                <FormError>{errors.accountId}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderButtons() {
+        return (
+            <div className="bottom-buttons">
+                <Button type="submit" color={SUBMIT_BUTTON_COLOR}>
+                    {spanish ? "Guardar" : "Save"}
+                </Button>
+                <Button type="reset" color={RESET_BUTTON_COLOR}>
+                    {spanish ? "Restablecer" : "Reset"}
+                </Button>
+            </div>
         );
     }
 };

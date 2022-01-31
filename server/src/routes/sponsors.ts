@@ -22,9 +22,23 @@ router.get(
     "/:id",
     auth,
     async (req: Request<{ id: string }>, res: Response) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return;
+        }
         try {
             const id = parseNumber(req.params.id);
             logger.info(`GET /sponsors/${id}`);
+            const sponsor = await SponsorService.getOne(id, res);
+            if (!sponsor) {
+                return;
+            }
+            res.json(sponsor);
         } catch (error) {
             logger.fatal(error);
             res.sendStatus(HTTP.SERVER_ERROR);

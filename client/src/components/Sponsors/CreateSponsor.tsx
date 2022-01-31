@@ -1,9 +1,10 @@
 import { FunctionComponent } from "react";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "@nica-angels/shared";
+import { Clearance, SponsorRequest } from "@nica-angels/shared";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
+import { CreateEditSponsorForm } from "./CreateEditSponsorForm";
 
 export const CreateSponsor: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -31,7 +32,17 @@ export const CreateSponsor: FunctionComponent = () => {
     function renderForm() {
         return (
             <div>
-                <p>This is the form</p>
+                <Row>
+                    <Col>
+                        <CreateEditSponsorForm
+                            onSubmit={async (
+                                sponsorRequest: SponsorRequest
+                            ) => {
+                                console.log(sponsorRequest);
+                            }}
+                        />
+                    </Col>
+                </Row>
             </div>
         );
     }

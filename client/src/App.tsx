@@ -35,6 +35,7 @@ import { UserDetails } from "./components/User/UserDetails";
 import { EditUser } from "./components/User/EditUser";
 import { ReportsIndex } from "./components/Reports/ReportsIndex";
 import { SponsorsIndex } from "./components/Sponsors/SponsorsIndex";
+import { CreateSponsor } from "./components/Sponsors/CreateSponsor";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -166,6 +167,11 @@ export const App: React.FC = () => {
                     <Route exact path="/reports" component={ReportsIndex} />
 
                     <Route exact path="/sponsors" component={SponsorsIndex} />
+                    <Route
+                        exact
+                        path="/sponsors/new"
+                        component={CreateSponsor}
+                    />
 
                     <Route exact path="/forbidden" component={Forbidden} />
                     <Route component={NotFound} />

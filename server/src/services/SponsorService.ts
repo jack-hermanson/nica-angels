@@ -57,21 +57,9 @@ export abstract class SponsorService {
         }
 
         const sponsor = new Sponsor();
-        sponsor.email = sponsorRequest.email;
-        sponsor.firstName = sponsorRequest.firstName;
-        sponsor.lastName = sponsorRequest.lastName;
-
-        if (
-            sponsorRequest.accountId &&
-            !(await AccountService.getOne(sponsorRequest.accountId, res))
-        ) {
-            logger.fatal(
-                `There is no account with ID ${sponsorRequest.accountId}`
-            );
+        if (!(await this.setSponsor(sponsor, sponsorRequest, res))) {
             return undefined;
         }
-
-        sponsor.accountId = sponsorRequest.accountId;
 
         return await sponsorRepo.save(sponsor);
     }
@@ -97,27 +85,14 @@ export abstract class SponsorService {
             return undefined;
         }
 
-        const { sponsorRepo } = this.getRepos();
-
-        sponsor.email = sponsorRequest.email;
-        sponsor.firstName = sponsorRequest.firstName;
-        sponsor.lastName = sponsorRequest.lastName;
-
-        if (
-            sponsorRequest.accountId &&
-            !(await AccountService.getOne(sponsorRequest.accountId, res))
-        ) {
-            logger.fatal(
-                `There is no account with ID ${sponsorRequest.accountId}`
-            );
+        if (!(await this.setSponsor(sponsor, sponsorRequest, res))) {
             return undefined;
         }
-
-        sponsor.accountId = sponsorRequest.accountId;
 
         logger.info(`Updated sponsor with ID ${sponsor.id}`);
         logger.debug(sponsor);
 
+        const { sponsorRepo } = this.getRepos();
         return await sponsorRepo.save(sponsor);
     }
 
@@ -160,5 +135,28 @@ export abstract class SponsorService {
         const { sponsorRepo } = this.getRepos();
         await sponsorRepo.softDelete(id);
         return true;
+    }
+
+    private static async setSponsor(
+        sponsor: Sponsor,
+        sponsorRequest: SponsorRequest,
+        res: Response
+    ): Promise<Sponsor | undefined> {
+        sponsor.email = sponsorRequest.email;
+        sponsor.firstName = sponsorRequest.firstName;
+        sponsor.lastName = sponsorRequest.lastName;
+
+        if (
+            sponsorRequest.accountId &&
+            !(await AccountService.getOne(sponsorRequest.accountId, res))
+        ) {
+            logger.fatal(
+                `There is no account with ID ${sponsorRequest.accountId}`
+            );
+            return undefined;
+        }
+
+        sponsor.accountId = sponsorRequest.accountId;
+        return sponsor;
     }
 }

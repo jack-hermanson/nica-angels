@@ -30,7 +30,7 @@ export const SponsorsIndex: FunctionComponent = () => {
                             currentUser.clearance >= Clearance.ADMIN && (
                                 <Link
                                     to="/sponsors/new"
-                                    className={`btn btn-sm btn-${NEW_BUTTON_COLOR}`}
+                                    className={`icon-button btn btn-sm btn-${NEW_BUTTON_COLOR}`}
                                 >
                                     <FaPlus className={BUTTON_ICON_CLASSES} />
                                     {spanish ? "Nuevo Padrino" : "New Sponsor"}

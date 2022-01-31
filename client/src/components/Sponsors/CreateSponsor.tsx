@@ -7,6 +7,7 @@ import { useStoreState } from "../../store/_store";
 
 export const CreateSponsor: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
+    useMinClearance(Clearance.ADMIN);
 
     return (
         <div>

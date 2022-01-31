@@ -98,3 +98,28 @@ router.put(
         }
     }
 );
+
+// delete
+router.delete(
+    "/:id",
+    auth,
+    async (req: Request<{ id: string }>, res: Response<boolean>) => {
+        const id = parseNumber(req.params.id);
+        logger.info(`DELETE /sponsors/${id}`);
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const deleted = await SponsorService.delete(id, res);
+        if (!deleted) {
+            return;
+        }
+        res.send(true);
+    }
+);

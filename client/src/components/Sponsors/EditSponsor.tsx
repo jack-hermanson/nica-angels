@@ -31,7 +31,7 @@ export const EditSponsor: FunctionComponent<Props> = ({ match }: Props) => {
                     });
                 });
         }
-    }, [token, match.params.id, setSponsor]);
+    }, [token, match.params.id, setSponsor, addAlert]);
 
     return (
         <div>

@@ -283,7 +283,7 @@ export const StudentsIndex: FunctionComponent = () => {
 
     function renderLoadMore() {
         return (
-            <div className="mt-3">
+            <div className={total === 0 ? "" : "mt-3"}>
                 <p className="text-muted">
                     {spanish ? "Mostrando" : "Displaying"} {count}{" "}
                     {spanish ? "de" : "of"} {total}{" "}

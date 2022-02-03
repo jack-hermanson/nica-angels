@@ -75,7 +75,17 @@ export const CreateEditSponsorForm: FunctionComponent<Props> = ({
                     ? existingSponsor.accountId.toString()
                     : "",
             }}
-            onSubmit={async (data, { setSubmitting }) => {}}
+            onSubmit={async (data, { setSubmitting }) => {
+                setSubmitting(true);
+                await onSubmit({
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    accountId: data.accountId
+                        ? parseInt(data.accountId)
+                        : undefined,
+                });
+            }}
             validationSchema={validationSchema}
             validateOnChange={false}
             validateOnBlur={false}

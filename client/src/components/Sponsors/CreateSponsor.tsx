@@ -3,11 +3,19 @@ import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance, SponsorRequest } from "@nica-angels/shared";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
-import { useStoreState } from "../../store/_store";
+import { useStoreActions, useStoreState } from "../../store/_store";
 import { CreateEditSponsorForm } from "./CreateEditSponsorForm";
+import { SponsorClient } from "../../clients/SponsorClient";
+import { scrollToTop } from "jack-hermanson-ts-utils";
+import { useHistory } from "react-router-dom";
 
 export const CreateSponsor: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
+    const token = useStoreState(state => state.token);
+    const addAlert = useStoreActions(actions => actions.addAlert);
+
+    const history = useHistory();
+
     useMinClearance(Clearance.ADMIN);
 
     return (
@@ -38,7 +46,26 @@ export const CreateSponsor: FunctionComponent = () => {
                             onSubmit={async (
                                 sponsorRequest: SponsorRequest
                             ) => {
-                                console.log(sponsorRequest);
+                                if (token) {
+                                    try {
+                                        const sponsor =
+                                            await SponsorClient.create(
+                                                sponsorRequest,
+                                                token.data
+                                            );
+                                        addAlert({
+                                            color: "success",
+                                            text: `Sponsor ${sponsor.firstName} ${sponsor.lastName} saved successfully.`,
+                                        });
+                                        history.push(`/sponsors/${sponsor.id}`);
+                                    } catch (error: any) {
+                                        addAlert({
+                                            color: "danger",
+                                            text: error.message,
+                                        });
+                                        scrollToTop();
+                                    }
+                                }
                             }}
                         />
                     </Col>

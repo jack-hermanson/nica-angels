@@ -1,16 +1,38 @@
-import { FunctionComponent } from "react";
-import { PageHeader } from "jack-hermanson-component-lib";
+import { Fragment, FunctionComponent, useEffect, useState } from "react";
+import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "@nica-angels/shared";
+import { AccountRecord, Clearance, SponsorRecord } from "@nica-angels/shared";
 import { Link } from "react-router-dom";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaPlus } from "react-icons/fa";
 import { Col, Row } from "reactstrap";
+import { AccountClient } from "../../clients/AccountClient";
+import { SponsorClient } from "../../clients/SponsorClient";
+import { SponsorDetailCard } from "./SponsorDetailCard";
 
 export const SponsorsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
     const currentUser = useStoreState(state => state.currentUser);
+    const token = useStoreState(state => state.token);
+
+    const [accounts, setAccounts] = useState<AccountRecord[] | undefined>(
+        undefined
+    );
+    const [sponsors, setSponsors] = useState<SponsorRecord[] | undefined>(
+        undefined
+    );
+
+    useEffect(() => {
+        if (token) {
+            AccountClient.getAccounts(token.data).then(data => {
+                setAccounts(data);
+            });
+            SponsorClient.getAll(token.data).then(data => {
+                setSponsors(data);
+            });
+        }
+    }, [setAccounts, token, setSponsors]);
 
     useMinClearance(Clearance.ADMIN);
 
@@ -45,8 +67,23 @@ export const SponsorsIndex: FunctionComponent = () => {
     function renderList() {
         return (
             <Row>
-                <Col>
-                    <p>This is the list of sponsors</p>
+                <Col xs={12} lg={9}>
+                    {sponsors && accounts ? (
+                        <Fragment>
+                            {sponsors.map(sponsor => (
+                                <SponsorDetailCard
+                                    key={sponsor.id}
+                                    sponsor={sponsor}
+                                    account={accounts.find(
+                                        a => a.id === sponsor.accountId
+                                    )}
+                                    showAccountLink={true}
+                                />
+                            ))}
+                        </Fragment>
+                    ) : (
+                        <LoadingSpinner />
+                    )}
                 </Col>
             </Row>
         );

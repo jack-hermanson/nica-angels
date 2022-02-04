@@ -5,6 +5,7 @@ import {
     Clearance,
     EnrollmentRecord,
     EnrollmentRequest,
+    SchoolEnrollmentStats,
 } from "@nica-angels/shared";
 import { authorized } from "../utils/functions";
 import { EnrollmentService } from "../services/EnrollmentService";
@@ -111,7 +112,10 @@ router.put(
 router.get(
     "/stats/:schoolId",
     auth,
-    async (req: Request<{ schoolId: string }>, res: Response<any>) => {
+    async (
+        req: Request<{ schoolId: string }>,
+        res: Response<SchoolEnrollmentStats>
+    ) => {
         if (
             !authorized({
                 requestingAccount: req.account,
@@ -125,7 +129,6 @@ router.get(
         const schoolId = parseInt(req.params.schoolId);
         const statistics = await EnrollmentService.getStatistics(schoolId, res);
 
-        // see what happens
         res.json(statistics);
     }
 );

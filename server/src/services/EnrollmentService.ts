@@ -180,28 +180,74 @@ export abstract class EnrollmentService {
         }
     }
 
+    /**
+     * Get the current enrollment numbers for each grade at a certain school.
+     * @param schoolId - The ID of the school you want statistics for.
+     * @param res - The response object from the express route.
+     */
     static async getStatistics(
         schoolId: number,
         res: Response
-    ): Promise<any | undefined> {
+    ): Promise<SchoolEnrollmentStats | undefined> {
         const school = await SchoolService.getOne(schoolId, res);
         if (!school) {
             return undefined;
         }
 
         const { enrollmentRepo } = this.getRepos();
-        const enrollmentsQuery = enrollmentRepo
-            .createQueryBuilder("enrollment")
-            .innerJoinAndSelect(
-                "student",
-                "student",
-                "enrollment.studentId = student.id"
-            )
-            .where("enrollment.endDate IS NULL")
-            .where(`enrollment.schoolId = ${schoolId}`);
 
-        logger.debug(enrollmentsQuery.getSql());
+        // Adding .andWhere() clauses modifies the query builder by reference.
+        // This function will return a new query builder each time.
+        const enrollmentsQuery = () =>
+            enrollmentRepo
+                .createQueryBuilder("enrollment")
+                .innerJoinAndSelect(
+                    "student",
+                    "student",
+                    "enrollment.studentId = student.id"
+                )
+                .where("enrollment.endDate IS NULL")
+                .andWhere(`enrollment.schoolId = ${schoolId}`);
 
-        return enrollmentsQuery.getCount();
+        const output: SchoolEnrollmentStats = {
+            schoolId: schoolId,
+            grade0: await enrollmentsQuery()
+                .andWhere("student.level = 0")
+                .getCount(),
+            grade1: await enrollmentsQuery()
+                .andWhere("student.level = 1")
+                .getCount(),
+            grade2: await enrollmentsQuery()
+                .andWhere("student.level = 2")
+                .getCount(),
+            grade3: await enrollmentsQuery()
+                .andWhere("student.level = 3")
+                .getCount(),
+            grade4: await enrollmentsQuery()
+                .andWhere("student.level = 4")
+                .getCount(),
+            grade5: await enrollmentsQuery()
+                .andWhere("student.level = 5")
+                .getCount(),
+            grade6: await enrollmentsQuery()
+                .andWhere("student.level = 6")
+                .getCount(),
+            grade7: await enrollmentsQuery()
+                .andWhere("student.level = 7")
+                .getCount(),
+            grade8: await enrollmentsQuery()
+                .andWhere("student.level = 8")
+                .getCount(),
+            other: await enrollmentsQuery()
+                .andWhere("student.level > 8")
+                .getCount(),
+        };
+
+        logger.info(
+            "Successfully generated queries for enrollment statistics."
+        );
+        logger.debug(enrollmentsQuery().getSql());
+
+        return output;
     }
 }

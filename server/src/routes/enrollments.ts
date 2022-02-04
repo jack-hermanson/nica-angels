@@ -108,6 +108,28 @@ router.put(
     }
 );
 
+router.get(
+    "/stats/:schoolId",
+    auth,
+    async (req: Request<{ schoolId: string }>, res: Response<any>) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const schoolId = parseInt(req.params.schoolId);
+        const statistics = await EnrollmentService.getStatistics(schoolId, res);
+
+        // see what happens
+        res.json(statistics);
+    }
+);
+
 async function getEnrollmentRequest(
     req: Request<EnrollmentRequest>,
     res: Response

@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { getConnection, Repository } from "typeorm";
 import { Enrollment } from "../models/Enrollment";
-import { EnrollmentRequest } from "@nica-angels/shared";
+import { EnrollmentRequest, SchoolEnrollmentStats } from "@nica-angels/shared";
 import { StudentService } from "./StudentService";
 import { SchoolService } from "./SchoolService";
 import { School } from "../models/School";
@@ -178,5 +178,30 @@ export abstract class EnrollmentService {
                 });
             }
         }
+    }
+
+    static async getStatistics(
+        schoolId: number,
+        res: Response
+    ): Promise<any | undefined> {
+        const school = await SchoolService.getOne(schoolId, res);
+        if (!school) {
+            return undefined;
+        }
+
+        const { enrollmentRepo } = this.getRepos();
+        const enrollmentsQuery = enrollmentRepo
+            .createQueryBuilder("enrollment")
+            .innerJoinAndSelect(
+                "student",
+                "student",
+                "enrollment.studentId = student.id"
+            )
+            .where("enrollment.endDate IS NULL")
+            .where(`enrollment.schoolId = ${schoolId}`);
+
+        logger.debug(enrollmentsQuery.getSql());
+
+        return enrollmentsQuery.getCount();
     }
 }

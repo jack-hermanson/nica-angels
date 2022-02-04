@@ -1,5 +1,9 @@
 import axios from "axios";
-import { EnrollmentRecord, EnrollmentRequest } from "@nica-angels/shared";
+import {
+    EnrollmentRecord,
+    EnrollmentRequest,
+    SchoolEnrollmentStats,
+} from "@nica-angels/shared";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 
 export abstract class EnrollmentClient {
@@ -45,6 +49,14 @@ export abstract class EnrollmentClient {
         const response = await axios.put(
             `${this.baseUrl}/${id}`,
             enrollmentRequest,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async getStatistics(schoolId: number, token: string) {
+        const response = await axios.get<SchoolEnrollmentStats>(
+            `${this.baseUrl}/stats/${schoolId}`,
             getAuthHeader(token)
         );
         return response.data;

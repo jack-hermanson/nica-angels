@@ -22,5 +22,5 @@ export interface SchoolEnrollmentStats {
     grade6: number;
     grade7: number;
     grade8: number;
-    other?: number;
+    other: number;
 }

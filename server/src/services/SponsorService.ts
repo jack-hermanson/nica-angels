@@ -156,7 +156,10 @@ export abstract class SponsorService {
             return undefined;
         }
 
-        sponsor.accountId = sponsorRequest.accountId;
+        sponsor.accountId = sponsorRequest.accountId
+            ? sponsorRequest.accountId
+            : null;
+
         return sponsor;
     }
 }

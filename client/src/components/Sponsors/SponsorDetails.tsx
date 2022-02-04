@@ -1,14 +1,16 @@
-import { Fragment, FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
-import { Clearance, SponsorRecord } from "@nica-angels/shared";
+import { AccountRecord, Clearance, SponsorRecord } from "@nica-angels/shared";
 import { Col, Row } from "reactstrap";
 import { useStoreState } from "../../store/_store";
 import { SponsorClient } from "../../clients/SponsorClient";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Link } from "react-router-dom";
-import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
+import { BUTTON_ICON_CLASSES } from "../../utils/constants";
 import { FaPencilAlt } from "react-icons/fa";
+import { AccountClient } from "../../clients/AccountClient";
+import { SponsorDetailCard } from "./SponsorDetailCard";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -18,23 +20,35 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
     const [sponsor, setSponsor] = useState<SponsorRecord | undefined>(
         undefined
     );
+    const [account, setAccount] = useState<AccountRecord | undefined>(
+        undefined
+    );
 
     const token = useStoreState(state => state.token);
 
     useEffect(() => {
         if (token) {
             SponsorClient.getOne(parseInt(match.params.id), token.data).then(
-                data => {
-                    setSponsor(data);
+                sponsorData => {
+                    setSponsor(sponsorData);
+                    if (sponsorData.accountId) {
+                        AccountClient.getAccount(
+                            sponsorData.accountId,
+                            token.data
+                        ).then(accountData => {
+                            setAccount(accountData);
+                        });
+                    }
                 }
             );
         }
-    }, [token, match.params.id, setSponsor]);
+    }, [token, match.params.id, setSponsor, setAccount]);
 
     return (
         <div>
             {renderPageHeader()}
             {renderSponsorDetails()}
+            {renderSponsorships()}
         </div>
     );
 
@@ -67,14 +81,22 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
             <Row>
                 <Col>
                     {sponsor ? (
-                        <Fragment>
-                            {sponsor.firstName} {sponsor.lastName}{" "}
-                            {sponsor.email}
-                        </Fragment>
+                        <SponsorDetailCard
+                            sponsor={sponsor}
+                            account={account}
+                        />
                     ) : (
                         <LoadingSpinner />
                     )}
                 </Col>
+            </Row>
+        );
+    }
+
+    function renderSponsorships() {
+        return (
+            <Row className="mt-3">
+                <Col>To do: show sponsorships here</Col>
             </Row>
         );
     }

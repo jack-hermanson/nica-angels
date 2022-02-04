@@ -5,6 +5,7 @@ import {
     Clearance,
     EnrollmentRecord,
     EnrollmentRequest,
+    SchoolEnrollmentStats,
 } from "@nica-angels/shared";
 import { authorized } from "../utils/functions";
 import { EnrollmentService } from "../services/EnrollmentService";
@@ -105,6 +106,30 @@ router.put(
         }
 
         res.json(editedEnrollment);
+    }
+);
+
+router.get(
+    "/stats/:schoolId",
+    auth,
+    async (
+        req: Request<{ schoolId: string }>,
+        res: Response<SchoolEnrollmentStats>
+    ) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const schoolId = parseInt(req.params.schoolId);
+        const statistics = await EnrollmentService.getStatistics(schoolId, res);
+
+        res.json(statistics);
     }
 );
 

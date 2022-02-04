@@ -46,7 +46,9 @@ export const StudentDetails: FunctionComponent<Props> = ({
                     <Row>
                         <Col>
                             <PageHeader
-                                title={`${student.firstName} ${student.middleName} ${student.lastName}`}
+                                title={`${student.firstName} ${
+                                    student.middleName ? student.middleName : ""
+                                } ${student.lastName ? student.lastName : ""}`}
                             >
                                 <Link
                                     to={`/students/edit/${student.id}`}
@@ -189,6 +191,10 @@ export const StudentDetails: FunctionComponent<Props> = ({
                             {
                                 key: spanish ? "Sexo" : "Sex",
                                 val: sexToString(student.sex, spanish),
+                            },
+                            {
+                                key: spanish ? "Nivel" : "Level",
+                                val: student.level,
                             },
                         ]}
                     />

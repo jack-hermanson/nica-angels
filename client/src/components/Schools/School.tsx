@@ -1,5 +1,10 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Clearance, SchoolRecord, TownRecord } from "@nica-angels/shared";
+import {
+    Clearance,
+    SchoolEnrollmentStats,
+    SchoolRecord,
+    TownRecord,
+} from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { Card, CardBody, CardFooter, Table } from "reactstrap";
 import {
@@ -8,6 +13,7 @@ import {
 } from "jack-hermanson-component-lib";
 import { LinkDropdownAction } from "jack-hermanson-ts-utils";
 import { TownClient } from "../../clients/TownClient";
+import { EnrollmentClient } from "../../clients/EnrollmentClient";
 
 interface Props {
     school: SchoolRecord;
@@ -23,14 +29,20 @@ export const School: FunctionComponent<Props> = ({
     const token = useStoreState(state => state.token);
 
     const [town, setTown] = useState<TownRecord | undefined>(undefined);
+    const [schoolStats, setSchoolStats] = useState<
+        SchoolEnrollmentStats | undefined
+    >(undefined);
 
     useEffect(() => {
         if (token) {
             TownClient.getTown(school.townId, token.data).then(data => {
                 setTown(data);
             });
+            EnrollmentClient.getStatistics(school.id, token.data).then(data => {
+                setSchoolStats(data);
+            });
         }
-    }, [setTown, token, school.townId]);
+    }, [setTown, token, school.townId, setSchoolStats, school.id]);
 
     return (
         <div className={className}>
@@ -71,46 +83,56 @@ export const School: FunctionComponent<Props> = ({
     function renderStats() {
         // todo - students per grade
         const grades = [
-            [1, "st", "er"],
-            [2, "nd", "do"],
-            [3, "rd", "er"],
-            [4, "th", "to"],
-            [5, "th", "to"],
-            [6, "th", "to"],
+            [1, "st", "er", schoolStats?.grade1],
+            [2, "nd", "do", schoolStats?.grade2],
+            [3, "rd", "er", schoolStats?.grade3],
+            [4, "th", "to", schoolStats?.grade4],
+            [5, "th", "to", schoolStats?.grade5],
+            [6, "th", "to", schoolStats?.grade6],
         ];
 
-        return (
-            <CardBody className="p-0">
-                <Table striped className="same-width card-table mb-0">
-                    <thead>
-                        <tr>
-                            <th>{spanish ? "Nivel" : "Level"}</th>
-                            <th>{spanish ? "Alumnos" : "Students"}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{spanish ? "Preescolar" : "Preschool"}</td>
-                            <td>{Math.floor(Math.random() * 12 + 3)}</td>
-                        </tr>
-                        {grades.map(grade => (
-                            <tr key={grade[0]}>
-                                <td>
-                                    {grade[0]}
-                                    <sup className="ps-0">
-                                        {spanish ? grade[2] : grade[1]}
-                                    </sup>{" "}
-                                    <span className="ps-0">
-                                        {spanish ? "grado" : "grade"}
-                                    </span>
-                                </td>
-                                <td>{Math.floor(Math.random() * 12 + 3)}</td>
+        if (schoolStats) {
+            return (
+                <CardBody className="p-0">
+                    <Table striped className="same-width card-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>{spanish ? "Nivel" : "Level"}</th>
+                                <th>{spanish ? "Alumnos" : "Students"}</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </CardBody>
-        );
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{spanish ? "Preescolar" : "Preschool"}</td>
+                                <td>{schoolStats.grade0}</td>
+                            </tr>
+                            {grades.map(grade => (
+                                <tr key={grade[0]}>
+                                    <td>
+                                        {grade[0]}
+                                        <sup className="ps-0">
+                                            {spanish ? grade[2] : grade[1]}
+                                        </sup>{" "}
+                                        <span className="ps-0">
+                                            {spanish ? "grado" : "grade"}
+                                        </span>
+                                    </td>
+                                    <td>{grade[3]}</td>
+                                </tr>
+                            ))}
+                            <tr>
+                                <td>{spanish ? "Otros" : "Other"}</td>
+                                <td>
+                                    {schoolStats.grade7 +
+                                        schoolStats.grade8 +
+                                        schoolStats.other}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </CardBody>
+            );
+        }
     }
 
     function renderFooter() {

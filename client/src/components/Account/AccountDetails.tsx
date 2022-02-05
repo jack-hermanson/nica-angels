@@ -21,6 +21,9 @@ export const AccountDetails: FunctionComponent<Props> = ({ user }: Props) => {
                 <dt>Created</dt>
                 <dd>{new Date(user.created).toLocaleDateString()}</dd>
 
+                <dt>Updated</dt>
+                <dd>{new Date(user.updated).toLocaleDateString()}</dd>
+
                 <dt>Clearance</dt>
                 <dd>
                     <ClearanceBadge clearance={user.clearance} />

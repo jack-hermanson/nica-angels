@@ -4,6 +4,7 @@ import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance, EditAccountRequest } from "@nica-angels/shared";
+import { EditAccountForm } from "./EditAccountForm";
 
 export const EditAccountPage: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -34,11 +35,12 @@ export const EditAccountPage: FunctionComponent = () => {
     function renderForm() {
         return (
             <Row>
-                <Col>
+                <Col xs={12} lg={6}>
                     {currentUser ? (
-                        <div>
-                            <p>This is the form</p>
-                        </div>
+                        <EditAccountForm
+                            onSubmit={onSubmit}
+                            existingAccount={currentUser}
+                        />
                     ) : (
                         <LoadingSpinner />
                     )}

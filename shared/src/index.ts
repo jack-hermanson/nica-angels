@@ -8,3 +8,4 @@ export * from "./resource_models/token";
 export * from "./resource_models/town";
 export * from "./resource_models/file";
 export * from "./resource_models/sponsor";
+export * from "./resource_models/sponsorship";

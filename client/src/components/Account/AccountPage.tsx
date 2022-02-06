@@ -8,9 +8,12 @@ import {
 } from "jack-hermanson-component-lib";
 import { Col, Row } from "reactstrap";
 import * as timeago from "timeago.js";
-import { tokenExpiration } from "@nica-angels/shared";
+import { Clearance, tokenExpiration } from "@nica-angels/shared";
 import { AccountDetails } from "./AccountDetails";
-import { ClickDropdownAction } from "jack-hermanson-ts-utils";
+import {
+    ClickDropdownAction,
+    LinkDropdownAction,
+} from "jack-hermanson-ts-utils";
 import { LogOutModal } from "./LogOutModal";
 import { useHistory } from "react-router-dom";
 
@@ -48,6 +51,10 @@ export const AccountPage: FunctionComponent = () => {
                             menuName={spanish ? "Acciones" : "Actions"}
                             size="sm"
                             options={[
+                                new LinkDropdownAction(
+                                    spanish ? "Editar Cuenta" : "Edit Account",
+                                    "/account/edit"
+                                ),
                                 new ClickDropdownAction(
                                     spanish ? "Cerrar Sesión" : "Log Out",
                                     () => {
@@ -80,30 +87,32 @@ export const AccountPage: FunctionComponent = () => {
     }
 
     function renderTokenDetails() {
-        return (
-            <Row>
-                <Col>
-                    {!created || !expires ? (
-                        <LoadingSpinner />
-                    ) : (
-                        <Fragment>
-                            <dl>
-                                <dt>Token ID</dt>
-                                <dd>{token?.id}</dd>
+        if (currentUser && currentUser.clearance >= Clearance.ADMIN) {
+            return (
+                <Row>
+                    <Col>
+                        {!created || !expires ? (
+                            <LoadingSpinner />
+                        ) : (
+                            <Fragment>
+                                <dl>
+                                    <dt>Token ID</dt>
+                                    <dd>{token?.id}</dd>
 
-                                <dt>Token Created</dt>
-                                <dd>{timeago.format(created)}</dd>
+                                    <dt>Token Created</dt>
+                                    <dd>{timeago.format(created)}</dd>
 
-                                <dt>Token Expires</dt>
-                                <dd>
-                                    {`${expires.toLocaleDateString()} at ${expires.toLocaleTimeString()}`}
-                                </dd>
-                            </dl>
-                        </Fragment>
-                    )}
-                </Col>
-            </Row>
-        );
+                                    <dt>Token Expires</dt>
+                                    <dd>
+                                        {`${expires.toLocaleDateString()} at ${expires.toLocaleTimeString()}`}
+                                    </dd>
+                                </dl>
+                            </Fragment>
+                        )}
+                    </Col>
+                </Row>
+            );
+        }
     }
 
     function renderLogOutModal() {

@@ -9,6 +9,7 @@ import {
     RegisterRequest,
     TokenLoginRequest,
     PromoteRequest,
+    EditAccountRequest,
 } from "@nica-angels/shared";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Token } from "../models/Token";
@@ -301,5 +302,40 @@ export abstract class AccountService {
             ...account,
             clearance: promoteRequest.clearance,
         });
+    }
+
+    static async updateOwnAccount(
+        id: number,
+        editAccountRequest: EditAccountRequest,
+        res: Response
+    ): Promise<Account | undefined> {
+        const { accountRepo } = getRepos();
+
+        const account = await this.getOne(id, res);
+        if (!account) {
+            return undefined;
+        }
+
+        account.firstName = editAccountRequest.firstName;
+        account.lastName = editAccountRequest.lastName;
+
+        if (
+            !(await this.emailIsAvailable(
+                editAccountRequest.email,
+                res,
+                account
+            ))
+        ) {
+            return undefined;
+        }
+        account.email = editAccountRequest.email;
+
+        if (editAccountRequest.password) {
+            account.password = await this.hashPassword(
+                editAccountRequest.password
+            );
+        }
+
+        return await accountRepo.save(account);
     }
 }

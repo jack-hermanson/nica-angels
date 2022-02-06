@@ -1,6 +1,7 @@
 import {
     AccountRecord,
     AdminEditAccountRequest,
+    EditAccountRequest,
     LoginRequest,
     LogOutRequest,
     PromoteRequest,
@@ -83,6 +84,18 @@ export abstract class AccountClient {
         const response = await axios.put<AccountRecord>(
             `${this.baseUrl}/clearance/${accountId}`,
             promoteRequest,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async editMyAccount(
+        editAccountRequest: EditAccountRequest,
+        token: string
+    ) {
+        const response = await axios.put<AccountRecord>(
+            `${this.baseUrl}/my-account`,
+            editAccountRequest,
             getAuthHeader(token)
         );
         return response.data;

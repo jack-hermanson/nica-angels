@@ -1,6 +1,7 @@
 import {
     AccountRecord,
     AdminEditAccountRequest,
+    EditAccountRequest,
     LoginRequest,
     LogOutRequest,
     PromoteRequest,
@@ -87,4 +88,9 @@ export abstract class AccountClient {
         );
         return response.data;
     }
+
+    static async editMyAccount(
+        editAccountRequest: EditAccountRequest,
+        token: string
+    ) {}
 }

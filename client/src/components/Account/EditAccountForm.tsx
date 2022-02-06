@@ -20,7 +20,7 @@ const validationSchema = yup.object().shape({
     confirmPassword: yup
         .string()
         .label("Confirm Password")
-        .required()
+        .optional()
         .test("passwords-match", "Passwords must match", function (value) {
             return this.parent.password === value;
         }),

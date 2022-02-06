@@ -51,15 +51,15 @@ export const AccountPage: FunctionComponent = () => {
                             menuName={spanish ? "Acciones" : "Actions"}
                             size="sm"
                             options={[
+                                new LinkDropdownAction(
+                                    spanish ? "Editar Cuenta" : "Edit Account",
+                                    "/account/edit"
+                                ),
                                 new ClickDropdownAction(
                                     spanish ? "Cerrar Sesión" : "Log Out",
                                     () => {
                                         setShowLogOutModal(true);
                                     }
-                                ),
-                                new LinkDropdownAction(
-                                    spanish ? "Editar Cuenta" : "Edit Account",
-                                    "/account/edit"
                                 ),
                             ]}
                         />

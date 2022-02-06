@@ -15,7 +15,9 @@ export const EditAccountPage: FunctionComponent = () => {
     const currentUser = useStoreState(state => state.currentUser);
     const token = useStoreState(state => state.token);
     const spanish = useStoreState(state => state.spanish);
-    const addAlert = useStoreActions(state => state.addAlert);
+
+    const addAlert = useStoreActions(actions => actions.addAlert);
+    const setCurrentUser = useStoreActions(actions => actions.setCurrentUser);
 
     const history = useHistory();
 
@@ -62,6 +64,7 @@ export const EditAccountPage: FunctionComponent = () => {
                     editAccountRequest,
                     token.data
                 );
+                setCurrentUser(updatedAccount);
                 addAlert({
                     color: "success",
                     text: `Account for ${updatedAccount.firstName} ${updatedAccount.lastName} saved successfully.`,

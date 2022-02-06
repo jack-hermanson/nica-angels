@@ -92,5 +92,12 @@ export abstract class AccountClient {
     static async editMyAccount(
         editAccountRequest: EditAccountRequest,
         token: string
-    ) {}
+    ) {
+        const response = await axios.put<AccountRecord>(
+            `${this.baseUrl}/my-account`,
+            editAccountRequest,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

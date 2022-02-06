@@ -1,17 +1,23 @@
 import { FunctionComponent } from "react";
 import { Col, Row } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
-import { useStoreState } from "../../store/_store";
+import { useStoreActions, useStoreState } from "../../store/_store";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance, EditAccountRequest } from "@nica-angels/shared";
+import { EditAccountRequest } from "@nica-angels/shared";
 import { EditAccountForm } from "./EditAccountForm";
+import { AccountClient } from "../../clients/AccountClient";
+import { scrollToTop } from "jack-hermanson-ts-utils";
+import { useHistory } from "react-router-dom";
 
 export const EditAccountPage: FunctionComponent = () => {
-    useMinClearance(Clearance.ADMIN);
+    useMinClearance();
 
     const currentUser = useStoreState(state => state.currentUser);
     const token = useStoreState(state => state.token);
     const spanish = useStoreState(state => state.spanish);
+    const addAlert = useStoreActions(state => state.addAlert);
+
+    const history = useHistory();
 
     return (
         <div>
@@ -51,7 +57,23 @@ export const EditAccountPage: FunctionComponent = () => {
 
     async function onSubmit(editAccountRequest: EditAccountRequest) {
         if (token) {
-            console.log(editAccountRequest);
+            try {
+                const updatedAccount = await AccountClient.editMyAccount(
+                    editAccountRequest,
+                    token.data
+                );
+                addAlert({
+                    color: "success",
+                    text: `Account for ${updatedAccount.firstName} ${updatedAccount.lastName} saved successfully.`,
+                });
+                history.push("/account");
+            } catch (error: any) {
+                addAlert({
+                    color: "danger",
+                    text: error.message,
+                });
+                scrollToTop();
+            }
         }
     }
 };

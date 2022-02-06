@@ -5,6 +5,7 @@ import {
     AccountRecord,
     AdminEditAccountRequest,
     Clearance,
+    EditAccountRequest,
     LoginRequest,
     LogOutRequest,
     PromoteRequest,
@@ -15,6 +16,7 @@ import {
 import { HTTP, sendError, validateRequest } from "jack-hermanson-ts-utils";
 import {
     adminEditAccountSchema,
+    editMyAccountSchema,
     loginSchema,
     logoutSchema,
     newAccountSchema,
@@ -22,6 +24,7 @@ import {
 import { tokenLoginSchema } from "../models/Token";
 import { auth } from "../middleware/auth";
 import { authorized } from "../utils/functions";
+import { logger } from "../utils/logger";
 
 export const router = express.Router();
 
@@ -265,6 +268,34 @@ router.put(
             id,
             req.body
         );
+        res.json(updatedAccount);
+    }
+);
+
+router.put(
+    "/my-account",
+    auth,
+    async (
+        req: Request<EditAccountRequest>,
+        res: Response<AccountRecord | undefined>
+    ) => {
+        logger.info(`User updating account:`);
+        logger.info(req.account);
+
+        if (!(await validateRequest(editMyAccountSchema, req, res))) {
+            return;
+        }
+
+        const updatedAccount = await AccountService.updateOwnAccount(
+            req.account.id,
+            req.body,
+            res
+        );
+        if (!updatedAccount) {
+            return;
+        }
+
+        logger.info(`Account #${updatedAccount.id} updated successfully.`);
         res.json(updatedAccount);
     }
 );

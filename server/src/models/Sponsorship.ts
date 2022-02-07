@@ -47,5 +47,5 @@ export const sponsorshipSchema = Joi.object().keys({
     startDate: Joi.date().required(),
     endDate: Joi.date().optional(),
     payment: Joi.number().positive().required(),
-    frequency: Joi.number().integer().positive().required().valid(4, 12),
+    frequency: Joi.number().integer().positive().required().valid(1, 4, 12),
 });

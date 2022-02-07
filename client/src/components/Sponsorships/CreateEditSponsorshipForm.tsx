@@ -288,6 +288,9 @@ export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
                     <option value="4">
                         {spanish ? "Trimestral (4/año)" : "Quarterly (4/year)"}
                     </option>
+                    <option value="12">
+                        {spanish ? "Mensual (12/año)" : "Monthly (12/year)"}
+                    </option>
                 </Field>
                 <FormError>{errors.frequency}</FormError>
             </FormGroup>

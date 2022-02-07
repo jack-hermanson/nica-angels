@@ -32,6 +32,10 @@ export const SettingsTabs: FunctionComponent = () => {
                             path: "/settings/users",
                             text: spanish ? "Usuarios" : "Users",
                         },
+                        {
+                            path: "/settings/sponsorships",
+                            text: spanish ? "Patrocinios" : "Sponsorships",
+                        },
                     ]}
                 />
             </Col>

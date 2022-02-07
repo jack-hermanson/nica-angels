@@ -39,6 +39,7 @@ import { CreateSponsor } from "./components/Sponsors/CreateSponsor";
 import { EditSponsor } from "./components/Sponsors/EditSponsor";
 import { SponsorDetails } from "./components/Sponsors/SponsorDetails";
 import { EditAccountPage } from "./components/Account/EditAccountPage";
+import { SponsorshipsIndex } from "./components/Sponsorships/SponsorshipsIndex";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -97,6 +98,12 @@ export const App: React.FC = () => {
                         exact
                         path="/settings/towns/edit/:id"
                         component={EditTown}
+                    />
+
+                    <Route
+                        exact
+                        path="/settings/sponsorships"
+                        component={SponsorshipsIndex}
                     />
 
                     <Route exact path="/schools" component={SchoolsIndex} />

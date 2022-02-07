@@ -166,6 +166,9 @@ export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
                                 <Col xs={12} lg={6}>
                                     {renderPayment(errors)}
                                 </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderFrequency(errors)}
+                                </Col>
                             </Row>
                         </Fragment>
                     )}
@@ -250,6 +253,31 @@ export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
                     <Field id={id} name="payment" type="number" as={Input} />
                 </InputGroup>
                 <FormError>{errors.payment}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderFrequency(errors: FormikErrors<FormValues>) {
+        const id = "frequency-input";
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    {spanish ? "Frecuencia" : "Frequency"}
+                </Label>
+                <Field id={id} name="frequency" type="select" as={Input}>
+                    <option value="">
+                        {spanish
+                            ? "Elegir una frecuencia"
+                            : "Select a frequency..."}
+                    </option>
+                    <option value="1">
+                        {spanish ? "Anualmente (1/año)" : "Annually (1/year)"}
+                    </option>
+                    <option value="4">
+                        {spanish ? "Trimestral (4/año)" : "Quarterly (4/year)"}
+                    </option>
+                </Field>
+                <FormError>{errors.frequency}</FormError>
             </FormGroup>
         );
     }

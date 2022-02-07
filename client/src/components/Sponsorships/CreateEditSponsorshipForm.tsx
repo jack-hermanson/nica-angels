@@ -17,7 +17,15 @@ import * as yup from "yup";
 import moment from "moment";
 import { Formik, Form, Field, FormikErrors, FormikProps } from "formik";
 import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
-import { Col, FormGroup, Input, Label, Row } from "reactstrap";
+import {
+    Col,
+    FormGroup,
+    Input,
+    InputGroup,
+    Label,
+    Row,
+    InputGroupText,
+} from "reactstrap";
 
 interface Props {
     onSubmit: (sponsorshipRequest: SponsorshipRequest) => Promise<void>;
@@ -154,6 +162,11 @@ export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
                                     {renderSponsor(errors)}
                                 </Col>
                             </Row>
+                            <Row>
+                                <Col xs={12} lg={6}>
+                                    {renderPayment(errors)}
+                                </Col>
+                            </Row>
                         </Fragment>
                     )}
                 </Form>
@@ -223,5 +236,21 @@ export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
                 </FormGroup>
             );
         }
+    }
+
+    function renderPayment(errors: FormikErrors<FormValues>) {
+        const id = "payment-input";
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    {spanish ? "Pago" : "Payment"}
+                </Label>
+                <InputGroup>
+                    <InputGroupText>$</InputGroupText>
+                    <Field id={id} name="payment" type="number" as={Input} />
+                </InputGroup>
+                <FormError>{errors.payment}</FormError>
+            </FormGroup>
+        );
     }
 };

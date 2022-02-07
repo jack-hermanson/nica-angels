@@ -13,6 +13,15 @@ export const router = Router();
 // get all
 router.get("/", auth, async (req: Request<any>, res: Response) => {
     logger.debug("GET /sponsors");
+    if (
+        !authorized({
+            requestingAccount: req.account,
+            minClearance: Clearance.ADMIN,
+            res,
+        })
+    ) {
+        return;
+    }
     const sponsors = await SponsorService.getAll();
     res.json(sponsors);
 });
@@ -21,7 +30,7 @@ router.get("/", auth, async (req: Request<any>, res: Response) => {
 router.get(
     "/:id",
     auth,
-    async (req: Request<{ id: string }>, res: Response) => {
+    async (req: Request<{ id: string }>, res: Response<SponsorRecord>) => {
         if (
             !authorized({
                 requestingAccount: req.account,

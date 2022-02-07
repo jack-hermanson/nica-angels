@@ -25,6 +25,7 @@ import {
     Label,
     Row,
     InputGroupText,
+    Button,
 } from "reactstrap";
 
 interface Props {
@@ -170,6 +171,17 @@ export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
                                     {renderFrequency(errors)}
                                 </Col>
                             </Row>
+                            <Row>
+                                <Col xs={12} lg={6}>
+                                    {renderStartDate(errors)}
+                                </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderEndDate(errors)}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>{renderButtons()}</Col>
+                            </Row>
                         </Fragment>
                     )}
                 </Form>
@@ -279,6 +291,45 @@ export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
                 </Field>
                 <FormError>{errors.frequency}</FormError>
             </FormGroup>
+        );
+    }
+
+    function renderStartDate(errors: FormikErrors<FormValues>) {
+        const id = "start-date-input";
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    {spanish ? "Fecha de Comienzo" : "Start Date"}
+                </Label>
+                <Field type="date" id={id} as={Input} name="startDate" />
+                <FormError>{errors.startDate}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderEndDate(errors: FormikErrors<FormValues>) {
+        const id = "end-date-input";
+        return (
+            <FormGroup>
+                <Label className="form-label" for={id}>
+                    {spanish ? "Fecha de Cierre" : "End Date"}
+                </Label>
+                <Field type="date" id={id} as={Input} name="endDate" />
+                <FormError>{errors.endDate}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderButtons() {
+        return (
+            <div className="bottom-buttons">
+                <Button type="submit" color={SUBMIT_BUTTON_COLOR}>
+                    {spanish ? "Guardar" : "Save"}
+                </Button>
+                <Button type="reset" color={RESET_BUTTON_COLOR}>
+                    {spanish ? "Restablecer" : "Reset"}
+                </Button>
+            </div>
         );
     }
 };

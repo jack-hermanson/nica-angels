@@ -5,6 +5,9 @@ import { PageHeader } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
+import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
+import { FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export const SponsorshipsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -29,7 +32,15 @@ export const SponsorshipsIndex: FunctionComponent = () => {
                 <Col>
                     <PageHeader
                         title={spanish ? "Patrocinios" : "Sponsorships"}
-                    />
+                    >
+                        <Link
+                            to="/settings/sponsorships/new"
+                            className={`icon-button btn btn-sm btn-${NEW_BUTTON_COLOR}`}
+                        >
+                            <FaPlus className={BUTTON_ICON_CLASSES} />
+                            {spanish ? "Nuevo Patrocinio" : "New Sponsorship"}
+                        </Link>
+                    </PageHeader>
                 </Col>
             </Row>
         );

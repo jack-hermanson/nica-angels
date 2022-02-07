@@ -48,16 +48,13 @@ export const SponsorsIndex: FunctionComponent = () => {
             <Row>
                 <Col>
                     <PageHeader title={spanish ? "Padrinos" : "Sponsors"}>
-                        {currentUser &&
-                            currentUser.clearance >= Clearance.ADMIN && (
-                                <Link
-                                    to="/sponsors/new"
-                                    className={`icon-button btn btn-sm btn-${NEW_BUTTON_COLOR}`}
-                                >
-                                    <FaPlus className={BUTTON_ICON_CLASSES} />
-                                    {spanish ? "Nuevo Padrino" : "New Sponsor"}
-                                </Link>
-                            )}
+                        <Link
+                            to="/sponsors/new"
+                            className={`icon-button btn btn-sm btn-${NEW_BUTTON_COLOR}`}
+                        >
+                            <FaPlus className={BUTTON_ICON_CLASSES} />
+                            {spanish ? "Nuevo Padrino" : "New Sponsor"}
+                        </Link>
                     </PageHeader>
                 </Col>
             </Row>

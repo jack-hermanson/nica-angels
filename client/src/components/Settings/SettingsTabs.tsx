@@ -17,12 +17,16 @@ export const SettingsTabs: FunctionComponent = () => {
                             exact: true,
                         },
                         {
-                            path: "/settings/towns",
-                            text: spanish ? "Pueblos" : "Towns",
+                            path: "/settings/sponsorships",
+                            text: spanish ? "Patrocinios" : "Sponsorships",
                         },
                         {
                             path: "/settings/enrollments",
                             text: spanish ? "Inscritos" : "Enrollments",
+                        },
+                        {
+                            path: "/settings/towns",
+                            text: spanish ? "Pueblos" : "Towns",
                         },
                         {
                             path: "/settings/files",

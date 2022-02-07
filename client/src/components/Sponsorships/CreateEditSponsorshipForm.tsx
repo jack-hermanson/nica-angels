@@ -150,6 +150,9 @@ export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
                                 <Col xs={12} lg={6}>
                                     {renderStudent(errors)}
                                 </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderSponsor(errors)}
+                                </Col>
                             </Row>
                         </Fragment>
                     )}
@@ -188,6 +191,35 @@ export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
                             ))}
                         <FormError>{errors.studentId}</FormError>
                     </Field>
+                </FormGroup>
+            );
+        }
+    }
+
+    function renderSponsor(errors: FormikErrors<FormValues>) {
+        const id = "sponsor-input";
+        if (sponsors) {
+            return (
+                <FormGroup>
+                    <Label className="form-label required" for={id}>
+                        {spanish ? "Padrino" : "Sponsor"}
+                    </Label>
+                    <Field id={id} name="sponsorId" type="select" as={Input}>
+                        <option value="">
+                            {spanish
+                                ? "Elegir un padrino..."
+                                : "Select a sponsor..."}
+                        </option>
+                        {sponsors
+                            .sort((a, b) => (a.lastName > b.lastName ? 1 : -1))
+                            .map(sponsor => (
+                                <option key={sponsor.id} value={sponsor.id}>
+                                    {sponsor.firstName} {sponsor.lastName} (ID #
+                                    {sponsor.id})
+                                </option>
+                            ))}
+                    </Field>
+                    <FormError>{errors.sponsorId}</FormError>
                 </FormGroup>
             );
         }

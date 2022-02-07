@@ -17,7 +17,7 @@ export class Sponsorship {
     studentId!: number;
 
     @Column({ nullable: false })
-    sponsorId!: string;
+    sponsorId!: number;
 
     @Column({ nullable: false })
     startDate!: Date;

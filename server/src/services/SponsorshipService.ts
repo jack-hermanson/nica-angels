@@ -127,4 +127,16 @@ export abstract class SponsorshipService {
 
         return sponsorship;
     }
+
+    static async deleteFromSponsor(sponsorId: number): Promise<boolean> {
+        const { sponsorshipRepo } = this.getRepos();
+
+        const sponsorshipsWithSponsor = await sponsorshipRepo.find({
+            sponsorId,
+        });
+        for (let sponsorship of sponsorshipsWithSponsor) {
+            await sponsorshipRepo.softDelete(sponsorship);
+        }
+        return true;
+    }
 }

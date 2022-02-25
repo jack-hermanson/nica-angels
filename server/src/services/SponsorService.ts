@@ -5,6 +5,7 @@ import { logger } from "../utils/logger";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { SponsorRequest } from "@nica-angels/shared";
 import { AccountService } from "./AccountService";
+import { SponsorshipService } from "./SponsorshipService";
 
 export abstract class SponsorService {
     static getRepos(): {
@@ -131,7 +132,10 @@ export abstract class SponsorService {
         if (!sponsor) {
             return undefined;
         }
-        // todo: add cascade delete for Sponsorships and any other related models
+
+        // cascade delete sponsorships
+        await SponsorshipService.deleteFromSponsor(sponsor.id);
+
         const { sponsorRepo } = this.getRepos();
         await sponsorRepo.softDelete(id);
         return true;

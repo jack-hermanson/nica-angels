@@ -1,4 +1,4 @@
-import { TokenRecord } from "../../../shared";
+import { TokenRecord } from "@nica-angels/shared";
 
 export abstract class LocalStorage {
     private static tokenKey = "token";

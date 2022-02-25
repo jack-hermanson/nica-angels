@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Clearance } from "../../../shared";
+import { Clearance } from "@nica-angels/shared";
 import { useStoreState } from "../store/_store";
 import { LocalStorage } from "./LocalStorage";
 

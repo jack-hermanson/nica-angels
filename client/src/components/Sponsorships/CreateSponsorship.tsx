@@ -4,15 +4,20 @@ import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance, SponsorshipRequest } from "@nica-angels/shared";
-import { useStoreState } from "../../store/_store";
+import { useStoreActions, useStoreState } from "../../store/_store";
 import { CreateEditSponsorshipForm } from "./CreateEditSponsorshipForm";
 import { SponsorshipClient } from "../../clients/SponsorshipClient";
+import { errorAlert, scrollToTop, successAlert } from "jack-hermanson-ts-utils";
+import { useHistory } from "react-router-dom";
 
 export const CreateSponsorship: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
 
     const spanish = useStoreState(state => state.spanish);
     const token = useStoreState(state => state.token);
+    const addAlert = useStoreActions(actions => actions.addAlert);
+
+    const history = useHistory();
 
     return (
         <div>
@@ -51,7 +56,12 @@ export const CreateSponsorship: FunctionComponent = () => {
                     sponsorshipRequest,
                     token.data
                 );
-            } catch (error) {}
+                addAlert(successAlert("sponsorship", "saved"));
+                history.push(`/sponsorships/${sponsorship.id}`);
+            } catch (error: any) {
+                addAlert(errorAlert(error.message));
+                scrollToTop();
+            }
         }
     }
 };

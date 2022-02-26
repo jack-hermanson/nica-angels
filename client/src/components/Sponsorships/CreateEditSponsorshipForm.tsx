@@ -217,8 +217,8 @@ export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
                                     {student.level} - ID #{student.id})
                                 </option>
                             ))}
-                        <FormError>{errors.studentId}</FormError>
                     </Field>
+                    <FormError>{errors.studentId}</FormError>
                 </FormGroup>
             );
         }

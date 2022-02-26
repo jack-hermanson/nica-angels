@@ -34,4 +34,12 @@ export abstract class SponsorshipClient {
         );
         return response.data;
     }
+
+    static async getOne(id: number, token: string) {
+        const response = await axios.get<SponsorshipRecord>(
+            `${this.baseUrl}/${id}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

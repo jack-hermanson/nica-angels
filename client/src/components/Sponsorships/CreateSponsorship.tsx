@@ -6,11 +6,13 @@ import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance, SponsorshipRequest } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { CreateEditSponsorshipForm } from "./CreateEditSponsorshipForm";
+import { SponsorshipClient } from "../../clients/SponsorshipClient";
 
 export const CreateSponsorship: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
 
     const spanish = useStoreState(state => state.spanish);
+    const token = useStoreState(state => state.token);
 
     return (
         <div>
@@ -43,6 +45,13 @@ export const CreateSponsorship: FunctionComponent = () => {
     }
 
     async function onSubmit(sponsorshipRequest: SponsorshipRequest) {
-        console.log(sponsorshipRequest);
+        if (token) {
+            try {
+                const sponsorship = await SponsorshipClient.create(
+                    sponsorshipRequest,
+                    token.data
+                );
+            } catch (error) {}
+        }
     }
 };

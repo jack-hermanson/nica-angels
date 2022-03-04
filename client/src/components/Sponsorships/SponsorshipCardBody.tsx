@@ -17,6 +17,9 @@ interface Props {
     sponsorship: SponsorshipRecord;
 }
 
+/**
+ * Will render a KeyValCardBody component with sponsorship info.
+ */
 export const SponsorshipCardBody: FunctionComponent<Props> = ({
     sponsor,
     student,

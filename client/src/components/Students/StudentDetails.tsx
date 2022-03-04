@@ -33,7 +33,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
 
     useEffect(() => {
         if (token) {
-            StudentClient.getStudent(parseInt(id), token.data).then(s => {
+            StudentClient.getOne(parseInt(id), token.data).then(s => {
                 setStudent(s);
             });
         }

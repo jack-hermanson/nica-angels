@@ -60,7 +60,7 @@ export const SponsorshipsIndex: FunctionComponent = () => {
     function renderSponsorships() {
         return (
             <Row>
-                <Col>
+                <Col xs={12} lg={9}>
                     {!sponsorships ? (
                         <LoadingSpinner />
                     ) : (
@@ -69,6 +69,7 @@ export const SponsorshipsIndex: FunctionComponent = () => {
                                 <Sponsorship
                                     sponsorship={sponsorship}
                                     key={sponsorship.id}
+                                    className="mb-3 no-mb-last"
                                 />
                             ))}
                         </Fragment>

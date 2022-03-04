@@ -31,7 +31,7 @@ export abstract class StudentClient {
         return students.data;
     }
 
-    static async getStudent(id: number, token: string) {
+    static async getOne(id: number, token: string) {
         const student = await axios.get<StudentRecord>(
             `${this.baseUrl}/${id}`,
             getAuthHeader(token)

@@ -29,7 +29,7 @@ export const EditStudent: FunctionComponent<Props> = ({ match }: Props) => {
 
     useEffect(() => {
         if (token) {
-            StudentClient.getStudent(parseInt(match.params.id), token.data)
+            StudentClient.getOne(parseInt(match.params.id), token.data)
                 .then(data => {
                     setStudent(data);
                 })

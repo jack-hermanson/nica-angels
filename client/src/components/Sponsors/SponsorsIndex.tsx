@@ -13,7 +13,6 @@ import { SponsorDetailCard } from "./SponsorDetailCard";
 
 export const SponsorsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
-    const currentUser = useStoreState(state => state.currentUser);
     const token = useStoreState(state => state.token);
 
     const [accounts, setAccounts] = useState<AccountRecord[] | undefined>(

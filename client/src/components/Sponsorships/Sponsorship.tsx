@@ -5,12 +5,8 @@ import {
     SponsorshipRecord,
     StudentRecord,
 } from "@nica-angels/shared";
-import { Card, CardBody, CardHeader } from "reactstrap";
-import {
-    ActionsDropdown,
-    KeyValCardBody,
-    LoadingSpinner,
-} from "jack-hermanson-component-lib";
+import { Card, CardBody, CardFooter, CardHeader } from "reactstrap";
+import { KeyValCardBody, LoadingSpinner } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { StudentClient } from "../../clients/StudentClient";
 import { SponsorClient } from "../../clients/SponsorClient";
@@ -71,9 +67,16 @@ export const Sponsorship: FunctionComponent<Props> = ({
                                 {student.lastName}
                             </Link>
                         </h5>
-                        <ActionsDropdown options={[]} size="sm" />
                     </CardHeader>
                     {renderDetails()}
+                    <CardFooter>
+                        <Link
+                            to={`/settings/sponsorships/edit/${sponsorship.id}`}
+                            className="text-muted"
+                        >
+                            {spanish ? "Editar" : "Edit"}
+                        </Link>
+                    </CardFooter>
                 </Fragment>
             ) : (
                 <CardBody>

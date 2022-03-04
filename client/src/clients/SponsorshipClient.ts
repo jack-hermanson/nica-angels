@@ -42,4 +42,12 @@ export abstract class SponsorshipClient {
         );
         return response.data;
     }
+
+    static async delete(id: number, token: string) {
+        const response = await axios.delete<boolean>(
+            `${this.baseUrl}/${id}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

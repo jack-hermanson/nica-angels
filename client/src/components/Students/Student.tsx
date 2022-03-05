@@ -1,10 +1,11 @@
-import { Fragment, FunctionComponent } from "react";
+import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import {
     Clearance,
     getAge,
     getIdPadded,
     SchoolRecord,
     sexToString,
+    SponsorRecord,
     StudentRecord,
 } from "@nica-angels/shared";
 import { Card, CardBody, CardFooter, CardHeader, Col, Row } from "reactstrap";
@@ -14,6 +15,8 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { StudentImage } from "./StudentImage";
 import { ID_PADDING } from "../../utils/constants";
+import { SponsorshipClient } from "../../clients/SponsorshipClient";
+import { SponsorClient } from "../../clients/SponsorClient";
 
 interface Props {
     student: StudentRecord;
@@ -26,6 +29,28 @@ export const Student: FunctionComponent<Props> = ({
 }: Props) => {
     const currentUser = useStoreState(state => state.currentUser);
     const spanish = useStoreState(state => state.spanish);
+    const token = useStoreState(state => state.token);
+
+    const [sponsor, setSponsor] = useState<SponsorRecord | undefined>(
+        undefined
+    );
+
+    useEffect(() => {
+        if (token) {
+            SponsorshipClient.getOneFromStudentId(student.id, token.data).then(
+                sponsorshipData => {
+                    if (sponsorshipData) {
+                        SponsorClient.getOne(
+                            sponsorshipData.sponsorId,
+                            token.data
+                        ).then(sponsorData => {
+                            setSponsor(sponsorData);
+                        });
+                    }
+                }
+            );
+        }
+    }, [student.id, token, setSponsor]);
 
     return (
         <Card className="mb-3 no-mb-last">
@@ -49,47 +74,56 @@ export const Student: FunctionComponent<Props> = ({
                             {student.firstName} {student.middleName || ""}{" "}
                             {student.lastName || ""}
                         </h4>
-                        <KeyValTable
-                            keyValPairs={[
-                                {
-                                    key: spanish
-                                        ? "Fecha de Nacimiento"
-                                        : "Date of Birth",
-                                    val: renderDateOfBirth(),
-                                },
-                                {
-                                    key: spanish ? "Nivel" : "Level",
-                                    val:
-                                        student.level === 0
-                                            ? spanish
-                                                ? "Preescolar"
-                                                : "Preschool"
-                                            : student.level,
-                                },
-                                {
-                                    key: spanish ? "Suministros" : "Supplies",
-                                    val: listSupplies().join(", "),
-                                },
-                                {
-                                    key: spanish ? "Sexo" : "Sex",
-                                    val: sexToString(student.sex, spanish),
-                                },
-                                {
-                                    key: spanish ? "Escuela" : "School",
-                                    val: school ? school.name : "N/A",
-                                },
-                                {
-                                    key: spanish ? "Padrino" : "Sponsor",
-                                    val: "TODO",
-                                },
-                            ]}
-                        />
+                        {renderData()}
                     </Col>
                 </Row>
             </CardBody>
             {renderFooter()}
         </Card>
     );
+
+    function renderData() {
+        const keyValPairs = [
+            {
+                key: spanish ? "Fecha de Nacimiento" : "Date of Birth",
+                val: renderDateOfBirth(),
+            },
+            {
+                key: spanish ? "Nivel" : "Level",
+                val:
+                    student.level === 0
+                        ? spanish
+                            ? "Preescolar"
+                            : "Preschool"
+                        : student.level,
+            },
+            {
+                key: spanish ? "Suministros" : "Supplies",
+                val: listSupplies().join(", "),
+            },
+            {
+                key: spanish ? "Sexo" : "Sex",
+                val: sexToString(student.sex, spanish),
+            },
+            {
+                key: spanish ? "Escuela" : "School",
+                val: school ? school.name : "N/A",
+            },
+        ];
+
+        if (sponsor) {
+            keyValPairs.push({
+                key: spanish ? "Padrino" : "Sponsor",
+                val: (
+                    <Link className="ps-0" to={`/sponsors/${sponsor.id}`}>
+                        {sponsor.lastName} {sponsor.lastName}
+                    </Link>
+                ),
+            });
+        }
+
+        return <KeyValTable keyValPairs={keyValPairs} />;
+    }
 
     function listSupplies() {
         const supplies: string[] = [];

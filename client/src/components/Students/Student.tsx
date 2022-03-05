@@ -107,7 +107,13 @@ export const Student: FunctionComponent<Props> = ({
             },
             {
                 key: spanish ? "Escuela" : "School",
-                val: school ? school.name : "N/A",
+                val: school ? (
+                    <Link to={`/schools/edit/${school.id}`} className="ps-0">
+                        {school.name}
+                    </Link>
+                ) : (
+                    "N/A"
+                ),
             },
         ];
 
@@ -122,7 +128,7 @@ export const Student: FunctionComponent<Props> = ({
             });
         }
 
-        return <KeyValTable keyValPairs={keyValPairs} />;
+        return <KeyValTable className="mb-0" keyValPairs={keyValPairs} />;
     }
 
     function listSupplies() {

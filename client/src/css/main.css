@@ -11353,4 +11353,14 @@ dl {
   margin-bottom: 0;
 }
 
+table.same-width tbody > tr th {
+  width: 40%;
+}
+
+@media (min-width: 992px) {
+  table.same-width tbody > tr th {
+    width: 30%;
+  }
+}
+
 /*# sourceMappingURL=main.css.map */

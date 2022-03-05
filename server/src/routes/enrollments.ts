@@ -37,9 +37,12 @@ router.get(
 );
 
 router.get(
-    "/:id",
+    "/student/:id",
     auth,
-    async (req: Request<{ id: number }>, res: Response<EnrollmentRecord>) => {
+    async (
+        req: Request<{ id: string }>,
+        res: Response<EnrollmentRecord | undefined>
+    ) => {
         if (
             !authorized({
                 requestingAccount: req.account,
@@ -50,7 +53,28 @@ router.get(
             return;
         }
 
-        const id = req.params.id;
+        const id = parseInt(req.params.id);
+
+        const enrollment = await EnrollmentService.getCurrentEnrollment(id);
+        res.json(enrollment);
+    }
+);
+
+router.get(
+    "/:id",
+    auth,
+    async (req: Request<{ id: string }>, res: Response<EnrollmentRecord>) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.SPONSOR,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const id = parseInt(req.params.id);
 
         const enrollment = await EnrollmentService.getOne(id, res);
         if (!enrollment) {

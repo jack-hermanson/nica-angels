@@ -139,4 +139,49 @@ export abstract class SponsorshipService {
         }
         return true;
     }
+
+    static async getOneFromStudentId(
+        studentId: number
+    ): Promise<Sponsorship | undefined> {
+        const { sponsorshipRepo } = this.getRepos();
+        const query = sponsorshipRepo
+            .createQueryBuilder("sponsorship")
+            .where("sponsorship.endDate IS NULL")
+            .andWhere(`sponsorship.studentId = ${studentId}`)
+            .orderBy("sponsorship.startDate", "DESC");
+        const allMatches = await query.getMany();
+        switch (allMatches.length) {
+            case 0:
+                logger.info(
+                    `No current sponsorships for student with ID ${studentId}.`
+                );
+                return undefined;
+            case 1:
+                logger.info(
+                    `1 current sponsorship for student with ID ${studentId}.`
+                );
+                return allMatches[0];
+            default:
+                logger.fatal(
+                    `More than 1 current sponsorship for student with ID ${studentId}.`
+                );
+                return allMatches[0];
+        }
+    }
+
+    static async getManyFromSponsorId(
+        sponsorId: number
+    ): Promise<Sponsorship[]> {
+        const { sponsorshipRepo } = this.getRepos();
+        const query = sponsorshipRepo
+            .createQueryBuilder("sponsorship")
+            .where("sponsorship.endDate IS NULL")
+            .andWhere(`sponsorship.sponsorId = ${sponsorId}`)
+            .orderBy("sponsorship.startDate", "DESC");
+        const allMatches = await query.getMany();
+        logger.info(
+            `${allMatches.length} sponsorships for sponsor with ID ${sponsorId}.`
+        );
+        return allMatches;
+    }
 }

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { SponsorshipRecord, SponsorshipRequest } from "@nica-angels/shared";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
-import { Sponsorship } from "../components/Sponsorships/Sponsorship";
 
 export abstract class SponsorshipClient {
     private static baseUrl = "/api/sponsorships";

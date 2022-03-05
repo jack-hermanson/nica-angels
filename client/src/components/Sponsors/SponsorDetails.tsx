@@ -6,6 +6,7 @@ import {
     Clearance,
     SponsorRecord,
     SponsorshipRecord,
+    StudentRecord,
 } from "@nica-angels/shared";
 import {
     Card,
@@ -14,19 +15,19 @@ import {
     Col,
     ListGroup,
     ListGroupItem,
-    ListGroupItemHeading,
-    ListGroupItemText,
     Row,
 } from "reactstrap";
 import { useStoreState } from "../../store/_store";
 import { SponsorClient } from "../../clients/SponsorClient";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Link } from "react-router-dom";
-import { BUTTON_ICON_CLASSES } from "../../utils/constants";
+import { BUTTON_ICON_CLASSES, DATE_FORMAT } from "../../utils/constants";
 import { FaPencilAlt } from "react-icons/fa";
 import { AccountClient } from "../../clients/AccountClient";
 import { SponsorDetailCard } from "./SponsorDetailCard";
 import { SponsorshipClient } from "../../clients/SponsorshipClient";
+import { StudentClient } from "../../clients/StudentClient";
+import moment from "moment";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -42,8 +43,10 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
     const [sponsorships, setSponsorships] = useState<
         SponsorshipRecord[] | undefined
     >(undefined);
+    const [students, setStudents] = useState<StudentRecord[]>([]);
 
     const token = useStoreState(state => state.token);
+    const spanish = useStoreState(state => state.spanish);
 
     useEffect(() => {
         if (token) {
@@ -63,11 +66,28 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
                         token.data
                     ).then(sponsorshipData => {
                         setSponsorships(sponsorshipData);
+                        if (sponsorshipData) {
+                            for (let sponsorship of sponsorshipData) {
+                                StudentClient.getOne(
+                                    sponsorship.studentId,
+                                    token.data
+                                ).then(studentData => {
+                                    setStudents(s => [...s, studentData]);
+                                });
+                            }
+                        }
                     });
                 }
             );
         }
-    }, [token, match.params.id, setSponsor, setAccount, setSponsorships]);
+    }, [
+        token,
+        match.params.id,
+        setSponsor,
+        setAccount,
+        setSponsorships,
+        setStudents,
+    ]);
 
     return (
         <div>
@@ -95,7 +115,7 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
                             to={`/sponsors/edit/${match.params.id}`}
                         >
                             <FaPencilAlt className={BUTTON_ICON_CLASSES} />
-                            Edit
+                            {spanish ? "Editar" : "Edit"}
                         </Link>
                     </PageHeader>
                 </Col>
@@ -120,21 +140,40 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
             <Col xs={12} lg={4}>
                 <Card>
                     <CardHeader>
-                        <h5 className="mb-0">Sponsorships</h5>
+                        <h5 className="mb-0">
+                            {spanish ? "Patrocinios" : "Sponsorships"}
+                        </h5>
                     </CardHeader>
                     <CardBody className="p-0">
                         {sponsorships ? (
                             <ListGroup flush>
-                                {sponsorships.map(sponsorship => (
-                                    <Fragment key={sponsorship.id}>
+                                {sponsorships.map(sponsorship => {
+                                    const student = students.find(
+                                        s => s.id === sponsorship.studentId
+                                    );
+                                    return (
                                         <ListGroupItem key={sponsorship.id}>
-                                            Test
+                                            {student ? (
+                                                <Link
+                                                    to={`/settings/sponsorships/${sponsorship.id}`}
+                                                >
+                                                    {student.firstName}{" "}
+                                                    {student.middleName}{" "}
+                                                    {student.lastName} (
+                                                    {spanish
+                                                        ? "Desde "
+                                                        : "Since "}
+                                                    {moment(
+                                                        sponsorship.startDate
+                                                    ).format(DATE_FORMAT)}
+                                                    )
+                                                </Link>
+                                            ) : (
+                                                <Fragment>...</Fragment>
+                                            )}
                                         </ListGroupItem>
-                                        <ListGroupItem key={sponsorship.id}>
-                                            Test
-                                        </ListGroupItem>
-                                    </Fragment>
-                                ))}
+                                    );
+                                })}
                             </ListGroup>
                         ) : (
                             <LoadingSpinner />

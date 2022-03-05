@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SponsorshipRecord, SponsorshipRequest } from "@nica-angels/shared";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
+import { Sponsorship } from "../components/Sponsorships/Sponsorship";
 
 export abstract class SponsorshipClient {
     private static baseUrl = "/api/sponsorships";
@@ -46,6 +47,22 @@ export abstract class SponsorshipClient {
     static async delete(id: number, token: string) {
         const response = await axios.delete<boolean>(
             `${this.baseUrl}/${id}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async getOneFromStudentId(studentId: number, token: string) {
+        const response = await axios.get<SponsorshipRecord | undefined>(
+            `${this.baseUrl}/student/${studentId}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async getManyFromSponsorId(sponsorId: number, token: string) {
+        const response = await axios.get<SponsorshipRecord[]>(
+            `${this.baseUrl}/sponsor/${sponsorId}`,
             getAuthHeader(token)
         );
         return response.data;

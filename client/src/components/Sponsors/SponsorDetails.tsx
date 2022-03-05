@@ -144,8 +144,8 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
                             {spanish ? "Patrocinios" : "Sponsorships"}
                         </h5>
                     </CardHeader>
-                    <CardBody className="p-0">
-                        {sponsorships ? (
+                    <CardBody className={sponsorships?.length ? "p-0" : ""}>
+                        {sponsorships?.length ? (
                             <ListGroup flush>
                                 {sponsorships.map(sponsorship => {
                                     const student = students.find(
@@ -176,7 +176,17 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
                                 })}
                             </ListGroup>
                         ) : (
-                            <LoadingSpinner />
+                            <Fragment>
+                                {!sponsorships ? (
+                                    <LoadingSpinner />
+                                ) : (
+                                    <p className="mb-0">
+                                        {spanish
+                                            ? "Este patrino no patrocina a ningún estudiante."
+                                            : "This sponsor does not sponsor any students."}
+                                    </p>
+                                )}
+                            </Fragment>
                         )}
                     </CardBody>
                 </Card>

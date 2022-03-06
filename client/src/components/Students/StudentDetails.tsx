@@ -1,9 +1,24 @@
 import { FunctionComponent, Fragment, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { getAge, sexToString, StudentRecord } from "@nica-angels/shared";
+import {
+    EnrollmentRecord,
+    getAge,
+    SchoolRecord,
+    sexToString,
+    StudentRecord,
+} from "@nica-angels/shared";
 import { StudentClient } from "../../clients/StudentClient";
 import { useStoreState } from "../../store/_store";
-import { Card, CardBody, Col, Label, Row } from "reactstrap";
+import {
+    Card,
+    CardBody,
+    CardFooter,
+    CardHeader,
+    Col,
+    Label,
+    Row,
+    Table,
+} from "reactstrap";
 import {
     ActionCardHeader,
     KeyValCardBody,
@@ -14,8 +29,12 @@ import { UploadStudentImage } from "../Files/UploadStudentImage";
 import { StudentBarcode } from "./StudentBarcode";
 import { StudentImage } from "./StudentImage";
 import { Link } from "react-router-dom";
-import { FaPencilAlt } from "react-icons/fa";
-import { BUTTON_ICON_CLASSES } from "../../utils/constants";
+import { FaPencilAlt, FaPlus } from "react-icons/fa";
+import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
+import { EnrollmentClient } from "../../clients/EnrollmentClient";
+import { SchoolClient } from "../../clients/SchoolClient";
+import moment from "moment";
+import { StudentSponsorshipCard } from "./StudentSponsorshipCard";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -25,6 +44,10 @@ export const StudentDetails: FunctionComponent<Props> = ({
     },
 }: Props) => {
     const [student, setStudent] = useState<StudentRecord | undefined>(
+        undefined
+    );
+    const [school, setSchool] = useState<SchoolRecord | undefined>(undefined);
+    const [enrollmentId, setEnrollmentId] = useState<undefined | number>(
         undefined
     );
 
@@ -38,6 +61,27 @@ export const StudentDetails: FunctionComponent<Props> = ({
             });
         }
     }, [id, setStudent, token]);
+
+    useEffect(() => {
+        if (token) {
+            EnrollmentClient.getCurrentEnrollment(parseInt(id), token.data)
+                .then(enrollmentData => {
+                    if (enrollmentData) {
+                        setEnrollmentId(enrollmentData.id);
+                        SchoolClient.getOneSchool(
+                            enrollmentData.schoolId,
+                            token.data
+                        ).then(schoolData => {
+                            setSchool(schoolData);
+                        });
+                    }
+                })
+                .catch((error: any) => {
+                    console.error(error);
+                    console.error(error.response);
+                });
+        }
+    }, [id, setSchool, token, setEnrollmentId]);
 
     return (
         <div>
@@ -95,9 +139,8 @@ export const StudentDetails: FunctionComponent<Props> = ({
                 <Fragment>
                     {renderName()}
                     {renderDemographicInfo()}
-                    <pre className="alert alert-secondary mb-0">
-                        TODO: school and sponsor info
-                    </pre>
+                    {renderEnrollment()}
+                    {renderSponsorship()}
                 </Fragment>
             );
         }
@@ -131,7 +174,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
                                     }}
                                 />
                             </Col>
-                            <Col xs={2} lg={3}>
+                            <Col xs={3} lg={3}>
                                 <Label className="form-label">
                                     {spanish
                                         ? "Imagen Actual"
@@ -179,9 +222,9 @@ export const StudentDetails: FunctionComponent<Props> = ({
                                     ? "Fecha de Nacimiento"
                                     : "Date of Birth",
                                 val: student.dateOfBirth
-                                    ? new Date(
-                                          student.dateOfBirth
-                                      ).toLocaleDateString()
+                                    ? moment(student.dateOfBirth)
+                                          .toDate()
+                                          .toLocaleDateString()
                                     : "",
                             },
                             {
@@ -225,6 +268,70 @@ export const StudentDetails: FunctionComponent<Props> = ({
                         ]}
                     />
                 </Card>
+            );
+        }
+    }
+
+    function renderEnrollment() {
+        return (
+            <Card className="mb-3">
+                <ActionCardHeader title={spanish ? "Escuela" : "School"}>
+                    <Link
+                        to={`/settings/enrollments/new/${id}`}
+                        className={`btn btn-sm btn-${NEW_BUTTON_COLOR}`}
+                    >
+                        <FaPlus className={BUTTON_ICON_CLASSES} />
+                        {spanish ? "Nuevo Inscrito" : "New Enrollment"}
+                    </Link>
+                </ActionCardHeader>
+                {school && enrollmentId ? (
+                    <Fragment>
+                        <KeyValCardBody
+                            keyValPairs={[
+                                {
+                                    key: spanish ? "Escuela" : "School",
+                                    val: (
+                                        <Link
+                                            className="ps-0"
+                                            to={`/schools/edit/${school.id}`}
+                                        >
+                                            {school.name}
+                                        </Link>
+                                    ),
+                                },
+                            ]}
+                        />
+                        <CardFooter>
+                            <Link
+                                className="ps-0"
+                                to={`/settings/enrollments/edit/${enrollmentId}`}
+                            >
+                                {spanish
+                                    ? "Editar Inscrito"
+                                    : "Edit Enrollment"}
+                            </Link>
+                        </CardFooter>
+                    </Fragment>
+                ) : (
+                    <CardBody>
+                        <p className="mb-0">
+                            {spanish
+                                ? "Este estudiante no tiene una escuela."
+                                : "This student is not enrolled in school."}
+                        </p>
+                    </CardBody>
+                )}
+            </Card>
+        );
+    }
+
+    function renderSponsorship() {
+        if (student) {
+            return (
+                <StudentSponsorshipCard
+                    studentId={student.id}
+                    className="mb-0"
+                />
             );
         }
     }

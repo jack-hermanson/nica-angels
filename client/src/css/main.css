@@ -4473,7 +4473,7 @@ textarea.form-control-lg {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #39444e;
+  background-color: #343a40;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0;
@@ -4549,8 +4549,8 @@ textarea.form-control-lg {
   border-bottom: 0;
 }
 .card-header-tabs .nav-link.active {
-  background-color: #39444e;
-  border-bottom-color: #39444e;
+  background-color: #343a40;
+  border-bottom-color: #343a40;
 }
 
 .card-header-pills {
@@ -5052,8 +5052,8 @@ textarea.form-control-lg {
   padding: 0.5rem 1rem;
   color: #fff;
   text-decoration: none;
-  background-color: #4e5d6c;
-  border: 1px solid transparent;
+  background-color: #343a40;
+  border: 1px solid #495057;
 }
 .list-group-item:first-child {
   border-top-left-radius: inherit;
@@ -5066,7 +5066,7 @@ textarea.form-control-lg {
 .list-group-item.disabled, .list-group-item:disabled {
   color: rgba(255, 255, 255, 0.4);
   pointer-events: none;
-  background-color: #4e5d6c;
+  background-color: #343a40;
 }
 .list-group-item.active {
   z-index: 2;
@@ -11351,6 +11351,16 @@ body {
 
 dl {
   margin-bottom: 0;
+}
+
+table.same-width tbody > tr th {
+  width: 40%;
+}
+
+@media (min-width: 992px) {
+  table.same-width tbody > tr th {
+    width: 30%;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

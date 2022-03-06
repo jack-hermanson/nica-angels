@@ -61,4 +61,12 @@ export abstract class EnrollmentClient {
         );
         return response.data;
     }
+
+    static async getCurrentEnrollment(studentId: number, token: string) {
+        const response = await axios.get<EnrollmentRecord | undefined>(
+            `${this.baseUrl}/student/${studentId}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

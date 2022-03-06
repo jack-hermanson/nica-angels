@@ -122,7 +122,7 @@ $pagination-disabled-border-color:  $pagination-border-color !default;
 // Cards
 
 $card-cap-bg:                       $table-hover-bg !default;
-$card-bg:                           darken($gray-200, 10) !default;
+$card-bg:                           $gray-800;
 $card-inner-border-radius:          0 !default;
 
 // Popovers
@@ -146,8 +146,8 @@ $modal-header-border-color:         rgba(0, 0, 0, .2) !default;
 // List group
 
 $list-group-color:                  $white !default;
-$list-group-bg:                     $gray-200 !default;
-$list-group-border-color:           transparent !default;
+$list-group-bg:                     $gray-800 !default;
+$list-group-border-color:           $gray-700 !default;
 $list-group-hover-bg:               $nav-link-disabled-color !default;
 $list-group-disabled-color:         $nav-link-disabled-color !default;
 $list-group-action-color:           $white !default;

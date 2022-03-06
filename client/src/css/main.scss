@@ -31,3 +31,13 @@ body {
 dl {
   margin-bottom: 0;
 }
+
+table.same-width tbody > tr th {
+  width: 40%;
+}
+@include media-breakpoint-up(lg) {
+  table.same-width tbody > tr th {
+    width: 30%;
+  }
+}
+

@@ -36,6 +36,58 @@ router.get(
 );
 
 router.get(
+    "/sponsor/:id",
+    auth,
+    async (
+        req: Request<{ id: string }>,
+        res: Response<SponsorshipRecord[]>
+    ) => {
+        logger.debug("GET /sponsorships/sponsor/:id");
+
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const sponsorships = await SponsorshipService.getManyFromSponsorId(
+            parseInt(req.params.id)
+        );
+        res.json(sponsorships);
+    }
+);
+
+router.get(
+    "/student/:id",
+    auth,
+    async (
+        req: Request<{ id: string }>,
+        res: Response<SponsorshipRecord | undefined>
+    ) => {
+        logger.debug("GET /sponsorships/student/:id");
+
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const sponsorships = await SponsorshipService.getOneFromStudentId(
+            parseInt(req.params.id)
+        );
+        res.json(sponsorships);
+    }
+);
+
+router.get(
     "/:id",
     auth,
     async (req: Request<{ id: string }>, res: Response<SponsorshipRecord>) => {

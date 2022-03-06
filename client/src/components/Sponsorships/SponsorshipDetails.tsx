@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
@@ -14,6 +14,9 @@ import { SponsorshipClient } from "../../clients/SponsorshipClient";
 import { StudentClient } from "../../clients/StudentClient";
 import { SponsorClient } from "../../clients/SponsorClient";
 import { SponsorshipCardBody } from "./SponsorshipCardBody";
+import { SettingsTabs } from "../Settings/SettingsTabs";
+import { FaEdit } from "react-icons/all";
+import { BUTTON_ICON_CLASSES } from "../../utils/constants";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -68,6 +71,7 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
 
     return (
         <div>
+            <SettingsTabs />
             {renderPageHeader()}
             <Row>
                 {renderDetails()}
@@ -86,7 +90,17 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
                                 ? "Patronicio Detalles"
                                 : "Sponsorship Details"
                         }
-                    />
+                    >
+                        {sponsorship && (
+                            <Link
+                                to={`/settings/sponsorships/edit/${sponsorship.id}`}
+                                className="btn btn-sm btn-secondary"
+                            >
+                                <FaEdit className={BUTTON_ICON_CLASSES} />
+                                {spanish ? "Editar" : "Edit"}
+                            </Link>
+                        )}
+                    </PageHeader>
                 </Col>
             </Row>
         );

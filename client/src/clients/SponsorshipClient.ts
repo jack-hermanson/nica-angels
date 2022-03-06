@@ -50,4 +50,20 @@ export abstract class SponsorshipClient {
         );
         return response.data;
     }
+
+    static async getOneFromStudentId(studentId: number, token: string) {
+        const response = await axios.get<SponsorshipRecord | undefined>(
+            `${this.baseUrl}/student/${studentId}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async getManyFromSponsorId(sponsorId: number, token: string) {
+        const response = await axios.get<SponsorshipRecord[]>(
+            `${this.baseUrl}/sponsor/${sponsorId}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

@@ -19,6 +19,7 @@ export const StudentSponsorshipCard: FunctionComponent<Props> = ({
     className,
 }: Props) => {
     const token = useStoreState(state => state.token);
+    const spanish = useStoreState(state => state.spanish);
 
     const [sponsor, setSponsor] = useState<SponsorRecord | undefined>(
         undefined
@@ -51,14 +52,14 @@ export const StudentSponsorshipCard: FunctionComponent<Props> = ({
 
     return (
         <Card className={className || ""}>
-            <ActionCardHeader title="Sponsorship">
+            <ActionCardHeader title={spanish ? "Patrocinio" : "Sponsorship"}>
                 {!sponsorship && (
                     <Link
                         to={`/settings/sponsorships/new`}
                         className={`btn btn-sm btn-${NEW_BUTTON_COLOR}`}
                     >
                         <FaPlus className={BUTTON_ICON_CLASSES} />
-                        New Sponsorship
+                        {spanish ? "Nuevo Patrocinio" : "New Sponsorship"}
                     </Link>
                 )}
             </ActionCardHeader>
@@ -66,7 +67,7 @@ export const StudentSponsorshipCard: FunctionComponent<Props> = ({
                 <KeyValCardBody
                     keyValPairs={[
                         {
-                            key: "Sponsor",
+                            key: spanish ? "Padrino" : "Sponsor",
                             val: (
                                 <Link
                                     to={`/sponsors/${sponsor.id}`}
@@ -81,7 +82,9 @@ export const StudentSponsorshipCard: FunctionComponent<Props> = ({
             ) : (
                 <CardBody>
                     <p className="mb-0">
-                        This student does not have a sponsor.
+                        {spanish
+                            ? "Este estudiante no tiene un padrino."
+                            : "This student does not have a sponsor."}
                     </p>
                 </CardBody>
             )}
@@ -91,7 +94,7 @@ export const StudentSponsorshipCard: FunctionComponent<Props> = ({
                         className="px-0"
                         to={`/settings/sponsorships/edit/${sponsorship.id}`}
                     >
-                        Edit Sponsorship
+                        {spanish ? "Editar Patrocinio" : "Edit Sponsorship"}
                     </Link>
                 </CardFooter>
             )}

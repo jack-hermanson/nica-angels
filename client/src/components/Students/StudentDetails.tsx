@@ -275,13 +275,13 @@ export const StudentDetails: FunctionComponent<Props> = ({
     function renderEnrollment() {
         return (
             <Card className="mb-3">
-                <ActionCardHeader title="School">
+                <ActionCardHeader title={spanish ? "Escuela" : "School"}>
                     <Link
                         to={`/settings/enrollments/new/${id}`}
                         className={`btn btn-sm btn-${NEW_BUTTON_COLOR}`}
                     >
                         <FaPlus className={BUTTON_ICON_CLASSES} />
-                        New Enrollment
+                        {spanish ? "Nuevo Inscrito" : "New Enrollment"}
                     </Link>
                 </ActionCardHeader>
                 {school && enrollmentId ? (
@@ -289,7 +289,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
                         <KeyValCardBody
                             keyValPairs={[
                                 {
-                                    key: "School",
+                                    key: spanish ? "Escuela" : "School",
                                     val: (
                                         <Link
                                             className="ps-0"
@@ -306,14 +306,18 @@ export const StudentDetails: FunctionComponent<Props> = ({
                                 className="ps-0"
                                 to={`/settings/enrollments/edit/${enrollmentId}`}
                             >
-                                Edit Enrollment
+                                {spanish
+                                    ? "Editar Inscrito"
+                                    : "Edit Enrollment"}
                             </Link>
                         </CardFooter>
                     </Fragment>
                 ) : (
                     <CardBody>
                         <p className="mb-0">
-                            This student is not enrolled in school.
+                            {spanish
+                                ? "Este estudiante no tiene una escuela."
+                                : "This student is not enrolled in school."}
                         </p>
                     </CardBody>
                 )}

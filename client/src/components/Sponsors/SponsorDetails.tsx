@@ -182,7 +182,7 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
                                 ) : (
                                     <p className="mb-0">
                                         {spanish
-                                            ? "Este patrino no patrocina a ningún estudiante."
+                                            ? "Este padrino no patrocina a ningún estudiante."
                                             : "This sponsor does not sponsor any students."}
                                     </p>
                                 )}

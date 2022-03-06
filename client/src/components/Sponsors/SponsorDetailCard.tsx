@@ -68,7 +68,7 @@ export const SponsorDetailCard: FunctionComponent<Props> = ({
     function getSponsorName() {
         return (
             <Fragment>
-                {spanish ? "Patrino" : "Sponsor"} #{sponsor.id} -{" "}
+                {spanish ? "Padrino" : "Sponsor"} #{sponsor.id} -{" "}
                 {sponsor.firstName} {sponsor.lastName}
             </Fragment>
         );

@@ -34,6 +34,7 @@ import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { EnrollmentClient } from "../../clients/EnrollmentClient";
 import { SchoolClient } from "../../clients/SchoolClient";
 import moment from "moment";
+import { StudentSponsorshipCard } from "./StudentSponsorshipCard";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -139,6 +140,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
                     {renderName()}
                     {renderDemographicInfo()}
                     {renderEnrollment()}
+                    {renderSponsorship()}
                 </Fragment>
             );
         }
@@ -220,9 +222,9 @@ export const StudentDetails: FunctionComponent<Props> = ({
                                     ? "Fecha de Nacimiento"
                                     : "Date of Birth",
                                 val: student.dateOfBirth
-                                    ? new Date(
-                                          student.dateOfBirth
-                                      ).toLocaleDateString()
+                                    ? moment(student.dateOfBirth)
+                                          .toDate()
+                                          .toLocaleDateString()
                                     : "",
                             },
                             {
@@ -272,9 +274,8 @@ export const StudentDetails: FunctionComponent<Props> = ({
 
     function renderEnrollment() {
         return (
-            <Card>
-                <CardHeader className="d-flex">
-                    <h5 className="my-auto me-auto">School</h5>
+            <Card className="mb-3">
+                <ActionCardHeader title="School">
                     <Link
                         to={`/settings/enrollments/new/${id}`}
                         className={`btn btn-sm btn-${NEW_BUTTON_COLOR}`}
@@ -282,7 +283,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
                         <FaPlus className={BUTTON_ICON_CLASSES} />
                         New Enrollment
                     </Link>
-                </CardHeader>
+                </ActionCardHeader>
                 {school && enrollmentId ? (
                     <Fragment>
                         <KeyValCardBody
@@ -310,11 +311,24 @@ export const StudentDetails: FunctionComponent<Props> = ({
                         </CardFooter>
                     </Fragment>
                 ) : (
-                    <p className="mb-0">
-                        This student does not have any enrollments.
-                    </p>
+                    <CardBody>
+                        <p className="mb-0">
+                            This student is not enrolled in school.
+                        </p>
+                    </CardBody>
                 )}
             </Card>
         );
+    }
+
+    function renderSponsorship() {
+        if (student) {
+            return (
+                <StudentSponsorshipCard
+                    studentId={student.id}
+                    className="mb-0"
+                />
+            );
+        }
     }
 };

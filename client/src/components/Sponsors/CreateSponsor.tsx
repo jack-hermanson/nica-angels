@@ -8,6 +8,7 @@ import { CreateEditSponsorForm } from "./CreateEditSponsorForm";
 import { SponsorClient } from "../../clients/SponsorClient";
 import { scrollToTop } from "jack-hermanson-ts-utils";
 import { useHistory } from "react-router-dom";
+import { SponsorTabs } from "./SponsorTabs";
 
 export const CreateSponsor: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -20,6 +21,7 @@ export const CreateSponsor: FunctionComponent = () => {
 
     return (
         <div>
+            <SponsorTabs />
             {renderPageHeader()}
             {renderForm()}
         </div>

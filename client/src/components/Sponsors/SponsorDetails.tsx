@@ -28,6 +28,7 @@ import { SponsorDetailCard } from "./SponsorDetailCard";
 import { SponsorshipClient } from "../../clients/SponsorshipClient";
 import { StudentClient } from "../../clients/StudentClient";
 import moment from "moment";
+import { SponsorTabs } from "./SponsorTabs";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -91,6 +92,7 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
 
     return (
         <div>
+            <SponsorTabs />
             {renderPageHeader()}
             <Row>
                 {renderSponsorDetails()}

@@ -10,6 +10,7 @@ import { Col, Row } from "reactstrap";
 import { AccountClient } from "../../clients/AccountClient";
 import { SponsorClient } from "../../clients/SponsorClient";
 import { SponsorDetailCard } from "./SponsorDetailCard";
+import { SponsorTabs } from "./SponsorTabs";
 
 export const SponsorsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -37,6 +38,7 @@ export const SponsorsIndex: FunctionComponent = () => {
 
     return (
         <div>
+            <SponsorTabs />
             {renderPageHeader()}
             {renderList()}
         </div>

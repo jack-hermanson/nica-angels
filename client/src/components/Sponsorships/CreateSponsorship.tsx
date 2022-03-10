@@ -1,5 +1,4 @@
 import { FunctionComponent } from "react";
-import { SettingsTabs } from "../Settings/SettingsTabs";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
@@ -9,6 +8,7 @@ import { CreateEditSponsorshipForm } from "./CreateEditSponsorshipForm";
 import { SponsorshipClient } from "../../clients/SponsorshipClient";
 import { errorAlert, scrollToTop, successAlert } from "jack-hermanson-ts-utils";
 import { useHistory } from "react-router-dom";
+import { SponsorTabs } from "../Sponsors/SponsorTabs";
 
 export const CreateSponsorship: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -21,7 +21,7 @@ export const CreateSponsorship: FunctionComponent = () => {
 
     return (
         <div>
-            <SettingsTabs />
+            <SponsorTabs />
             {renderPageHeader()}
             {renderForm()}
         </div>
@@ -57,7 +57,7 @@ export const CreateSponsorship: FunctionComponent = () => {
                     token.data
                 );
                 addAlert(successAlert("sponsorship", "saved"));
-                history.push(`/settings/sponsorships/${sponsorship.id}`);
+                history.push(`/sponsorships/${sponsorship.id}`);
             } catch (error: any) {
                 addAlert(errorAlert(error.message));
                 scrollToTop();

@@ -105,22 +105,22 @@ export const App: React.FC = () => {
 
                     <Route
                         exact
-                        path="/settings/sponsorships"
+                        path="/sponsorships"
                         component={SponsorshipsIndex}
                     />
                     <Route
                         exact
-                        path="/settings/sponsorships/new"
+                        path="/sponsorships/new"
                         component={CreateSponsorship}
                     />
                     <Route
                         exact
-                        path="/settings/sponsorships/edit/:id"
+                        path="/sponsorships/edit/:id"
                         component={EditSponsorship}
                     />
                     <Route
                         exact
-                        path="/settings/sponsorships/:id"
+                        path="/sponsorships/:id"
                         component={SponsorshipDetails}
                     />
 

@@ -1,6 +1,5 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Col, Row } from "reactstrap";
-import { SettingsTabs } from "../Settings/SettingsTabs";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance, SponsorshipRecord } from "@nica-angels/shared";
@@ -10,6 +9,7 @@ import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Sponsorship } from "./Sponsorship";
 import { SponsorshipClient } from "../../clients/SponsorshipClient";
+import { SponsorTabs } from "../Sponsors/SponsorTabs";
 
 export const SponsorshipsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -31,7 +31,7 @@ export const SponsorshipsIndex: FunctionComponent = () => {
 
     return (
         <div>
-            <SettingsTabs />
+            <SponsorTabs />
             {renderPageHeader()}
             {renderSponsorships()}
         </div>
@@ -45,7 +45,7 @@ export const SponsorshipsIndex: FunctionComponent = () => {
                         title={spanish ? "Patrocinios" : "Sponsorships"}
                     >
                         <Link
-                            to="/settings/sponsorships/new"
+                            to="/sponsorships/new"
                             className={`icon-button btn btn-sm btn-${NEW_BUTTON_COLOR}`}
                         >
                             <FaPlus className={BUTTON_ICON_CLASSES} />

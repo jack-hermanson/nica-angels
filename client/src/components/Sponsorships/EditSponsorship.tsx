@@ -12,7 +12,7 @@ import { useStoreActions, useStoreState } from "../../store/_store";
 import { CreateEditSponsorshipForm } from "./CreateEditSponsorshipForm";
 import { SponsorshipClient } from "../../clients/SponsorshipClient";
 import { errorAlert, scrollToTop, successAlert } from "jack-hermanson-ts-utils";
-import { SettingsTabs } from "../Settings/SettingsTabs";
+import { SponsorTabs } from "../Sponsors/SponsorTabs";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -42,7 +42,7 @@ export const EditSponsorship: FunctionComponent<Props> = ({ match }: Props) => {
 
     return (
         <div>
-            <SettingsTabs />
+            <SponsorTabs />
             {renderPageHeader()}
             {renderForm()}
         </div>
@@ -88,7 +88,7 @@ export const EditSponsorship: FunctionComponent<Props> = ({ match }: Props) => {
                     token.data
                 );
                 addAlert(successAlert("sponsorship", "edited"));
-                history.push(`/settings/sponsorships/${editedSponsorship.id}`);
+                history.push(`/sponsorships/${editedSponsorship.id}`);
             } catch (error: any) {
                 addAlert(errorAlert(error.message));
                 scrollToTop();

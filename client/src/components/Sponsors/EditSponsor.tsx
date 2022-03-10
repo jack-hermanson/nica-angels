@@ -7,6 +7,7 @@ import { useStoreActions, useStoreState } from "../../store/_store";
 import { SponsorClient } from "../../clients/SponsorClient";
 import { CreateEditSponsorForm } from "./CreateEditSponsorForm";
 import { scrollToTop } from "jack-hermanson-ts-utils";
+import { SponsorTabs } from "./SponsorTabs";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -35,6 +36,7 @@ export const EditSponsor: FunctionComponent<Props> = ({ match }: Props) => {
 
     return (
         <div>
+            <SponsorTabs />
             {renderHeader()}
             {renderForm()}
         </div>

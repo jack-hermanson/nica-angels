@@ -14,9 +14,9 @@ import { SponsorshipClient } from "../../clients/SponsorshipClient";
 import { StudentClient } from "../../clients/StudentClient";
 import { SponsorClient } from "../../clients/SponsorClient";
 import { SponsorshipCardBody } from "./SponsorshipCardBody";
-import { SettingsTabs } from "../Settings/SettingsTabs";
 import { FaEdit } from "react-icons/all";
 import { BUTTON_ICON_CLASSES } from "../../utils/constants";
+import { SponsorTabs } from "../Sponsors/SponsorTabs";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -71,7 +71,7 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
 
     return (
         <div>
-            <SettingsTabs />
+            <SponsorTabs />
             {renderPageHeader()}
             <Row>
                 {renderDetails()}
@@ -93,7 +93,7 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
                     >
                         {sponsorship && (
                             <Link
-                                to={`/settings/sponsorships/edit/${sponsorship.id}`}
+                                to={`/sponsorships/edit/${sponsorship.id}`}
                                 className="btn btn-sm btn-secondary"
                             >
                                 <FaEdit className={BUTTON_ICON_CLASSES} />

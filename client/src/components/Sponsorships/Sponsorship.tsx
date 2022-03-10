@@ -59,7 +59,7 @@ export const Sponsorship: FunctionComponent<Props> = ({
                         <h5 className="my-auto me-auto">
                             <Link
                                 className="header-link"
-                                to={`/settings/sponsorships/${sponsorship.id}`}
+                                to={`/sponsorships/${sponsorship.id}`}
                             >
                                 {student.firstName} {student.middleName}{" "}
                                 {student.lastName}
@@ -69,7 +69,7 @@ export const Sponsorship: FunctionComponent<Props> = ({
                     {renderDetails()}
                     <CardFooter>
                         <Link
-                            to={`/settings/sponsorships/edit/${sponsorship.id}`}
+                            to={`/sponsorships/edit/${sponsorship.id}`}
                             className="text-muted"
                         >
                             {spanish ? "Editar" : "Edit"}

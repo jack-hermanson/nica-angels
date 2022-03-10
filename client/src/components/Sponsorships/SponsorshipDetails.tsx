@@ -93,7 +93,7 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
                     >
                         {sponsorship && (
                             <Link
-                                to={`/settings/sponsorships/edit/${sponsorship.id}`}
+                                to={`/sponsorships/edit/${sponsorship.id}`}
                                 className="btn btn-sm btn-secondary"
                             >
                                 <FaEdit className={BUTTON_ICON_CLASSES} />

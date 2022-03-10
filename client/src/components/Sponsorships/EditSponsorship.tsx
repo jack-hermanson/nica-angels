@@ -88,7 +88,7 @@ export const EditSponsorship: FunctionComponent<Props> = ({ match }: Props) => {
                     token.data
                 );
                 addAlert(successAlert("sponsorship", "edited"));
-                history.push(`/settings/sponsorships/${editedSponsorship.id}`);
+                history.push(`/sponsorships/${editedSponsorship.id}`);
             } catch (error: any) {
                 addAlert(errorAlert(error.message));
                 scrollToTop();

@@ -55,7 +55,7 @@ export const StudentSponsorshipCard: FunctionComponent<Props> = ({
             <ActionCardHeader title={spanish ? "Patrocinio" : "Sponsorship"}>
                 {!sponsorship && (
                     <Link
-                        to={`/settings/sponsorships/new`}
+                        to={`/sponsorships/new`}
                         className={`btn btn-sm btn-${NEW_BUTTON_COLOR}`}
                     >
                         <FaPlus className={BUTTON_ICON_CLASSES} />
@@ -92,7 +92,7 @@ export const StudentSponsorshipCard: FunctionComponent<Props> = ({
                 <CardFooter>
                     <Link
                         className="px-0"
-                        to={`/settings/sponsorships/edit/${sponsorship.id}`}
+                        to={`/sponsorships/edit/${sponsorship.id}`}
                     >
                         {spanish ? "Editar Patrocinio" : "Edit Sponsorship"}
                     </Link>

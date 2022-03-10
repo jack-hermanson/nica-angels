@@ -57,7 +57,7 @@ export const CreateSponsorship: FunctionComponent = () => {
                     token.data
                 );
                 addAlert(successAlert("sponsorship", "saved"));
-                history.push(`/settings/sponsorships/${sponsorship.id}`);
+                history.push(`/sponsorships/${sponsorship.id}`);
             } catch (error: any) {
                 addAlert(errorAlert(error.message));
                 scrollToTop();

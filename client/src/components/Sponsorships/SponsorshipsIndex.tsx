@@ -45,7 +45,7 @@ export const SponsorshipsIndex: FunctionComponent = () => {
                         title={spanish ? "Patrocinios" : "Sponsorships"}
                     >
                         <Link
-                            to="/settings/sponsorships/new"
+                            to="/sponsorships/new"
                             className={`icon-button btn btn-sm btn-${NEW_BUTTON_COLOR}`}
                         >
                             <FaPlus className={BUTTON_ICON_CLASSES} />

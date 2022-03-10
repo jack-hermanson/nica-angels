@@ -17,10 +17,6 @@ export const SettingsTabs: FunctionComponent = () => {
                             exact: true,
                         },
                         {
-                            path: "/settings/sponsorships",
-                            text: spanish ? "Patrocinios" : "Sponsorships",
-                        },
-                        {
                             path: "/settings/enrollments",
                             text: spanish ? "Inscritos" : "Enrollments",
                         },

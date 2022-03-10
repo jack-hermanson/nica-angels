@@ -10,7 +10,7 @@ import {
     FaUser,
     FaUserGraduate,
 } from "react-icons/fa";
-import { NavbarLink } from "../Utils/NavbarLink";
+import { NavbarLink } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { Clearance } from "@nica-angels/shared";
 import logo from "../../images/nica-logo.gif";

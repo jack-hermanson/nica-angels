@@ -3,7 +3,7 @@ import { Col, Row } from "reactstrap";
 import { NavTabs } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 
-export const SettingsTabs: FunctionComponent = () => {
+export const SponsorTabs: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
 
     return (

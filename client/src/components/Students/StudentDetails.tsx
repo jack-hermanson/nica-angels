@@ -1,7 +1,6 @@
-import { FunctionComponent, Fragment, useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { Fragment, FunctionComponent, useEffect, useState } from "react";
+import { Link, RouteComponentProps } from "react-router-dom";
 import {
-    EnrollmentRecord,
     getAge,
     SchoolRecord,
     sexToString,
@@ -9,16 +8,7 @@ import {
 } from "@nica-angels/shared";
 import { StudentClient } from "../../clients/StudentClient";
 import { useStoreState } from "../../store/_store";
-import {
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    Col,
-    Label,
-    Row,
-    Table,
-} from "reactstrap";
+import { Card, CardBody, CardFooter, Col, Label, Row } from "reactstrap";
 import {
     ActionCardHeader,
     KeyValCardBody,
@@ -28,7 +18,6 @@ import {
 import { UploadStudentImage } from "../Files/UploadStudentImage";
 import { StudentBarcode } from "./StudentBarcode";
 import { StudentImage } from "./StudentImage";
-import { Link } from "react-router-dom";
 import { FaPencilAlt, FaPlus } from "react-icons/fa";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { EnrollmentClient } from "../../clients/EnrollmentClient";

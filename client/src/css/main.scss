@@ -1,6 +1,7 @@
 @import "../../../node_modules/jack-hermanson-css-lib/src/main";
 @import "theme";
 @import "layout";
+@import "stat_card";
 
 a {
   text-decoration: none;
@@ -8,6 +9,13 @@ a {
   &:not(.nav-link):not(.navbar-brand):hover {
     text-decoration: underline;
     color: white !important;
+  }
+}
+
+a.underlined {
+  text-decoration: underline;
+  &:hover {
+    text-shadow: 0 0 8px $light;
   }
 }
 

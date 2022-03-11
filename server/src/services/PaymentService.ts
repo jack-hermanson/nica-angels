@@ -4,6 +4,7 @@ import { Response } from "express";
 import { HTTP } from "jack-hermanson-ts-utils";
 import { logger } from "../utils/logger";
 import { SponsorshipService } from "./SponsorshipService";
+import { PaymentRequest } from "@nica-angels/shared";
 
 export abstract class PaymentService {
     static getRepos(): {
@@ -96,5 +97,90 @@ export abstract class PaymentService {
                 created: "DESC",
             },
         });
+    }
+
+    static async create(
+        paymentRequest: PaymentRequest,
+        res: Response
+    ): Promise<Payment | undefined> {
+        logger.debug("Creating a new payment.");
+        const { paymentRepo } = this.getRepos();
+
+        const payment = new Payment();
+        if (!(await this.setPayment(paymentRequest, payment, res))) {
+            return undefined;
+        }
+
+        await paymentRepo.save(payment);
+        logger.info(`Saved a new payment with ID ${payment.id}.`);
+        logger.debug(payment);
+
+        return payment;
+    }
+
+    static async edit(
+        id: number,
+        paymentRequest: PaymentRequest,
+        res: Response
+    ): Promise<Payment | undefined> {
+        logger.debug(`Editing payment with ID ${id}.`);
+        const { paymentRepo } = this.getRepos();
+
+        const payment = await this.getOne(id, res);
+        if (!payment) {
+            return undefined;
+        }
+
+        if (!(await this.setPayment(paymentRequest, payment, res))) {
+            return undefined;
+        }
+
+        await paymentRepo.save(payment);
+        logger.info(`Edited payment with ID ${payment.id}.`);
+        logger.debug(payment);
+
+        return payment;
+    }
+
+    /**
+     * Set the properties of a {@link Payment} / modify by reference.
+     * To save the changes, use the repository.
+     * @param paymentRequest
+     * @param payment
+     * @param res
+     * @private
+     */
+    private static async setPayment(
+        paymentRequest: PaymentRequest,
+        payment: Payment,
+        res: Response
+    ): Promise<Payment | undefined> {
+        const sponsorship = await SponsorshipService.getOne(
+            paymentRequest.sponsorshipId,
+            res
+        );
+        if (!sponsorship) {
+            return undefined;
+        }
+
+        payment.amount = paymentRequest.amount;
+        payment.paymentMethod = paymentRequest.paymentMethod;
+        payment.notes = paymentRequest.notes || null;
+        payment.sponsorshipId = sponsorship.id;
+        payment.referenceNumber = paymentRequest.referenceNumber || null;
+
+        return payment;
+    }
+
+    static async delete(id: number, res: Response): Promise<boolean> {
+        logger.info(`Deleting payment with ID ${id}.`);
+        const payment = await this.getOne(id, res);
+        if (!payment) {
+            return undefined;
+        }
+
+        const { paymentRepo } = this.getRepos();
+        await paymentRepo.softRemove(payment);
+        return true;
     }
 }

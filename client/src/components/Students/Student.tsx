@@ -8,8 +8,8 @@ import {
     SponsorRecord,
     StudentRecord,
 } from "@nica-angels/shared";
-import { Card, CardBody, CardFooter, CardHeader, Col, Row } from "reactstrap";
-import { KeyValTable } from "jack-hermanson-component-lib";
+import { Card, CardBody, CardFooter, Col, Row } from "reactstrap";
+import { ActionCardHeader, KeyValTable } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { Link } from "react-router-dom";
 import moment from "moment";
@@ -54,16 +54,10 @@ export const Student: FunctionComponent<Props> = ({
 
     return (
         <Card className="mb-3 no-mb-last">
-            <CardHeader>
-                <h5 className="mb-0">
-                    <Link
-                        className="header-link"
-                        to={`/students/${student.id}`}
-                    >
-                        Student #{getIdPadded(student, ID_PADDING)}
-                    </Link>
-                </h5>
-            </CardHeader>
+            <ActionCardHeader
+                title={`Student #${getIdPadded(student, ID_PADDING)}`}
+                linkTo={`/students/${student.id}`}
+            />
             <CardBody>
                 <Row>
                     <Col xs={4} lg={2} className="mb-3 mb-lg-0">

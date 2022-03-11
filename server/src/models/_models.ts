@@ -7,6 +7,7 @@ import { Student } from "./Student";
 import { Sponsorship } from "./Sponsorship";
 import { Enrollment } from "./Enrollment";
 import { File } from "./File";
+import { Payment } from "./Payment";
 
 export const models = [
     Account,
@@ -18,4 +19,5 @@ export const models = [
     Student,
     Sponsorship,
     File,
+    Payment,
 ];

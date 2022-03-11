@@ -54,4 +54,12 @@ export abstract class SponsorClient {
         );
         return response.data;
     }
+
+    static async getCount(token: string) {
+        const response = await axios.get<number>(
+            `${this.baseUrl}/count`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

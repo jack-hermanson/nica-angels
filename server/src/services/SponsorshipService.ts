@@ -184,4 +184,30 @@ export abstract class SponsorshipService {
         );
         return allMatches;
     }
+
+    static async getAverageDonation(): Promise<number> {
+        const monthlyDonations: number[] = [];
+
+        const sponsorships = await this.getAll();
+        sponsorships.filter(s => s.endDate === undefined);
+
+        if (sponsorships.length === 0) return 0;
+
+        for (let sponsorship of sponsorships) {
+            if (sponsorship.frequency === 1) {
+                monthlyDonations.push(sponsorship.payment / 12);
+            } else if (sponsorship.frequency === 4) {
+                monthlyDonations.push(sponsorship.payment / 3);
+            } else if (sponsorship.frequency === 12) {
+                monthlyDonations.push(sponsorship.payment);
+            }
+        }
+
+        const sum = monthlyDonations.reduce(
+            (runningSum, amount) => runningSum + amount,
+            0
+        );
+
+        return sum / monthlyDonations.length;
+    }
 }

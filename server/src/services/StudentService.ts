@@ -230,4 +230,9 @@ export class StudentService {
 
         return true;
     }
+
+    static async getCount(): Promise<number> {
+        const { studentRepo } = this.getRepos();
+        return await studentRepo.count();
+    }
 }

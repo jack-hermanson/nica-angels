@@ -3,6 +3,7 @@ import {
     DateResourceModel,
     Sex,
 } from "jack-hermanson-ts-utils";
+import * as moment from "moment";
 
 export interface StudentRequest {
     firstName: string;
@@ -46,10 +47,11 @@ export function sexToString(sex: Sex, spanish: boolean = false): string {
 }
 
 export function getAge(student: StudentRecord): number | undefined {
-    const dateOfBirth = new Date(student.dateOfBirth);
-    return dateOfBirth
-        ? new Date().getFullYear() - dateOfBirth.getFullYear()
-        : undefined;
+    if (!student.dateOfBirth) {
+        return undefined;
+    }
+
+    return moment().diff(moment(student.dateOfBirth), "years");
 }
 
 export function getIdPadded(student: StudentRecord, padding: number) {

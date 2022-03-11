@@ -11323,6 +11323,22 @@ img.logo {
   height: 24px;
 }
 
+.stat-card {
+  border: 1px solid white;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+.stat-card .number {
+  font-size: 6em;
+  line-height: 1;
+}
+.stat-card .label {
+  margin-top: 1em;
+  line-height: 1;
+  font-size: 2em;
+}
+
 a {
   text-decoration: none;
   color: white;
@@ -11330,6 +11346,13 @@ a {
 a:not(.nav-link):not(.navbar-brand):hover {
   text-decoration: underline;
   color: white !important;
+}
+
+a.underlined {
+  text-decoration: underline;
+}
+a.underlined:hover {
+  text-shadow: 0 0 8px #abb6c2;
 }
 
 body {

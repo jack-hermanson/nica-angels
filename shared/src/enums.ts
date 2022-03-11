@@ -6,7 +6,7 @@ export enum Clearance {
 }
 
 export enum PaymentMethod {
-    CREDIT_DEBIT_CARD = 0,
-    CHECK = 1,
-    ACH_BANK_TRANSFER = 2,
+    CREDIT_DEBIT_CARD = 1,
+    CHECK = 2,
+    ACH_BANK_TRANSFER = 3,
 }

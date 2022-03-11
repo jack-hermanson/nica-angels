@@ -11,6 +11,7 @@ import { File1636951057302 } from "./1636951057302-File";
 import { FileName1637116829391 } from "./1637116829391-FileName";
 import { StudentImage1637366192733 } from "./1637366192733-StudentImage";
 import { StudentUniform1637474156811 } from "./1637474156811-StudentUniform";
+import { Payment1647032644355 } from "./1647032644355-Payment";
 
 export const migrations = [
     Account1628820578982,
@@ -26,4 +27,5 @@ export const migrations = [
     FileName1637116829391,
     StudentImage1637366192733,
     StudentUniform1637474156811,
+    Payment1647032644355,
 ];

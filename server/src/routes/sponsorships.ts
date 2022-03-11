@@ -88,6 +88,25 @@ router.get(
 );
 
 router.get(
+    "/average-donation",
+    auth,
+    async (req: Request<any>, res: Response<number>) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.SPONSOR,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const average = await SponsorshipService.getAverageDonation();
+        res.json(average);
+    }
+);
+
+router.get(
     "/:id",
     auth,
     async (req: Request<{ id: string }>, res: Response<SponsorshipRecord>) => {

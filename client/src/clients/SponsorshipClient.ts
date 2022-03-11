@@ -66,4 +66,12 @@ export abstract class SponsorshipClient {
         );
         return response.data;
     }
+
+    static async getAverageDonation(token: string) {
+        const response = await axios.get<number>(
+            `${this.baseUrl}/average-donation`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

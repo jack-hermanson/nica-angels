@@ -2,10 +2,10 @@ import { Fragment, FunctionComponent } from "react";
 import { Col, Row } from "reactstrap";
 import { useStoreState } from "../../store/_store";
 import { Link } from "react-router-dom";
-import { StatCard } from "./StatCard";
 import { StudentStats } from "./StudentStats";
 import { Clearance } from "@nica-angels/shared";
 import { SponsorStats } from "./SponsorStats";
+import { AverageDonationStats } from "./AverageDonationStats";
 
 export const DashboardPage: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -51,15 +51,7 @@ export const DashboardPage: FunctionComponent = () => {
                                     <SponsorStats />
                                 </Col>
                                 <Col xs={12} lg={4}>
-                                    <StatCard
-                                        dollars
-                                        number={10}
-                                        label={
-                                            spanish
-                                                ? "Donación Media"
-                                                : "Average Donation"
-                                        }
-                                    />
+                                    <AverageDonationStats />
                                 </Col>
                             </Fragment>
                         ) : (

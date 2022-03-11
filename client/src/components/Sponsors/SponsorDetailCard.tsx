@@ -1,7 +1,7 @@
-import { Fragment, FunctionComponent } from "react";
-import { KeyValCardBody } from "jack-hermanson-component-lib";
+import { FunctionComponent } from "react";
+import { ActionCardHeader, KeyValCardBody } from "jack-hermanson-component-lib";
 import { AccountRecord, SponsorRecord } from "@nica-angels/shared";
-import { Card, CardHeader } from "reactstrap";
+import { Card } from "reactstrap";
 import { useStoreState } from "../../store/_store";
 import { KeyValPair } from "jack-hermanson-ts-utils";
 import { Link } from "react-router-dom";
@@ -9,13 +9,13 @@ import { Link } from "react-router-dom";
 interface Props {
     sponsor: SponsorRecord;
     account?: AccountRecord;
-    showAccountLink?: boolean;
+    showDetailLink?: boolean;
 }
 
 export const SponsorDetailCard: FunctionComponent<Props> = ({
     sponsor,
     account,
-    showAccountLink = false,
+    showDetailLink = false,
 }: Props) => {
     const spanish = useStoreState(state => state.spanish);
 
@@ -47,30 +47,24 @@ export const SponsorDetailCard: FunctionComponent<Props> = ({
 
     return (
         <Card className="mb-3 no-mb-last">
-            <CardHeader>
-                <h5 className="mb-0">
-                    {showAccountLink ? (
-                        <Link
-                            className="header-link"
-                            to={`/sponsors/${sponsor.id}`}
-                        >
-                            {getSponsorName()}
-                        </Link>
-                    ) : (
-                        <Fragment>{getSponsorName()}</Fragment>
-                    )}
-                </h5>
-            </CardHeader>
+            <ActionCardHeader
+                title={getSponsorName()}
+                linkTo={showDetailLink ? `/sponsors/${sponsor.id}` : undefined}
+            />
             <KeyValCardBody keyValPairs={keyValPairs} />
         </Card>
     );
 
-    function getSponsorName() {
-        return (
-            <Fragment>
-                {spanish ? "Padrino" : "Sponsor"} #{sponsor.id} -{" "}
-                {sponsor.firstName} {sponsor.lastName}
-            </Fragment>
-        );
+    function getSponsorName(): string {
+        let output = "";
+        if (spanish) {
+            output += "Padrino";
+        } else {
+            output += "Sponsor";
+        }
+
+        output += ` #${sponsor.id} - ${sponsor.firstName} ${sponsor.lastName}`;
+
+        return output;
     }
 };

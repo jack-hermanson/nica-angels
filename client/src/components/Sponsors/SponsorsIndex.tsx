@@ -75,7 +75,7 @@ export const SponsorsIndex: FunctionComponent = () => {
                                     account={accounts.find(
                                         a => a.id === sponsor.accountId
                                     )}
-                                    showAccountLink={true}
+                                    showDetailLink={true}
                                 />
                             ))}
                         </Fragment>

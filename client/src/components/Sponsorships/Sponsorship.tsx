@@ -4,8 +4,8 @@ import {
     SponsorshipRecord,
     StudentRecord,
 } from "@nica-angels/shared";
-import { Card, CardBody, CardFooter, CardHeader } from "reactstrap";
-import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { Card, CardBody, CardFooter } from "reactstrap";
+import { ActionCardHeader, LoadingSpinner } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { StudentClient } from "../../clients/StudentClient";
 import { SponsorClient } from "../../clients/SponsorClient";
@@ -55,17 +55,12 @@ export const Sponsorship: FunctionComponent<Props> = ({
         <Card className={className || ""}>
             {sponsor && student ? (
                 <Fragment>
-                    <CardHeader className="d-flex">
-                        <h5 className="my-auto me-auto">
-                            <Link
-                                className="header-link"
-                                to={`/sponsorships/${sponsorship.id}`}
-                            >
-                                {student.firstName} {student.middleName}{" "}
-                                {student.lastName}
-                            </Link>
-                        </h5>
-                    </CardHeader>
+                    <ActionCardHeader
+                        title={`${student.firstName}${
+                            student.middleName ? ` ${student.middleName} ` : " "
+                        }${student.lastName || ""}`}
+                        linkTo={`/sponsorships/${sponsorship.id}`}
+                    />
                     {renderDetails()}
                     <CardFooter>
                         <Link

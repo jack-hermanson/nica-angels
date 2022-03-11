@@ -5,7 +5,7 @@
 a {
   text-decoration: none;
   color: white;
-  &:not(.nav-link):hover {
+  &:not(.nav-link):not(.navbar-brand):hover {
     text-decoration: underline;
     color: white !important;
   }

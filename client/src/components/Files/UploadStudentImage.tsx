@@ -5,7 +5,7 @@ import {
     Clearance,
     FileRequest,
     StudentImageRequest,
-} from "../../../../shared";
+} from "@nica-angels/shared";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { FileClient } from "../../clients/FileClient";
 

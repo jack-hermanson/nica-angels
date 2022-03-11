@@ -157,6 +157,7 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
                                         <ListGroupItem key={sponsorship.id}>
                                             {student ? (
                                                 <Link
+                                                    className="text-white"
                                                     to={`/sponsorships/${sponsorship.id}`}
                                                 >
                                                     {student.firstName}{" "}

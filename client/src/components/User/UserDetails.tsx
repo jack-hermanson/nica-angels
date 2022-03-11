@@ -1,9 +1,10 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import { SettingsTabs } from "../Settings/SettingsTabs";
-import { Col, Row } from "reactstrap";
+import { Card, CardBody, Col, Row } from "reactstrap";
 import {
     ActionsDropdown,
+    KeyValCardBody,
     KeyValTable,
     LoadingSpinner,
     PageHeader,
@@ -105,8 +106,8 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
             <Row>
                 <Col>
                     {user ? (
-                        <Fragment>
-                            <KeyValTable
+                        <Card>
+                            <KeyValCardBody
                                 keyValPairs={[
                                     {
                                         key: spanish ? "Nombre" : "Name",
@@ -151,7 +152,7 @@ export const UserDetails: FunctionComponent<Props> = ({ match }: Props) => {
                                     },
                                 ]}
                             />
-                        </Fragment>
+                        </Card>
                     ) : (
                         <LoadingSpinner />
                     )}

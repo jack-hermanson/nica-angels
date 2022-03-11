@@ -166,4 +166,9 @@ export abstract class SponsorService {
 
         return sponsor;
     }
+
+    static async getCount(): Promise<number> {
+        const { sponsorRepo } = this.getRepos();
+        return await sponsorRepo.count();
+    }
 }

@@ -26,6 +26,22 @@ router.get("/", auth, async (req: Request<any>, res: Response) => {
     res.json(sponsors);
 });
 
+// get count
+router.get("/count", auth, async (req: Request<any>, res: Response<number>) => {
+    if (
+        !authorized({
+            requestingAccount: req.account,
+            minClearance: Clearance.SPONSOR,
+            res,
+        })
+    ) {
+        return;
+    }
+
+    const count = await SponsorService.getCount();
+    res.json(count);
+});
+
 // get one
 router.get(
     "/:id",

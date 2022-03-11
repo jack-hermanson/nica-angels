@@ -116,7 +116,7 @@ export const Student: FunctionComponent<Props> = ({
                 key: spanish ? "Padrino" : "Sponsor",
                 val: (
                     <Link className="ps-0" to={`/sponsors/${sponsor.id}`}>
-                        {sponsor.lastName} {sponsor.lastName}
+                        {sponsor.firstName} {sponsor.lastName}
                     </Link>
                 ),
             });

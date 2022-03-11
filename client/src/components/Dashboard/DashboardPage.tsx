@@ -2,7 +2,8 @@ import { Fragment, FunctionComponent } from "react";
 import { Card, CardBody, CardText, Col, Row } from "reactstrap";
 import { useStoreState } from "../../store/_store";
 import { Link } from "react-router-dom";
-import { StatCard } from "../Utils/StatCard";
+import { StatCard } from "./StatCard";
+import { StudentStats } from "./StudentStats";
 
 export const DashboardPage: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -40,10 +41,7 @@ export const DashboardPage: FunctionComponent = () => {
                 <Fragment>
                     <Row className="mt-4">
                         <Col xs={12} lg={4} className="mb-3 mb-lg-0">
-                            <StatCard
-                                number={52}
-                                label={spanish ? "Estudiantes" : "Students"}
-                            />
+                            <StudentStats />
                         </Col>
                         <Col xs={12} lg={4} className="mb-3 mb-lg-0">
                             <StatCard

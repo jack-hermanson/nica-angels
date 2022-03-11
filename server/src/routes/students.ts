@@ -45,6 +45,21 @@ router.get(
     }
 );
 
+router.get("/count", auth, async (req: Request<any>, res: Response<number>) => {
+    if (
+        !authorized({
+            requestingAccount: req.account,
+            minClearance: Clearance.SPONSOR,
+            res,
+        })
+    ) {
+        return;
+    }
+
+    const count = await StudentService.getCount();
+    res.status(HTTP.OK).json(count);
+});
+
 router.get(
     "/:id",
     auth,

@@ -64,4 +64,12 @@ export abstract class StudentClient {
         );
         return student.data;
     }
+
+    static async getCount(token: string) {
+        const response = await axios.get<number>(
+            `${this.baseUrl}/count`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

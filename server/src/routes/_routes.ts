@@ -6,6 +6,7 @@ import { router as enrollments } from "./enrollments";
 import { router as files } from "./files";
 import { router as sponsors } from "./sponsors";
 import { router as sponsorships } from "./sponsorships";
+import { router as payments } from "./payments";
 
 export const routes = {
     accounts,
@@ -16,4 +17,5 @@ export const routes = {
     files,
     sponsors,
     sponsorships,
+    payments,
 };

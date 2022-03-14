@@ -82,7 +82,7 @@ export const Navigation: FC = () => {
                     onClick={close}
                     icon={<FaHandHoldingHeart className={NAV_ICON_CLASSES} />}
                     text={spanish ? "Padrinos" : "Sponsors"}
-                    activePaths={["/sponsors", "/sponsorships"]}
+                    activePaths={["/sponsors", "/sponsorships", "/payments"]}
                 />
             );
         }

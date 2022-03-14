@@ -44,6 +44,10 @@ import { CreateSponsorship } from "./components/Sponsorships/CreateSponsorship";
 import { EditSponsorship } from "./components/Sponsorships/EditSponsorship";
 import { SponsorshipDetails } from "./components/Sponsorships/SponsorshipDetails";
 import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { PaymentsIndex } from "./components/Payments/PaymentsIndex";
+import { CreatePayment } from "./components/Payments/CreatePayment";
+import { EditPayment } from "./components/Payments/EditPayment";
+import { PaymentDetails } from "./components/Payments/PaymentDetails";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -233,6 +237,27 @@ export const App: React.FC = () => {
                             exact
                             path="/sponsors/:id"
                             component={SponsorDetails}
+                        />
+
+                        <Route
+                            exact
+                            path="/payments"
+                            component={PaymentsIndex}
+                        />
+                        <Route
+                            exact
+                            path="/payments/new"
+                            component={CreatePayment}
+                        />
+                        <Route
+                            exact
+                            path="/payments/edit/:id"
+                            component={EditPayment}
+                        />
+                        <Route
+                            exact
+                            path="/payments/:id"
+                            component={PaymentDetails}
                         />
 
                         <Route exact path="/forbidden" component={Forbidden} />

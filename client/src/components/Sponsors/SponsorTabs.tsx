@@ -19,6 +19,10 @@ export const SponsorTabs: FunctionComponent = () => {
                             path: "/sponsorships",
                             text: spanish ? "Patrocinios" : "Sponsorships",
                         },
+                        {
+                            path: "/payments",
+                            text: spanish ? "Pagos" : "Payments",
+                        },
                     ]}
                 />
             </Col>

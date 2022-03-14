@@ -5,6 +5,9 @@ import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
+import { Link } from "react-router-dom";
+import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
+import { FaPlus } from "react-icons/fa";
 
 export const PaymentsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -26,7 +29,15 @@ export const PaymentsIndex: FunctionComponent = () => {
         return (
             <Row>
                 <Col>
-                    <PageHeader title={spanish ? "Pagos" : "Payments"} />
+                    <PageHeader title={spanish ? "Pagos" : "Payments"}>
+                        <Link
+                            to="/payments/new"
+                            className={`icon-button btn btn-sm btn-${NEW_BUTTON_COLOR}`}
+                        >
+                            <FaPlus className={BUTTON_ICON_CLASSES} />
+                            {spanish ? "Nuevo Pago" : "New Payment"}
+                        </Link>
+                    </PageHeader>
                 </Col>
             </Row>
         );

@@ -40,4 +40,8 @@ export const CreatePayment: FunctionComponent = () => {
             </Row>
         );
     }
+
+    async function onSubmit(paymentRequest: PaymentRequest) {
+        console.log(paymentRequest);
+    }
 };

@@ -45,6 +45,7 @@ import { EditSponsorship } from "./components/Sponsorships/EditSponsorship";
 import { SponsorshipDetails } from "./components/Sponsorships/SponsorshipDetails";
 import { LoadingSpinner } from "jack-hermanson-component-lib";
 import { PaymentsIndex } from "./components/Payments/PaymentsIndex";
+import { CreatePayment } from "./components/Payments/CreatePayment";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -240,6 +241,11 @@ export const App: React.FC = () => {
                             exact
                             path="/payments"
                             component={PaymentsIndex}
+                        />
+                        <Route
+                            exact
+                            path="/payments/new"
+                            component={CreatePayment}
                         />
 
                         <Route exact path="/forbidden" component={Forbidden} />

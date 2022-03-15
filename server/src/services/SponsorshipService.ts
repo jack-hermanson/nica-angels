@@ -248,7 +248,8 @@ export abstract class SponsorshipService {
             WHERE 
                 (sponsorship.endDate IS NULL
             AND 
-                sponsorship.deleted IS NULL);
+                sponsorship.deleted IS NULL)
+            ORDER BY student_firstName DESC;
         `);
 
         return rawRecords.map(r => ({

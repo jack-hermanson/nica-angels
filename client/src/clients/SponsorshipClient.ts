@@ -1,5 +1,9 @@
 import axios from "axios";
-import { SponsorshipRecord, SponsorshipRequest } from "@nica-angels/shared";
+import {
+    ExpandedSponsorshipRecord,
+    SponsorshipRecord,
+    SponsorshipRequest,
+} from "@nica-angels/shared";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 
 export abstract class SponsorshipClient {
@@ -70,6 +74,14 @@ export abstract class SponsorshipClient {
     static async getAverageDonation(token: string) {
         const response = await axios.get<number>(
             `${this.baseUrl}/average-donation`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async getExpandedSponsorships(token: string) {
+        const response = await axios.get<ExpandedSponsorshipRecord[]>(
+            `${this.baseUrl}/expanded`,
             getAuthHeader(token)
         );
         return response.data;

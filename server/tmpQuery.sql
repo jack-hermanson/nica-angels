@@ -9,11 +9,11 @@ SELECT
     sponsorship.created,
     sponsorship.updated,
     sponsorship.deleted,
-    student.firstName,
-    student.middleName,
-    student.lastName,
-    sponsor.firstName,
-    sponsor.lastName
+    student.firstName as student_firstName,
+    student.middleName as student_middleName,
+    student.lastName as student_lastName,
+    sponsor.firstName as sponsor_firstName,
+    sponsor.lastName as sponsor_lastName
 FROM 
     sponsorship
 INNER JOIN
@@ -25,4 +25,7 @@ INNER JOIN
 ON 
     sponsor.id = sponsorship.sponsorId
 WHERE 
-    sponsorship.endDate IS NULL;
+    (sponsorship.endDate IS NULL
+AND 
+    sponsorship.deleted IS NULL)
+ORDER BY student_firstName DESC;

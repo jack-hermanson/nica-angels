@@ -12,3 +12,10 @@ export interface SponsorshipRequest {
 export interface SponsorshipRecord
     extends SponsorshipRequest,
         DateResourceModel {}
+
+export interface ExpandedSponsorshipRecord extends SponsorshipRecord {
+    sponsorName: string;
+    sponsorId: number;
+    studentName: string;
+    studentId: number;
+}

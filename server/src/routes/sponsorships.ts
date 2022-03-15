@@ -7,6 +7,7 @@ import { authorized, parseNumber } from "../utils/functions";
 import { SponsorshipService } from "../services/SponsorshipService";
 import {
     Clearance,
+    ExpandedSponsorshipRecord,
     SponsorshipRecord,
     SponsorshipRequest,
 } from "@nica-angels/shared";
@@ -103,6 +104,28 @@ router.get(
 
         const average = await SponsorshipService.getAverageDonation();
         res.json(average);
+    }
+);
+
+router.get(
+    "/expanded",
+    auth,
+    async (req: Request<any>, res: Response<ExpandedSponsorshipRecord[]>) => {
+        logger.debug("GET /sponsorships/expanded");
+
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.SPONSOR,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const expandedSponsorships =
+            await SponsorshipService.getExpandedSponsorships();
+        res.json(expandedSponsorships);
     }
 );
 

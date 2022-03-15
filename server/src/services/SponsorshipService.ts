@@ -2,7 +2,10 @@ import { getConnection, Repository } from "typeorm";
 import { Sponsorship } from "../models/Sponsorship";
 import { Response } from "express";
 import { HTTP } from "jack-hermanson-ts-utils";
-import { SponsorshipRequest } from "@nica-angels/shared";
+import {
+    ExpandedSponsorshipRecord,
+    SponsorshipRequest,
+} from "@nica-angels/shared";
 import { StudentService } from "./StudentService";
 import { SponsorService } from "./SponsorService";
 import { logger } from "../utils/logger";
@@ -209,5 +212,60 @@ export abstract class SponsorshipService {
         );
 
         return sum / monthlyDonations.length;
+    }
+
+    static async getExpandedSponsorships(): Promise<
+        ExpandedSponsorshipRecord[]
+    > {
+        const connection = getConnection();
+        const rawRecords = await connection.query(`
+            SELECT 
+                sponsorship.id,
+                sponsorship.startDate,
+                sponsorship.endDate,
+                sponsorship.studentId,
+                sponsorship.sponsorId,
+                sponsorship.frequency,
+                sponsorship.payment,
+                sponsorship.created,
+                sponsorship.updated,
+                sponsorship.deleted,
+                student.firstName as student_firstName,
+                student.middleName as student_middleName,
+                student.lastName as student_lastName,
+                sponsor.firstName as sponsor_firstName,
+                sponsor.lastName as sponsor_lastName
+            FROM 
+                sponsorship
+            INNER JOIN
+                student
+            ON 
+                student.id = sponsorship.studentId
+            INNER JOIN
+                sponsor
+            ON 
+                sponsor.id = sponsorship.sponsorId
+            WHERE 
+                (sponsorship.endDate IS NULL
+            AND 
+                sponsorship.deleted IS NULL);
+        `);
+
+        return rawRecords.map(r => ({
+            id: r.id,
+            startDate: r.startDate,
+            endDate: r.endDate,
+            studentId: r.studentId,
+            sponsorId: r.sponsorId,
+            frequency: r.frequency,
+            payment: r.payment,
+            created: r.created,
+            updated: r.updated,
+            deleted: r.deleted,
+            studentName: `${r.student_firstName} ${
+                r.student_middleName ? `${r.student_middleName} ` : ""
+            }${r.student_lastName || ""}`,
+            sponsorName: `${r.sponsor_firstName} ${r.sponsor_lastName}`,
+        }));
     }
 }

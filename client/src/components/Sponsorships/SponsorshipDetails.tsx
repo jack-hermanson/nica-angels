@@ -1,16 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
-import {
-    Card,
-    CardBody,
-    CardHeader,
-    Col,
-    ListGroup,
-    ListGroupItem,
-    ListGroupItemHeading,
-    ListGroupItemText,
-    Row,
-} from "reactstrap";
+import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 import {
     ActionCardHeader,
     LoadingSpinner,
@@ -33,7 +23,6 @@ import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
 import { FaPencilAlt, FaPlus } from "react-icons/fa";
 import { PaymentClient } from "../../clients/PaymentClient";
-import moment from "moment";
 import { PaymentsListGroup } from "../Payments/PaymentsListGroup";
 
 interface Props extends RouteComponentProps<{ id: string }> {}

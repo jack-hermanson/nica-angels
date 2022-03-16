@@ -6,6 +6,7 @@ import { Clearance } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
 import { CreateEditPaymentForm } from "./CreateEditPaymentForm";
+import { PaymentRequest } from "@nica-angels/shared";
 
 export const CreatePayment: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);

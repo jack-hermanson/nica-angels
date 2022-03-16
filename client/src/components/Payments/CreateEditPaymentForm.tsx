@@ -33,7 +33,7 @@ import {
     Label,
     Row,
 } from "reactstrap";
-import { SUBMIT_BUTTON_COLOR } from "../../utils/constants";
+import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 
 interface Props {
     onSubmit: (paymentRequest: PaymentRequest) => Promise<void>;
@@ -157,6 +157,9 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
                                 </Col>
                             </Row>
                             <Row>
+                                <Col>{renderNotes()}</Col>
+                            </Row>
+                            <Row>
                                 <Col>{renderButtons()}</Col>
                             </Row>
                         </Fragment>
@@ -267,9 +270,27 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
         return (
             <FormGroup>
                 <Label className="form-label">
-                    {spanish ? "Número de Confirmación" : "Confirmation Number"}
+                    {spanish ? "Número de Referencia" : "Reference Number"}
                 </Label>
-                <Field id={id} name="confirmationNumber" as={Input} />
+                <Field id={id} name="referenceNumber" as={Input} />
+            </FormGroup>
+        );
+    }
+
+    function renderNotes() {
+        const id = "notes-input";
+        return (
+            <FormGroup>
+                <Label className="form-label">
+                    {spanish ? "Notas" : "Notes"}
+                </Label>
+                <Field
+                    as={Input}
+                    type="textarea"
+                    rows={3}
+                    name="notes"
+                    id={id}
+                />
             </FormGroup>
         );
     }
@@ -278,7 +299,10 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
         return (
             <div className="bottom-buttons">
                 <Button color={SUBMIT_BUTTON_COLOR} type="submit">
-                    Save
+                    {spanish ? "Entregar" : "Submit"}
+                </Button>
+                <Button color={RESET_BUTTON_COLOR} type="reset">
+                    {spanish ? "Restablecer" : "Reset"}
                 </Button>
             </div>
         );

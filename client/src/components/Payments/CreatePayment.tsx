@@ -1,16 +1,14 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent } from "react";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance, SponsorshipRecord } from "@nica-angels/shared";
+import { Clearance, PaymentRequest } from "@nica-angels/shared";
 import { useStoreActions, useStoreState } from "../../store/_store";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
 import { CreateEditPaymentForm } from "./CreateEditPaymentForm";
-import { PaymentRequest } from "@nica-angels/shared";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import { PaymentClient } from "../../clients/PaymentClient";
 import { scrollToTop, successAlert } from "jack-hermanson-ts-utils";
-import { SponsorshipClient } from "../../clients/SponsorshipClient";
 
 interface Props extends RouteComponentProps<{ sponsorshipId?: string }> {}
 

@@ -6,14 +6,7 @@ import {
     useState,
 } from "react";
 import { useStoreState } from "../../store/_store";
-import {
-    Field,
-    Form,
-    Formik,
-    FormikErrors,
-    FormikHelpers,
-    FormikProps,
-} from "formik";
+import { Field, Form, Formik, FormikErrors, FormikProps } from "formik";
 import {
     ExpandedSponsorshipRecord,
     PaymentMethod,

@@ -21,7 +21,7 @@ export const FilesIndex: FunctionComponent = () => {
 
     useEffect(() => {
         FileClient.getIds().then(ids => setFileIds(ids));
-    }, [fileIds]);
+    }, [setFileIds]);
 
     return (
         <div>

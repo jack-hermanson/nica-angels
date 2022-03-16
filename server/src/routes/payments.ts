@@ -133,7 +133,11 @@ router.get(
             return;
         }
 
-        res.json(payment);
+        const paymentLogs = await PaymentLogService.getAllFromPayment(
+            payment.id
+        );
+
+        res.json({ ...payment, paymentLogs });
     }
 );
 

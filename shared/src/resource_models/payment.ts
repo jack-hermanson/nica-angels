@@ -1,5 +1,6 @@
 import { DateResourceModel } from "jack-hermanson-ts-utils";
 import { PaymentMethod } from "../enums";
+import { PaymentLogRecord } from "./paymentLog";
 
 export interface PaymentRequest {
     amount: number;
@@ -9,4 +10,6 @@ export interface PaymentRequest {
     referenceNumber?: string;
 }
 
-export interface PaymentRecord extends DateResourceModel, PaymentRequest {}
+export interface PaymentRecord extends DateResourceModel, PaymentRequest {
+    paymentLogs?: PaymentLogRecord[];
+}

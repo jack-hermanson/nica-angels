@@ -4,9 +4,7 @@ import {
     PaymentMethod,
     PaymentRecord,
 } from "@nica-angels/shared";
-import { useStoreState } from "../../store/_store";
 import { KeyValCardBody, LoadingSpinner } from "jack-hermanson-component-lib";
-import { SponsorshipClient } from "../../clients/SponsorshipClient";
 import { CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";

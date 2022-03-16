@@ -34,11 +34,6 @@ app.use(staticFiles);
 
 // skip & take query strings
 app.use(aggregateQuery);
-app.use((req, _, next) => {
-    const forwardedFor = req.headers["x-forwarded-for"];
-    logger.info("User IP Address:", forwardedFor);
-    next();
-});
 
 // routes
 app.use("/api/accounts", routes.accounts);

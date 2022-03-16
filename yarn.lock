@@ -6972,10 +6972,10 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jack-hermanson-component-lib@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-1.6.0.tgz#6e1f42791e6d840d766ee8ae92d54f93d4a51be9"
-  integrity sha512-cbpimVtpNu7hKe+bPM9HrK2MdDcHc4OWnNn3hceW4WYDt/1SlActCMNFWwG0UXHz3HLynP8TZcMTdAQGY10REQ==
+jack-hermanson-component-lib@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-1.6.1.tgz#f4faf9bc19b9883cfa213f2fb1aa4e53e3cf5d89"
+  integrity sha512-uEiKog2lhK/o+lBezpStHloC9fQ4rz2BhwDScy97gXA1nOfFM8lgc7mOyCQOVQMW20BPkZNyTZRt64Yadn6nnA==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-solid-svg-icons" "^5.15.3"

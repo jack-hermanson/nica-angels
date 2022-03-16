@@ -35,6 +35,7 @@ import { StudentClient } from "../../clients/StudentClient";
 import moment from "moment";
 import { SponsorTabs } from "./SponsorTabs";
 import { PaymentClient } from "../../clients/PaymentClient";
+import { PaymentsListGroup } from "../Payments/PaymentsListGroup";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -165,6 +166,7 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
             <Col xs={12} lg={4}>
                 <Card>
                     <ActionCardHeader title={spanish ? "Pagos" : "Payments"} />
+                    <PaymentsListGroup payments={payments} />
                 </Card>
             </Col>
         );
@@ -195,7 +197,13 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
                                                 >
                                                     {student.firstName}{" "}
                                                     {student.middleName}{" "}
-                                                    {student.lastName} (
+                                                    {student.lastName} ($
+                                                    {sponsorship.payment.toFixed(
+                                                        2
+                                                    )}
+                                                    *{sponsorship.frequency}/
+                                                    {spanish ? "año" : "year"})
+                                                    (
                                                     {spanish
                                                         ? "Desde "
                                                         : "Since "}

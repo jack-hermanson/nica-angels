@@ -34,6 +34,7 @@ import { SponsorTabs } from "../Sponsors/SponsorTabs";
 import { FaPencilAlt, FaPlus } from "react-icons/fa";
 import { PaymentClient } from "../../clients/PaymentClient";
 import moment from "moment";
+import { PaymentsListGroup } from "../Payments/PaymentsListGroup";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -177,32 +178,7 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
                             </Link>
                         )}
                     </ActionCardHeader>
-                    {payments ? (
-                        <CardBody className="p-0">
-                            <ListGroup flush>
-                                {payments.map(payment => (
-                                    <ListGroupItem key={payment.id}>
-                                        <ListGroupItemHeading className="mb-1">
-                                            <Link
-                                                to={`/payments/${payment.id}`}
-                                            >
-                                                ${payment.amount.toFixed(2)}
-                                            </Link>
-                                        </ListGroupItemHeading>
-                                        <ListGroupItemText className="mb-0">
-                                            {moment(payment.created).format(
-                                                "LLL"
-                                            )}
-                                        </ListGroupItemText>
-                                    </ListGroupItem>
-                                ))}
-                            </ListGroup>
-                        </CardBody>
-                    ) : (
-                        <CardBody>
-                            <LoadingSpinner />
-                        </CardBody>
-                    )}
+                    <PaymentsListGroup payments={payments} />
                 </Card>
             </Col>
         );

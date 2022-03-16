@@ -19,7 +19,7 @@ export abstract class PaymentService {
     static async getAll(): Promise<Payment[]> {
         logger.debug("Getting all payments.");
         const { paymentRepo } = this.getRepos();
-        return await paymentRepo.find({ order: { created: "DESC" } });
+        return await paymentRepo.find({ order: { updated: "DESC" } });
     }
 
     static async getOne(

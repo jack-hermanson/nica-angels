@@ -6,13 +6,19 @@ import {
     PageHeader,
 } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance, PaymentRecord } from "@nica-angels/shared";
+import {
+    Clearance,
+    ExpandedSponsorshipRecord,
+    PaymentRecord,
+} from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
 import { Link } from "react-router-dom";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaPlus } from "react-icons/fa";
 import { PaymentClient } from "../../clients/PaymentClient";
+import { SponsorshipClient } from "../../clients/SponsorshipClient";
+import { PaymentGlance } from "./PaymentGlance";
 
 export const PaymentsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -23,6 +29,9 @@ export const PaymentsIndex: FunctionComponent = () => {
     const [payments, setPayments] = useState<PaymentRecord[] | undefined>(
         undefined
     );
+    const [sponsorships, setSponsorships] = useState<
+        ExpandedSponsorshipRecord[] | undefined
+    >(undefined);
 
     useEffect(() => {
         if (token) {
@@ -31,6 +40,14 @@ export const PaymentsIndex: FunctionComponent = () => {
             });
         }
     }, [token, setPayments]);
+
+    useEffect(() => {
+        if (token) {
+            SponsorshipClient.getExpandedSponsorships(token.data).then(data => {
+                setSponsorships(data);
+            });
+        }
+    }, [token, setSponsorships]);
 
     return (
         <div>
@@ -79,9 +96,11 @@ export const PaymentsIndex: FunctionComponent = () => {
                 {payments ? (
                     <Fragment>
                         {payments.map(payment => (
-                            <p key={payment.id}>
-                                {payment.id}, ${payment.amount.toFixed(2)}
-                            </p>
+                            <PaymentGlance
+                                payment={payment}
+                                sponsorships={sponsorships}
+                                key={payment.id}
+                            />
                         ))}
                     </Fragment>
                 ) : (

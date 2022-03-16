@@ -1,7 +1,8 @@
 import { ResourceModel } from "jack-hermanson-ts-utils";
 
-export interface PaymentLog extends ResourceModel {
+export interface PaymentLogRecord extends ResourceModel {
     accountId: number;
+    paymentId: number;
     ipAddress: string;
     notes: string;
 }

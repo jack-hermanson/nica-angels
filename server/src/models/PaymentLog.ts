@@ -9,6 +9,9 @@ export class PaymentLog {
     accountId!: number;
 
     @Column()
+    paymentId!: number;
+
+    @Column()
     ipAddress!: string;
 
     @Column()

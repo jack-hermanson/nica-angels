@@ -1,6 +1,16 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
+import {
+    Card,
+    CardBody,
+    CardHeader,
+    Col,
+    ListGroup,
+    ListGroupItem,
+    ListGroupItemHeading,
+    ListGroupItemText,
+    Row,
+} from "reactstrap";
 import {
     ActionCardHeader,
     LoadingSpinner,
@@ -9,6 +19,7 @@ import {
 import { useMinClearance } from "../../utils/useMinClearance";
 import {
     Clearance,
+    PaymentRecord,
     SponsorRecord,
     SponsorshipRecord,
     StudentRecord,
@@ -21,6 +32,8 @@ import { SponsorshipCardBody } from "./SponsorshipCardBody";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
 import { FaPencilAlt, FaPlus } from "react-icons/fa";
+import { PaymentClient } from "../../clients/PaymentClient";
+import moment from "moment";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -39,6 +52,9 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
         undefined
     );
     const [sponsor, setSponsor] = useState<SponsorRecord | undefined>(
+        undefined
+    );
+    const [payments, setPayments] = useState<PaymentRecord[] | undefined>(
         undefined
     );
 
@@ -73,6 +89,17 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
         }
     }, [token, sponsorship, setSponsor]);
 
+    useEffect(() => {
+        if (token && sponsorship) {
+            PaymentClient.getManyFromSponsorshipId(
+                sponsorship.id,
+                token.data
+            ).then(data => {
+                setPayments(data);
+            });
+        }
+    }, [token, sponsorship, setPayments]);
+
     return (
         <div>
             <SponsorTabs />
@@ -91,7 +118,7 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
                     <PageHeader
                         title={
                             spanish
-                                ? "Patronicio Detalles"
+                                ? "Patrocinio Detalles"
                                 : "Sponsorship Details"
                         }
                     >
@@ -150,9 +177,32 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
                             </Link>
                         )}
                     </ActionCardHeader>
-                    <CardBody>
-                        <p>Under construction</p>
-                    </CardBody>
+                    {payments ? (
+                        <CardBody className="p-0">
+                            <ListGroup flush>
+                                {payments.map(payment => (
+                                    <ListGroupItem key={payment.id}>
+                                        <ListGroupItemHeading className="mb-1">
+                                            <Link
+                                                to={`/payments/${payment.id}`}
+                                            >
+                                                ${payment.amount.toFixed(2)}
+                                            </Link>
+                                        </ListGroupItemHeading>
+                                        <ListGroupItemText className="mb-0">
+                                            {moment(payment.created).format(
+                                                "LLL"
+                                            )}
+                                        </ListGroupItemText>
+                                    </ListGroupItem>
+                                ))}
+                            </ListGroup>
+                        </CardBody>
+                    ) : (
+                        <CardBody>
+                            <LoadingSpinner />
+                        </CardBody>
+                    )}
                 </Card>
             </Col>
         );

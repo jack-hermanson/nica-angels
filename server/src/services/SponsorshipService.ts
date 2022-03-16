@@ -249,7 +249,7 @@ export abstract class SponsorshipService {
                 ("sponsorship"."endDate" IS NULL
             AND 
                 "sponsorship"."deleted" IS NULL)
-            ORDER BY "student_firstName" DESC;
+            ORDER BY "student_firstName" ASC;
         `);
 
         return rawRecords.map(r => ({

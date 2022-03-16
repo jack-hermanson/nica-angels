@@ -11343,7 +11343,7 @@ a {
   text-decoration: none;
   color: white;
 }
-a:not(.nav-link):not(.navbar-brand):hover {
+a:not(.nav-link):not(.btn):not(.navbar-brand):hover {
   text-decoration: underline;
   color: white !important;
 }

@@ -1,6 +1,19 @@
-import { Fragment, FunctionComponent, useEffect, useState } from "react";
+import {
+    ChangeEvent,
+    Fragment,
+    FunctionComponent,
+    useEffect,
+    useState,
+} from "react";
 import { useStoreState } from "../../store/_store";
-import { Form, Formik, FormikProps } from "formik";
+import {
+    Field,
+    Form,
+    Formik,
+    FormikErrors,
+    FormikHelpers,
+    FormikProps,
+} from "formik";
 import {
     ExpandedSponsorshipRecord,
     PaymentMethod,
@@ -8,18 +21,30 @@ import {
     PaymentRequest,
 } from "@nica-angels/shared";
 import { SponsorshipClient } from "../../clients/SponsorshipClient";
-import { LoadingSpinner } from "jack-hermanson-component-lib";
+import { FormError, LoadingSpinner } from "jack-hermanson-component-lib";
 import * as yup from "yup";
-import { Col, Row } from "reactstrap";
+import {
+    Button,
+    Col,
+    FormGroup,
+    Input,
+    InputGroup,
+    InputGroupText,
+    Label,
+    Row,
+} from "reactstrap";
+import { SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 
 interface Props {
     onSubmit: (paymentRequest: PaymentRequest) => Promise<void>;
     existingPayment?: PaymentRecord;
+    sponsorshipId?: number;
 }
 
 export const CreateEditPaymentForm: FunctionComponent<Props> = ({
     onSubmit,
     existingPayment,
+    sponsorshipId,
 }: Props) => {
     const spanish = useStoreState(state => state.spanish);
     const token = useStoreState(state => state.token);
@@ -44,6 +69,13 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
         referenceNumber: string;
     }
 
+    type Err = FormikErrors<FormValues>;
+    type SetFieldValue = (
+        field: string,
+        value: any,
+        shouldValidate?: boolean | undefined
+    ) => void;
+
     const validationSchema = yup.object().shape({
         amount: yup.number().label("Amount").required().positive(),
         paymentMethod: yup
@@ -67,7 +99,9 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
                     ? existingPayment.paymentMethod.toString()
                     : "",
                 notes: existingPayment?.notes || "",
-                sponsorshipId: existingPayment
+                sponsorshipId: sponsorshipId
+                    ? sponsorshipId.toString()
+                    : existingPayment
                     ? existingPayment.sponsorshipId.toString()
                     : "",
                 referenceNumber: existingPayment?.referenceNumber || "",
@@ -89,14 +123,33 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
             validateOnChange={false}
             validateOnBlur={false}
         >
-            {({ errors, isSubmitting }: FormikProps<FormValues>) => (
+            {({
+                errors,
+                isSubmitting,
+                setFieldValue,
+                values,
+                handleChange,
+            }: FormikProps<FormValues>) => (
                 <Form>
                     {isSubmitting ? (
                         <LoadingSpinner />
                     ) : (
                         <Fragment>
                             <Row>
-                                <Col xs={12} lg={6}></Col>
+                                <Col xs={12} lg={6}>
+                                    {renderSponsorshipId(
+                                        values,
+                                        setFieldValue,
+                                        handleChange,
+                                        errors
+                                    )}
+                                </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderAmount(errors)}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>{renderButtons()}</Col>
                             </Row>
                         </Fragment>
                     )}
@@ -104,4 +157,90 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
             )}
         </Formik>
     );
+
+    function renderSponsorshipId(
+        values: FormValues,
+        setFieldValue: SetFieldValue,
+        handleChange: (changeEvent: ChangeEvent<any>) => any,
+        errors: Err
+    ) {
+        const id = "sponsorship-id-input";
+        if (sponsorships) {
+            return (
+                <FormGroup>
+                    <Label className="form-label required" for={id}>
+                        {spanish ? "Patrocinio" : "Sponsorship"}
+                    </Label>
+                    <Field
+                        id={id}
+                        name="sponsorshipId"
+                        type="select"
+                        as={Input}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                            console.log(event.target.value);
+                            handleChange(event);
+                            const sponsorship = sponsorships.find(
+                                s => s.id === parseInt(event.target.value)
+                            );
+                            if (sponsorship) {
+                                setFieldValue(
+                                    "amount",
+                                    sponsorship.payment.toFixed(2)
+                                );
+                            } else {
+                                setFieldValue("amount", "");
+                            }
+                        }}
+                    >
+                        <option value="">
+                            {spanish
+                                ? "Elegir un patrocinio..."
+                                : "Select a sponsorship..."}
+                        </option>
+                        {sponsorships.map(sponsorship => (
+                            <option key={sponsorship.id} value={sponsorship.id}>
+                                {sponsorship.studentName} &{" "}
+                                {sponsorship.sponsorName} @ $
+                                {sponsorship.payment}*{sponsorship.frequency} (#
+                                {sponsorship.id})
+                            </option>
+                        ))}
+                    </Field>
+                    <FormError>{errors.sponsorshipId}</FormError>
+                </FormGroup>
+            );
+        }
+    }
+
+    function renderAmount(errors: Err) {
+        const id = "amount-input";
+        return (
+            <FormGroup>
+                <Label className="form-label required" for={id}>
+                    {spanish ? "Aumento" : "Amount"}
+                </Label>
+                <InputGroup>
+                    <InputGroupText>$</InputGroupText>
+                    <Field
+                        id={id}
+                        type="number"
+                        step="1.00"
+                        name="amount"
+                        as={Input}
+                    />
+                </InputGroup>
+                <FormError>{errors.amount}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderButtons() {
+        return (
+            <div className="bottom-buttons">
+                <Button color={SUBMIT_BUTTON_COLOR} type="submit">
+                    Save
+                </Button>
+            </div>
+        );
+    }
 };

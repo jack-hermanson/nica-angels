@@ -65,13 +65,13 @@ export const Sponsorship: FunctionComponent<Props> = ({
                     <CardFooter className="d-flex">
                         <Link
                             to={`/sponsorships/edit/${sponsorship.id}`}
-                            className="text-muted d-block my-auto me-auto"
+                            className="d-block my-auto me-auto"
                         >
                             {spanish ? "Editar" : "Edit"}
                         </Link>
                         <Link
                             to={`/payments/new/${sponsorship.id}`}
-                            className="text-muted d-block my-auto ms-auto"
+                            className="d-block my-auto ms-auto"
                         >
                             {spanish ? "Nuevo Pago" : "New Payment"}
                         </Link>

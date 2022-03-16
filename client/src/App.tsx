@@ -246,7 +246,7 @@ export const App: React.FC = () => {
                         />
                         <Route
                             exact
-                            path="/payments/new"
+                            path="/payments/new/:sponsorshipId?"
                             component={CreatePayment}
                         />
                         <Route

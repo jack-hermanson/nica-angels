@@ -1,7 +1,11 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
-import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
+import {
+    ActionCardHeader,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
 import {
     Clearance,
@@ -15,8 +19,9 @@ import { StudentClient } from "../../clients/StudentClient";
 import { SponsorClient } from "../../clients/SponsorClient";
 import { SponsorshipCardBody } from "./SponsorshipCardBody";
 import { FaEdit } from "react-icons/all";
-import { BUTTON_ICON_CLASSES } from "../../utils/constants";
+import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
+import { FaPlus } from "react-icons/fa";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -135,9 +140,17 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
         return (
             <Col xs={12} lg={4}>
                 <Card>
-                    <CardHeader>
-                        <h5 className="mb-0">Payment History</h5>
-                    </CardHeader>
+                    <ActionCardHeader title="Payment History">
+                        {sponsorship && (
+                            <Link
+                                to={`/payments/new/${sponsorship.id}`}
+                                className={`btn btn-sm btn-${NEW_BUTTON_COLOR}`}
+                            >
+                                <FaPlus className={BUTTON_ICON_CLASSES} />
+                                Make Payment
+                            </Link>
+                        )}
+                    </ActionCardHeader>
                     <CardBody>
                         <p>Under construction</p>
                     </CardBody>

@@ -1,17 +1,20 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "@nica-angels/shared";
+import { Clearance, SponsorshipRecord } from "@nica-angels/shared";
 import { useStoreActions, useStoreState } from "../../store/_store";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
 import { CreateEditPaymentForm } from "./CreateEditPaymentForm";
 import { PaymentRequest } from "@nica-angels/shared";
-import { useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import { PaymentClient } from "../../clients/PaymentClient";
 import { scrollToTop, successAlert } from "jack-hermanson-ts-utils";
+import { SponsorshipClient } from "../../clients/SponsorshipClient";
 
-export const CreatePayment: FunctionComponent = () => {
+interface Props extends RouteComponentProps<{ sponsorshipId?: string }> {}
+
+export const CreatePayment: FunctionComponent<Props> = ({ match }: Props) => {
     useMinClearance(Clearance.ADMIN);
 
     const spanish = useStoreState(state => state.spanish);
@@ -44,7 +47,14 @@ export const CreatePayment: FunctionComponent = () => {
         return (
             <Row>
                 <Col>
-                    <CreateEditPaymentForm onSubmit={onSubmit} />
+                    <CreateEditPaymentForm
+                        onSubmit={onSubmit}
+                        sponsorshipId={
+                            match.params.sponsorshipId
+                                ? parseInt(match.params.sponsorshipId)
+                                : undefined
+                        }
+                    />
                 </Col>
             </Row>
         );

@@ -9,6 +9,7 @@ import { SponsorshipService } from "../services/SponsorshipService";
 import { HTTP, validateRequest } from "jack-hermanson-ts-utils";
 import { paymentSchema } from "../models/Payment";
 import { logger } from "../utils/logger";
+import { PaymentLogService } from "../services/PaymentLogService";
 
 export const router = Router();
 
@@ -163,6 +164,13 @@ router.post(
             return;
         }
 
+        await PaymentLogService.create({
+            paymentId: payment.id,
+            accountId: req.account.id,
+            ipAddress: req.headers["x-forwarded-for"].toString(),
+            notes: `${req.account.firstName} ${req.account.lastName} (#${req.account.id}) created payment #${payment.id}.`,
+        });
+
         res.status(HTTP.CREATED).json(payment);
     }
 );
@@ -197,6 +205,13 @@ router.put(
         if (!payment) {
             return;
         }
+
+        await PaymentLogService.create({
+            paymentId: payment.id,
+            accountId: req.account.id,
+            ipAddress: req.headers["x-forwarded-for"].toString(),
+            notes: `${req.account.firstName} ${req.account.lastName} (#${req.account.id}) edited payment #${payment.id}.`,
+        });
 
         res.json(payment);
     }

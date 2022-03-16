@@ -8,6 +8,7 @@ import {
 import {
     AccountRecord,
     Clearance,
+    PaymentRecord,
     SponsorRecord,
     SponsorshipRecord,
     StudentRecord,
@@ -33,6 +34,7 @@ import { SponsorshipClient } from "../../clients/SponsorshipClient";
 import { StudentClient } from "../../clients/StudentClient";
 import moment from "moment";
 import { SponsorTabs } from "./SponsorTabs";
+import { PaymentClient } from "../../clients/PaymentClient";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -49,6 +51,9 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
         SponsorshipRecord[] | undefined
     >(undefined);
     const [students, setStudents] = useState<StudentRecord[]>([]);
+    const [payments, setPayments] = useState<PaymentRecord[] | undefined>(
+        undefined
+    );
 
     const token = useStoreState(state => state.token);
     const spanish = useStoreState(state => state.spanish);
@@ -56,43 +61,56 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
     useEffect(() => {
         if (token) {
             SponsorClient.getOne(parseInt(match.params.id), token.data).then(
-                sponsorData => {
-                    setSponsor(sponsorData);
-                    if (sponsorData.accountId) {
-                        AccountClient.getAccount(
-                            sponsorData.accountId,
-                            token.data
-                        ).then(accountData => {
-                            setAccount(accountData);
-                        });
-                    }
-                    SponsorshipClient.getManyFromSponsorId(
-                        sponsorData.id,
-                        token.data
-                    ).then(sponsorshipData => {
-                        setSponsorships(sponsorshipData);
-                        if (sponsorshipData) {
-                            for (let sponsorship of sponsorshipData) {
-                                StudentClient.getOne(
-                                    sponsorship.studentId,
-                                    token.data
-                                ).then(studentData => {
-                                    setStudents(s => [...s, studentData]);
-                                });
-                            }
-                        }
-                    });
+                data => {
+                    setSponsor(data);
                 }
             );
         }
-    }, [
-        token,
-        match.params.id,
-        setSponsor,
-        setAccount,
-        setSponsorships,
-        setStudents,
-    ]);
+    }, [setSponsor, token, match]);
+
+    useEffect(() => {
+        if (token && sponsor?.accountId) {
+            AccountClient.getAccount(sponsor.accountId, token.data).then(
+                data => {
+                    setAccount(data);
+                }
+            );
+        }
+    }, [sponsor, setAccount, token]);
+
+    useEffect(() => {
+        if (token) {
+            SponsorshipClient.getManyFromSponsorId(
+                parseInt(match.params.id),
+                token.data
+            ).then(data => {
+                setSponsorships(data);
+            });
+        }
+    }, [setSponsorships, match, token]);
+
+    useEffect(() => {
+        if (token && sponsorships) {
+            for (let sponsorship of sponsorships) {
+                StudentClient.getOne(sponsorship.studentId, token.data).then(
+                    data => {
+                        setStudents(s => [...s, data]);
+                    }
+                );
+            }
+        }
+    }, [setStudents, sponsorships, token]);
+
+    useEffect(() => {
+        if (token) {
+            PaymentClient.getManyFromSponsorId(
+                parseInt(match.params.id),
+                token.data
+            ).then(data => {
+                setPayments(data);
+            });
+        }
+    }, [token, setPayments, match]);
 
     return (
         <div>

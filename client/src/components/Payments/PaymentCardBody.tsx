@@ -57,6 +57,10 @@ export const PaymentCardBody: FunctionComponent<Props> = ({
                     val: `${PaymentMethod[payment.paymentMethod]}`,
                 },
                 {
+                    key: "Reference Number",
+                    val: payment.referenceNumber || "N/A",
+                },
+                {
                     key: "Created",
                     val: moment(payment.created).format("LLLL"),
                 },
@@ -67,6 +71,13 @@ export const PaymentCardBody: FunctionComponent<Props> = ({
             keyValPairs.push({
                 key: "Updated",
                 val: moment(payment.updated).format("LLLL"),
+            });
+        }
+
+        if (payment.notes) {
+            keyValPairs.push({
+                key: "Notes",
+                val: payment.notes,
             });
         }
     }

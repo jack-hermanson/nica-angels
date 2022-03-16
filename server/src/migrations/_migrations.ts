@@ -12,6 +12,9 @@ import { FileName1637116829391 } from "./1637116829391-FileName";
 import { StudentImage1637366192733 } from "./1637366192733-StudentImage";
 import { StudentUniform1637474156811 } from "./1637474156811-StudentUniform";
 import { Payment1647032644355 } from "./1647032644355-Payment";
+import { PaymentLog1647459010959 } from "./1647459010959-PaymentLog";
+import { PaymentLogPaymentId1647460398723 } from "./1647460398723-PaymentLogPaymentId";
+import { PaymentLogDate1647461157521 } from "./1647461157521-PaymentLogDate";
 
 export const migrations = [
     Account1628820578982,
@@ -28,4 +31,7 @@ export const migrations = [
     StudentImage1637366192733,
     StudentUniform1637474156811,
     Payment1647032644355,
+    PaymentLog1647459010959,
+    PaymentLogPaymentId1647460398723,
+    PaymentLogDate1647461157521,
 ];

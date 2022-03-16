@@ -64,8 +64,6 @@ export class StudentService {
             .skip(skip)
             .take(take);
 
-        logger.info(studentsQuery.getSql());
-
         const total = await studentsQuery.getCount();
         const students = await studentsQuery.getMany();
 

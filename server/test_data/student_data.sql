@@ -1,4 +1,3 @@
-insert into "student" ("firstName", "middleName", "lastName", "sex", "dateOfBirth", "level", "backpack", "shoes", "supplies", "uniform") values ('Aaren', 'Katusha', 'Pretty', 0, '2014-04-18', 0, false, true, false, false);
 insert into "student" ("firstName", "middleName", "lastName", "sex", "dateOfBirth", "level", "backpack", "shoes", "supplies", "uniform") values ('Rois', 'Andrea', 'Bangs', 1, '2014-12-29', 2, false, false, false, false);
 insert into "student" ("firstName", "middleName", "lastName", "sex", "dateOfBirth", "level", "backpack", "shoes", "supplies", "uniform") values ('Adelaida', null, 'Danielis', 0, '2010-09-09', 6, false, true, false, true);
 insert into "student" ("firstName", "middleName", "lastName", "sex", "dateOfBirth", "level", "backpack", "shoes", "supplies", "uniform") values ('Valli', null, 'Tithecott', 1, '2014-06-01', 1, true, true, false, false);

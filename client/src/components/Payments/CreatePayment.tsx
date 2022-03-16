@@ -8,11 +8,14 @@ import { SponsorTabs } from "../Sponsors/SponsorTabs";
 import { CreateEditPaymentForm } from "./CreateEditPaymentForm";
 import { PaymentRequest } from "@nica-angels/shared";
 import { useHistory } from "react-router-dom";
+import { PaymentClient } from "../../clients/PaymentClient";
+import { scrollToTop, successAlert } from "jack-hermanson-ts-utils";
 
 export const CreatePayment: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
 
     const spanish = useStoreState(state => state.spanish);
+    const token = useStoreState(state => state.token);
     const addAlert = useStoreActions(actions => actions.addAlert);
 
     const history = useHistory();
@@ -48,6 +51,25 @@ export const CreatePayment: FunctionComponent = () => {
     }
 
     async function onSubmit(paymentRequest: PaymentRequest) {
-        console.log(paymentRequest);
+        if (token) {
+            try {
+                const payment = await PaymentClient.create(
+                    paymentRequest,
+                    token.data
+                );
+                addAlert(
+                    successAlert(
+                        `payment of $${payment.amount.toFixed(2)}`,
+                        "saved"
+                    )
+                );
+                history.push("/payments");
+            } catch (error: any) {
+                console.error(error);
+                console.error(error.response);
+                addAlert(error.message);
+                scrollToTop();
+            }
+        }
     }
 };

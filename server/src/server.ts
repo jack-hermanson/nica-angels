@@ -35,10 +35,8 @@ app.use(staticFiles);
 // skip & take query strings
 app.use(aggregateQuery);
 app.use((req, _, next) => {
-    const ip = req.headers["x-real-ip"] || req.socket.remoteAddress;
     const forwardedFor = req.headers["x-forwarded-for"];
-    logger.info("IP:", ip);
-    logger.info("FF:", forwardedFor);
+    logger.info("User IP Address:", forwardedFor);
     next();
 });
 

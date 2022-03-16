@@ -11378,5 +11378,9 @@ table.same-width tbody > tr th {
     width: 30%;
   }
 }
+label.required::after {
+  color: darkred;
+  font-weight: bold;
+}
 
 /*# sourceMappingURL=main.css.map */

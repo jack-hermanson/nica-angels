@@ -152,6 +152,9 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
                                 <Col xs={12} lg={6}>
                                     {renderPaymentMethod(errors)}
                                 </Col>
+                                <Col xs={12} lg={6}>
+                                    {renderConfirmationNumber()}
+                                </Col>
                             </Row>
                             <Row>
                                 <Col>{renderButtons()}</Col>
@@ -255,6 +258,18 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
                     </option>
                 </Field>
                 <FormError>{errors.paymentMethod}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderConfirmationNumber() {
+        const id = "confirmation-number-input";
+        return (
+            <FormGroup>
+                <Label className="form-label">
+                    {spanish ? "Número de Confirmación" : "Confirmation Number"}
+                </Label>
+                <Field id={id} name="confirmationNumber" as={Input} />
             </FormGroup>
         );
     }

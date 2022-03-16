@@ -42,3 +42,7 @@ table.same-width tbody > tr th {
   }
 }
 
+label.required::after {
+  color: darkred;
+  font-weight: bold;
+}

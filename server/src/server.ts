@@ -9,6 +9,7 @@ import { DbDialect, aggregateQuery } from "jack-hermanson-ts-utils";
 import { models } from "./models/_models";
 import { migrations } from "./migrations/_migrations";
 import { routes } from "./routes/_routes";
+import { logger } from "./utils/logger";
 
 // env
 const envPath = path.join(__dirname, "..", ".env");
@@ -33,6 +34,13 @@ app.use(staticFiles);
 
 // skip & take query strings
 app.use(aggregateQuery);
+app.use((req, _, next) => {
+    const ip = req.headers["x-real-ip"] || req.socket.remoteAddress;
+    const forwardedFor = req.headers["x-forwarded-for"];
+    logger.info("IP:", ip);
+    logger.info("FF:", forwardedFor);
+    next();
+});
 
 // routes
 app.use("/api/accounts", routes.accounts);

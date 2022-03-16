@@ -56,7 +56,7 @@ export const StudentSponsorshipCard: FunctionComponent<Props> = ({
                 {!sponsorship && (
                     <Link
                         to={`/sponsorships/new`}
-                        className={`btn btn-sm btn-${NEW_BUTTON_COLOR}`}
+                        className={`icon-button btn btn-sm btn-${NEW_BUTTON_COLOR}`}
                     >
                         <FaPlus className={BUTTON_ICON_CLASSES} />
                         {spanish ? "Nuevo Patrocinio" : "New Sponsorship"}

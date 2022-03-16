@@ -3,15 +3,19 @@ import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "@nica-angels/shared";
-import { useStoreState } from "../../store/_store";
+import { useStoreActions, useStoreState } from "../../store/_store";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
 import { CreateEditPaymentForm } from "./CreateEditPaymentForm";
 import { PaymentRequest } from "@nica-angels/shared";
+import { useHistory } from "react-router-dom";
 
 export const CreatePayment: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
 
     const spanish = useStoreState(state => state.spanish);
+    const addAlert = useStoreActions(actions => actions.addAlert);
+
+    const history = useHistory();
 
     return (
         <div>

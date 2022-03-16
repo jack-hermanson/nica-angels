@@ -149,6 +149,11 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
                                 </Col>
                             </Row>
                             <Row>
+                                <Col xs={12} lg={6}>
+                                    {renderPaymentMethod(errors)}
+                                </Col>
+                            </Row>
+                            <Row>
                                 <Col>{renderButtons()}</Col>
                             </Row>
                         </Fragment>
@@ -230,6 +235,26 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
                     />
                 </InputGroup>
                 <FormError>{errors.amount}</FormError>
+            </FormGroup>
+        );
+    }
+
+    function renderPaymentMethod(errors: Err) {
+        const id = "payment-method-input";
+        return (
+            <FormGroup>
+                <Label className="form-label required">Payment Method</Label>
+                <Field id={id} as={Input} name="paymentMethod" type="select">
+                    <option value="">Select a payment method...</option>
+                    <option value={PaymentMethod.ACH_BANK_TRANSFER}>
+                        ACH/Bank Transfer
+                    </option>
+                    <option value={PaymentMethod.CHECK}>Check</option>
+                    <option value={PaymentMethod.CREDIT_DEBIT_CARD}>
+                        Credit/Debit Card
+                    </option>
+                </Field>
+                <FormError>{errors.paymentMethod}</FormError>
             </FormGroup>
         );
     }

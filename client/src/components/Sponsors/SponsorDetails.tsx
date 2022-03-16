@@ -1,6 +1,10 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
+import {
+    ActionCardHeader,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib";
 import {
     AccountRecord,
     Clearance,
@@ -96,6 +100,7 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
             {renderPageHeader()}
             <Row>
                 {renderSponsorDetails()}
+                {renderPayments()}
                 {renderSponsorships()}
             </Row>
         </div>
@@ -127,12 +132,22 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
 
     function renderSponsorDetails() {
         return (
-            <Col xs={12} lg={8} className="mb-3 mb-lg-0">
+            <Col xs={12} lg={4} className="mb-3 mb-lg-0">
                 {sponsor ? (
                     <SponsorDetailCard sponsor={sponsor} account={account} />
                 ) : (
                     <LoadingSpinner />
                 )}
+            </Col>
+        );
+    }
+
+    function renderPayments() {
+        return (
+            <Col xs={12} lg={4}>
+                <Card>
+                    <ActionCardHeader title={spanish ? "Pagos" : "Payments"} />
+                </Card>
             </Col>
         );
     }

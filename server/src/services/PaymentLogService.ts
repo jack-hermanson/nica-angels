@@ -15,7 +15,10 @@ export abstract class PaymentLogService {
     static async getAllFromPayment(paymentId: number) {
         const { paymentLogRepo } = this.getRepos();
         const paymentLogs = await paymentLogRepo.find({
-            where: {},
+            where: {
+                paymentId,
+            },
+            order: {},
         });
     }
 }

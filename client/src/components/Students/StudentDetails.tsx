@@ -269,7 +269,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
                 <ActionCardHeader title={spanish ? "Escuela" : "School"}>
                     <Link
                         to={`/settings/enrollments/new/${id}`}
-                        className={`btn btn-sm btn-${NEW_BUTTON_COLOR}`}
+                        className={`btn btn-sm btn-${NEW_BUTTON_COLOR} icon-button`}
                     >
                         <FaPlus className={BUTTON_ICON_CLASSES} />
                         {spanish ? "Nuevo Inscrito" : "New Enrollment"}

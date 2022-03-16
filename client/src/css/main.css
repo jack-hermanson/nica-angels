@@ -11343,7 +11343,7 @@ a {
   text-decoration: none;
   color: white;
 }
-a:not(.nav-link):not(.navbar-brand):hover {
+a:not(.nav-link):not(.btn):not(.navbar-brand):hover {
   text-decoration: underline;
   color: white !important;
 }
@@ -11377,6 +11377,10 @@ table.same-width tbody > tr th {
   table.same-width tbody > tr th {
     width: 30%;
   }
+}
+label.required::after {
+  color: darkred;
+  font-weight: bold;
 }
 
 /*# sourceMappingURL=main.css.map */

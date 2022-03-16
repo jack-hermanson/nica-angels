@@ -1,18 +1,36 @@
-import { FunctionComponent } from "react";
+import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { CardBody, Col, Row } from "reactstrap";
-import { MobileToggleCard, PageHeader } from "jack-hermanson-component-lib";
+import {
+    LoadingSpinner,
+    MobileToggleCard,
+    PageHeader,
+} from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance } from "@nica-angels/shared";
+import { Clearance, PaymentRecord } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
 import { Link } from "react-router-dom";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaPlus } from "react-icons/fa";
+import { PaymentClient } from "../../clients/PaymentClient";
 
 export const PaymentsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
 
     const spanish = useStoreState(state => state.spanish);
+    const token = useStoreState(state => state.token);
+
+    const [payments, setPayments] = useState<PaymentRecord[] | undefined>(
+        undefined
+    );
+
+    useEffect(() => {
+        if (token) {
+            PaymentClient.getAll(token.data).then(data => {
+                setPayments(data);
+            });
+        }
+    }, [token, setPayments]);
 
     return (
         <div>
@@ -58,7 +76,17 @@ export const PaymentsIndex: FunctionComponent = () => {
     function renderList() {
         return (
             <Col xs={12} lg={9}>
-                <p>List of items.</p>
+                {payments ? (
+                    <Fragment>
+                        {payments.map(payment => (
+                            <p key={payment.id}>
+                                {payment.id}, ${payment.amount.toFixed(2)}
+                            </p>
+                        ))}
+                    </Fragment>
+                ) : (
+                    <LoadingSpinner />
+                )}
             </Col>
         );
     }

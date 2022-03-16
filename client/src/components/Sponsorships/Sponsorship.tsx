@@ -62,12 +62,18 @@ export const Sponsorship: FunctionComponent<Props> = ({
                         linkTo={`/sponsorships/${sponsorship.id}`}
                     />
                     {renderDetails()}
-                    <CardFooter>
+                    <CardFooter className="d-flex">
                         <Link
                             to={`/sponsorships/edit/${sponsorship.id}`}
-                            className="text-muted"
+                            className="text-muted d-block my-auto me-auto"
                         >
                             {spanish ? "Editar" : "Edit"}
+                        </Link>
+                        <Link
+                            to={`/payments/new/${sponsorship.id}`}
+                            className="text-muted d-block my-auto ms-auto"
+                        >
+                            {spanish ? "Nuevo Pago" : "New Payment"}
                         </Link>
                     </CardFooter>
                 </Fragment>

@@ -7,10 +7,14 @@ import { useStoreActions, useStoreState } from "../../store/_store";
 import { CreateEditSponsorshipForm } from "./CreateEditSponsorshipForm";
 import { SponsorshipClient } from "../../clients/SponsorshipClient";
 import { errorAlert, scrollToTop, successAlert } from "jack-hermanson-ts-utils";
-import { useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
 
-export const CreateSponsorship: FunctionComponent = () => {
+interface Props extends RouteComponentProps<{ studentId?: string }> {}
+
+export const CreateSponsorship: FunctionComponent<Props> = ({
+    match,
+}: Props) => {
     useMinClearance(Clearance.ADMIN);
 
     const spanish = useStoreState(state => state.spanish);
@@ -43,7 +47,14 @@ export const CreateSponsorship: FunctionComponent = () => {
         return (
             <Row>
                 <Col>
-                    <CreateEditSponsorshipForm onSubmit={onSubmit} />
+                    <CreateEditSponsorshipForm
+                        onSubmit={onSubmit}
+                        studentId={
+                            match.params.studentId
+                                ? parseInt(match.params.studentId)
+                                : undefined
+                        }
+                    />
                 </Col>
             </Row>
         );

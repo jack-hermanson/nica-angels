@@ -171,7 +171,7 @@ router.post(
         await PaymentLogService.create({
             paymentId: payment.id,
             accountId: req.account.id,
-            ipAddress: req.headers["x-forwarded-for"].toString(),
+            ipAddress: req.headers["x-forwarded-for"]?.toString() || "No data",
             notes: `${req.account.firstName} ${req.account.lastName} (#${req.account.id}) created payment #${payment.id}.`,
         });
 
@@ -213,7 +213,7 @@ router.put(
         await PaymentLogService.create({
             paymentId: payment.id,
             accountId: req.account.id,
-            ipAddress: req.headers["x-forwarded-for"].toString(),
+            ipAddress: req.headers["x-forwarded-for"]?.toString() || "No data",
             notes: `${req.account.firstName} ${req.account.lastName} (#${req.account.id}) edited payment #${payment.id}.`,
         });
 

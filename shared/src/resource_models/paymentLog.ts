@@ -5,4 +5,5 @@ export interface PaymentLogRecord extends ResourceModel {
     paymentId: number;
     ipAddress: string;
     notes: string;
+    created: Date;
 }

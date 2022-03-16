@@ -85,7 +85,9 @@ export const StudentDetails: FunctionComponent<Props> = ({
                             >
                                 <Link
                                     to={`/students/edit/${student.id}`}
-                                    className={"btn btn-secondary btn-sm"}
+                                    className={
+                                        "btn btn-secondary btn-sm icon-button"
+                                    }
                                 >
                                     <FaPencilAlt
                                         className={BUTTON_ICON_CLASSES}

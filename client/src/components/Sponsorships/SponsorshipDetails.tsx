@@ -18,10 +18,9 @@ import { SponsorshipClient } from "../../clients/SponsorshipClient";
 import { StudentClient } from "../../clients/StudentClient";
 import { SponsorClient } from "../../clients/SponsorClient";
 import { SponsorshipCardBody } from "./SponsorshipCardBody";
-import { FaEdit } from "react-icons/all";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
-import { FaPlus } from "react-icons/fa";
+import { FaPencilAlt, FaPlus } from "react-icons/fa";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -99,9 +98,9 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
                         {sponsorship && (
                             <Link
                                 to={`/sponsorships/edit/${sponsorship.id}`}
-                                className="btn btn-sm btn-secondary"
+                                className="icon-button btn btn-sm btn-secondary"
                             >
-                                <FaEdit className={BUTTON_ICON_CLASSES} />
+                                <FaPencilAlt className={BUTTON_ICON_CLASSES} />
                                 {spanish ? "Editar" : "Edit"}
                             </Link>
                         )}
@@ -144,7 +143,7 @@ export const SponsorshipDetails: FunctionComponent<Props> = ({
                         {sponsorship && (
                             <Link
                                 to={`/payments/new/${sponsorship.id}`}
-                                className={`btn btn-sm btn-${NEW_BUTTON_COLOR}`}
+                                className={`icon-button btn btn-sm btn-${NEW_BUTTON_COLOR}`}
                             >
                                 <FaPlus className={BUTTON_ICON_CLASSES} />
                                 Make Payment

@@ -1,8 +1,9 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { useStoreState } from "../../store/_store";
 import { Form } from "formik";
 import { ExpandedSponsorshipRecord } from "@nica-angels/shared";
 import { SponsorshipClient } from "../../clients/SponsorshipClient";
+import { LoadingSpinner } from "jack-hermanson-component-lib";
 
 interface Props {
     onSubmit: (paymentRequest: PaymentRequest) => Promise<void>;
@@ -27,8 +28,20 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
     }, [setSponsorships, token]);
 
     return (
-        <Form>
+        <form>
+            {sponsorships ? (
+                <Fragment>
+                    {sponsorships.map(sponsorship => (
+                        <p key={sponsorship.id}>
+                            {sponsorship.sponsorName} /{" "}
+                            {sponsorship.studentName}
+                        </p>
+                    ))}
+                </Fragment>
+            ) : (
+                <LoadingSpinner />
+            )}
             <p>Todo</p>
-        </Form>
+        </form>
     );
 };

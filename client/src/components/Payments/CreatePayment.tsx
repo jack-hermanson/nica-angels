@@ -5,6 +5,7 @@ import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { SponsorTabs } from "../Sponsors/SponsorTabs";
+import { CreateEditPaymentForm } from "./CreateEditPaymentForm";
 
 export const CreatePayment: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -35,7 +36,7 @@ export const CreatePayment: FunctionComponent = () => {
         return (
             <Row>
                 <Col>
-                    <p>Form</p>
+                    <CreateEditPaymentForm onSubmit={onSubmit} />
                 </Col>
             </Row>
         );

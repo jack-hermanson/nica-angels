@@ -31,11 +31,13 @@ import {
 interface Props {
     onSubmit: (sponsorshipRequest: SponsorshipRequest) => Promise<void>;
     existingSponsorship?: SponsorshipRecord;
+    studentId?: number;
 }
 
 export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
     onSubmit,
     existingSponsorship,
+    studentId,
 }: Props) => {
     const spanish = useStoreState(state => state.spanish);
     const token = useStoreState(state => state.token);
@@ -113,7 +115,9 @@ export const CreateEditSponsorshipForm: FunctionComponent<Props> = ({
     return (
         <Formik
             initialValues={{
-                studentId: existingSponsorship
+                studentId: studentId
+                    ? studentId.toString()
+                    : existingSponsorship
                     ? existingSponsorship.studentId.toString()
                     : "",
                 sponsorId: existingSponsorship

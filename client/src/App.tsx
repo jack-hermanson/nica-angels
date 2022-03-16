@@ -121,7 +121,7 @@ export const App: React.FC = () => {
                         />
                         <Route
                             exact
-                            path="/sponsorships/new"
+                            path="/sponsorships/new/:studentId?"
                             component={CreateSponsorship}
                         />
                         <Route

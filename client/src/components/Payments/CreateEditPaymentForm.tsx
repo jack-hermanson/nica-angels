@@ -90,83 +90,94 @@ export const CreateEditPaymentForm: FunctionComponent<Props> = ({
     });
 
     return (
-        <Formik
-            initialValues={{
-                amount: existingPayment
-                    ? existingPayment.amount.toString()
-                    : "",
-                paymentMethod: existingPayment
-                    ? existingPayment.paymentMethod.toString()
-                    : "",
-                notes: existingPayment?.notes || "",
-                sponsorshipId: sponsorshipId
-                    ? sponsorshipId.toString()
-                    : existingPayment
-                    ? existingPayment.sponsorshipId.toString()
-                    : "",
-                referenceNumber: existingPayment?.referenceNumber || "",
-            }}
-            onSubmit={async (data, { setSubmitting }) => {
-                setSubmitting(true);
-                const paymentRequest: PaymentRequest = {
-                    amount: parseFloat(data.amount),
-                    paymentMethod: parseInt(
-                        data.paymentMethod
-                    ) as PaymentMethod,
-                    notes: data.notes.trim() || undefined,
-                    sponsorshipId: parseInt(data.sponsorshipId),
-                    referenceNumber: data.referenceNumber.trim() || undefined,
-                };
-                await onSubmit(paymentRequest);
-            }}
-            validationSchema={validationSchema}
-            validateOnChange={false}
-            validateOnBlur={false}
-        >
-            {({
-                errors,
-                isSubmitting,
-                setFieldValue,
-                values,
-                handleChange,
-            }: FormikProps<FormValues>) => (
-                <Form>
-                    {isSubmitting ? (
-                        <LoadingSpinner />
-                    ) : (
-                        <Fragment>
-                            <Row>
-                                <Col xs={12} lg={6}>
-                                    {renderSponsorshipId(
-                                        values,
-                                        setFieldValue,
-                                        handleChange,
-                                        errors
-                                    )}
-                                </Col>
-                                <Col xs={12} lg={6}>
-                                    {renderAmount(errors)}
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col xs={12} lg={6}>
-                                    {renderPaymentMethod(errors)}
-                                </Col>
-                                <Col xs={12} lg={6}>
-                                    {renderConfirmationNumber()}
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>{renderNotes()}</Col>
-                            </Row>
-                            <Row>
-                                <Col>{renderButtons()}</Col>
-                            </Row>
-                        </Fragment>
+        <Fragment>
+            {sponsorships ? (
+                <Formik
+                    initialValues={{
+                        amount: sponsorshipId
+                            ? sponsorships
+                                  .find(s => s.id === sponsorshipId)
+                                  ?.payment?.toFixed(2) || ""
+                            : existingPayment
+                            ? existingPayment.amount.toString()
+                            : "",
+                        paymentMethod: existingPayment
+                            ? existingPayment.paymentMethod.toString()
+                            : "",
+                        notes: existingPayment?.notes || "",
+                        sponsorshipId: sponsorshipId
+                            ? sponsorshipId.toString()
+                            : existingPayment
+                            ? existingPayment.sponsorshipId.toString()
+                            : "",
+                        referenceNumber: existingPayment?.referenceNumber || "",
+                    }}
+                    onSubmit={async (data, { setSubmitting }) => {
+                        setSubmitting(true);
+                        const paymentRequest: PaymentRequest = {
+                            amount: parseFloat(data.amount),
+                            paymentMethod: parseInt(
+                                data.paymentMethod
+                            ) as PaymentMethod,
+                            notes: data.notes.trim() || undefined,
+                            sponsorshipId: parseInt(data.sponsorshipId),
+                            referenceNumber:
+                                data.referenceNumber.trim() || undefined,
+                        };
+                        await onSubmit(paymentRequest);
+                    }}
+                    validationSchema={validationSchema}
+                    validateOnChange={false}
+                    validateOnBlur={false}
+                >
+                    {({
+                        errors,
+                        isSubmitting,
+                        setFieldValue,
+                        values,
+                        handleChange,
+                    }: FormikProps<FormValues>) => (
+                        <Form>
+                            {isSubmitting ? (
+                                <LoadingSpinner />
+                            ) : (
+                                <Fragment>
+                                    <Row>
+                                        <Col xs={12} lg={6}>
+                                            {renderSponsorshipId(
+                                                values,
+                                                setFieldValue,
+                                                handleChange,
+                                                errors
+                                            )}
+                                        </Col>
+                                        <Col xs={12} lg={6}>
+                                            {renderAmount(errors)}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={12} lg={6}>
+                                            {renderPaymentMethod(errors)}
+                                        </Col>
+                                        <Col xs={12} lg={6}>
+                                            {renderConfirmationNumber()}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>{renderNotes()}</Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>{renderButtons()}</Col>
+                                    </Row>
+                                </Fragment>
+                            )}
+                        </Form>
                     )}
-                </Form>
+                </Formik>
+            ) : (
+                <LoadingSpinner />
             )}
-        </Formik>
+        </Fragment>
     );
 
     function renderSponsorshipId(

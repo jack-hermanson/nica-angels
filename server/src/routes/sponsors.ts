@@ -58,7 +58,7 @@ router.get(
         }
         try {
             const id = parseNumber(req.params.id);
-            logger.info(`GET /sponsors/${id}`);
+            logger.debug(`GET /sponsors/${id}`);
             const sponsor = await SponsorService.getOne(id, res);
             if (!sponsor) {
                 return;

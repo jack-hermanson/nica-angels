@@ -9,6 +9,7 @@ import { StudentClient } from "../../clients/StudentClient";
 import { HTTP, scrollToTop } from "jack-hermanson-ts-utils";
 import { NotFound } from "../Errors/NotFound";
 import { CreateEditStudentForm } from "./CreateEditStudentForm";
+import { StudentTabs } from "./StudentTabs";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -55,6 +56,7 @@ export const EditStudent: FunctionComponent<Props> = ({ match }: Props) => {
                 <NotFound />
             ) : (
                 <div>
+                    <StudentTabs />
                     {renderPageHeader()}
                     {renderForm()}
                 </div>

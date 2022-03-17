@@ -171,17 +171,17 @@ export const App: React.FC = () => {
 
                         <Route
                             exact
-                            path="/settings/enrollments"
+                            path="/enrollments"
                             component={EnrollmentsIndex}
                         />
                         <Route
                             exact
-                            path="/settings/enrollments/new/:studentId?"
+                            path="/enrollments/new/:studentId?"
                             component={CreateEnrollment}
                         />
                         <Route
                             exact
-                            path="/settings/enrollments/edit/:id"
+                            path="/enrollments/edit/:id"
                             component={EditEnrollment}
                         />
 

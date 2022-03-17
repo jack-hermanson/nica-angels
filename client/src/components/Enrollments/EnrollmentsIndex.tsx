@@ -1,5 +1,4 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { SettingsTabs } from "../Settings/SettingsTabs";
 import { useStoreState } from "../../store/_store";
 import { Badge, Button, Col, Row, Table } from "reactstrap";
 import {
@@ -17,12 +16,12 @@ import {
 import { EnrollmentClient } from "../../clients/EnrollmentClient";
 import { BUTTON_ICON_CLASSES, NEW_BUTTON_COLOR } from "../../utils/constants";
 import { FaPlus } from "react-icons/fa";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { SchoolClient } from "../../clients/SchoolClient";
 import { StudentClient } from "../../clients/StudentClient";
 import moment from "moment";
 import { LinkDropdownAction } from "jack-hermanson-ts-utils";
-import { Link } from "react-router-dom";
+import { StudentTabs } from "../Students/StudentTabs";
 
 export const EnrollmentsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -71,7 +70,7 @@ export const EnrollmentsIndex: FunctionComponent = () => {
 
     return (
         <div>
-            <SettingsTabs />
+            <StudentTabs />
             {renderHeader()}
             {renderTable()}
         </div>
@@ -87,7 +86,7 @@ export const EnrollmentsIndex: FunctionComponent = () => {
                             color={NEW_BUTTON_COLOR}
                             className="icon-button"
                             onClick={() => {
-                                history.push("/settings/enrollments/new");
+                                history.push("/enrollments/new");
                             }}
                         >
                             <FaPlus className={BUTTON_ICON_CLASSES} />
@@ -209,7 +208,7 @@ export const EnrollmentsIndex: FunctionComponent = () => {
                             options={[
                                 new LinkDropdownAction(
                                     "Edit",
-                                    `/settings/enrollments/edit/${enrollment.id}`
+                                    `/enrollments/edit/${enrollment.id}`
                                 ),
                             ]}
                             size="sm"

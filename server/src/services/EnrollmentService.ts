@@ -31,13 +31,12 @@ export abstract class EnrollmentService {
 
     static async getAll(): Promise<Enrollment[] | undefined> {
         const { enrollmentRepo } = this.getRepos();
+        logger.debug("Get all enrollments");
 
         try {
             const query = enrollmentRepo
                 .createQueryBuilder("enrollment")
                 .orderBy("enrollment.startDate", "DESC");
-            logger.info("Get enrollment query");
-            logger.info(query.getSql());
             return await query.getMany();
         } catch (error) {
             logger.fatal(error);
@@ -78,6 +77,7 @@ export abstract class EnrollmentService {
         enrollmentRequest: EnrollmentRequest;
         res: Response;
     }): Promise<Enrollment | undefined> {
+        logger.info("Edit enrollment with ID", id);
         const { enrollmentRepo } = this.getRepos();
         const enrollment = await enrollmentRepo.findOne(id);
 

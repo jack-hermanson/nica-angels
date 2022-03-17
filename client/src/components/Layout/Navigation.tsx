@@ -50,6 +50,7 @@ export const Navigation: FC = () => {
                             <NavbarLink
                                 to={"/students"}
                                 onClick={close}
+                                activePaths={["/students", "/enrollments"]}
                                 icon={
                                     <FaUserGraduate
                                         className={NAV_ICON_CLASSES}

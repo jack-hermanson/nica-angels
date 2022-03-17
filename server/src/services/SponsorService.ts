@@ -102,11 +102,11 @@ export abstract class SponsorService {
         res: Response
     ): Promise<Sponsor | undefined> {
         const { sponsorRepo } = this.getRepos();
-        logger.info(`Looking for sponsor with ID ${id}`);
+        logger.debug(`Looking for sponsor with ID ${id}`);
         const sponsor = await sponsorRepo.findOne(id);
         if (!sponsor) {
             res.sendStatus(HTTP.NOT_FOUND);
-            logger.error(`Sponsor with ID ${id} not found`);
+            logger.fatal(`Sponsor with ID ${id} not found`);
             return undefined;
         }
         return sponsor;

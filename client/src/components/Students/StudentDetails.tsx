@@ -24,6 +24,7 @@ import { EnrollmentClient } from "../../clients/EnrollmentClient";
 import { SchoolClient } from "../../clients/SchoolClient";
 import moment from "moment";
 import { StudentSponsorshipCard } from "./StudentSponsorshipCard";
+import { StudentTabs } from "./StudentTabs";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -74,6 +75,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
 
     return (
         <div>
+            <StudentTabs />
             {student ? (
                 <Fragment>
                     <Row>
@@ -268,7 +270,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
             <Card className="mb-3">
                 <ActionCardHeader title={spanish ? "Escuela" : "School"}>
                     <Link
-                        to={`/settings/enrollments/new/${id}`}
+                        to={`/enrollments/new/${id}`}
                         className={`btn btn-sm btn-${NEW_BUTTON_COLOR} icon-button`}
                     >
                         <FaPlus className={BUTTON_ICON_CLASSES} />
@@ -295,7 +297,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
                         <CardFooter>
                             <Link
                                 className="ps-0"
-                                to={`/settings/enrollments/edit/${enrollmentId}`}
+                                to={`/enrollments/edit/${enrollmentId}`}
                             >
                                 {spanish
                                     ? "Editar Inscrito"

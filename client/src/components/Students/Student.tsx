@@ -151,7 +151,7 @@ export const Student: FunctionComponent<Props> = ({
                     </Link>
                     <Link
                         className="ms-auto"
-                        to={`/settings/enrollments/new/${student.id}`}
+                        to={`/enrollments/new/${student.id}`}
                     >
                         {spanish ? "Inscribir" : "Enroll"}
                     </Link>

@@ -54,6 +54,11 @@ export const StudentsWithoutSponsors: FunctionComponent = () => {
                                 color="secondary"
                                 size="sm"
                                 className="icon-button"
+                                onClick={() => {
+                                    document.title = "Students Without Sponsor";
+                                    window.print();
+                                    document.title = "Nica Angels";
+                                }}
                             >
                                 <FaPrint className={BUTTON_ICON_CLASSES} />
                                 {spanish ? "Imprimir" : "Print"}

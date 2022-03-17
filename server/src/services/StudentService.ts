@@ -23,7 +23,6 @@ export class StudentService {
         maxLevel,
         orderBy = "student.firstName",
     }: GetStudentsRequest): Promise<AggregateResourceModel<Student>> {
-        console.log();
         const { studentRepo } = this.getRepos();
         const pg: boolean = process.env.databaseDialect === "postgres";
 
@@ -53,8 +52,11 @@ export class StudentService {
                     (pg
                         ? `student.middleName ILIKE '%${searchText.toLowerCase()}%'`
                         : `LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`) +
-                    " OR " +
-                    `student.id = '${searchText}'` +
+                    `${
+                        searchText.length
+                            ? `OR "student"."id" = ${searchText}`
+                            : ""
+                    }` +
                     " OR " +
                     (pg
                         ? `student.lastName ILIKE '%${searchText.toLowerCase()}%'`

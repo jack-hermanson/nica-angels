@@ -47,9 +47,19 @@ export const EnrollmentsIndex: FunctionComponent = () => {
             EnrollmentClient.getEnrollments(token.data).then(data =>
                 setEnrollments(data)
             );
+        }
+    }, [token, setEnrollments]);
+
+    useEffect(() => {
+        if (token) {
             SchoolClient.getSchools(token.data).then(data => {
                 setSchools(data);
             });
+        }
+    }, [token, setSchools]);
+
+    useEffect(() => {
+        if (token) {
             StudentClient.getStudents(
                 { skip: 0, take: 0, searchText: "", minLevel: 0, maxLevel: 12 },
                 token.data
@@ -57,7 +67,7 @@ export const EnrollmentsIndex: FunctionComponent = () => {
                 setStudents(data.items);
             });
         }
-    }, [setEnrollments, token, setSchools, setStudents]);
+    }, [setStudents, token]);
 
     return (
         <div>
@@ -95,7 +105,7 @@ export const EnrollmentsIndex: FunctionComponent = () => {
                 <Col>
                     {students && enrollments && schools ? (
                         <div className="table-responsive-lg">
-                            <Table>
+                            <Table striped>
                                 <thead>
                                     <tr>
                                         <th>

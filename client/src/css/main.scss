@@ -54,3 +54,14 @@ label.required::after {
 .card-header {
   border-bottom: 1px solid #2d3239;
 }
+
+.btn {
+  line-height: 1;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  display: flex;
+  justify-content: center;
+  svg {
+    margin-bottom: auto;
+  }
+}

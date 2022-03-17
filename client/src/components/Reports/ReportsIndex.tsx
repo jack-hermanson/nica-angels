@@ -8,9 +8,10 @@ import {
     BUTTON_ICON_CLASSES,
     SUBMIT_BUTTON_COLOR,
 } from "../../utils/constants";
-import { FaDownload } from "react-icons/all";
+import { FaDownload, FaTable } from "react-icons/all";
 import { ReportClient } from "../../clients/ReportClient";
 import fileDownload from "js-file-download";
+import { Link } from "react-router-dom";
 
 export const ReportsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -56,8 +57,16 @@ export const ReportsIndex: FunctionComponent = () => {
                             : "This report includes every student without a sponsor."}
                     </p>
                     <div className="d-grid col-12 mt-3">
+                        <Link
+                            to={`/reports/students/no-sponsor`}
+                            className={`btn btn-sm btn-success mb-2`}
+                        >
+                            <FaTable className={BUTTON_ICON_CLASSES} />
+                            {spanish ? "Ver Reporte" : "View Report"}
+                        </Link>
                         <Button
-                            color="success"
+                            color="primary"
+                            size="sm"
                             onClick={async () => {
                                 if (token) {
                                     await ReportClient.getStudentsWithoutSponsors(
@@ -67,7 +76,7 @@ export const ReportsIndex: FunctionComponent = () => {
                             }}
                         >
                             <FaDownload className={BUTTON_ICON_CLASSES} />
-                            {spanish ? "Bajar" : "Download"}
+                            {spanish ? "Bajar CSV" : "Download CSV"}
                         </Button>
                     </div>
                 </CardBody>

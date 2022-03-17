@@ -45,6 +45,7 @@ app.use("/api/files", routes.files);
 app.use("/api/sponsors", routes.sponsors);
 app.use("/api/sponsorships", routes.sponsorships);
 app.use("/api/payments", routes.payments);
+app.use("/api/reports", routes.reports);
 
 // production redirects
 if (process.env.NODE_ENV === "production") {

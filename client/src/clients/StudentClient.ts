@@ -72,4 +72,12 @@ export abstract class StudentClient {
         );
         return response.data;
     }
+
+    static async getWithoutSponsors(token: string) {
+        const response = await axios.get<StudentRecord[]>(
+            `${this.baseUrl}/no-sponsor`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

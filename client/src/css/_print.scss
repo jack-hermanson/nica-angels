@@ -1,0 +1,19 @@
+@media print {
+  body {
+    background-color: white;
+    nav, .footer, .footer-container, .btn {
+      display: none !important;
+    }
+    color: black;
+    .table {
+      color: black;
+      a {
+        color: black !important;
+        text-decoration: none !important;
+      }
+    }
+    .table-striped > tbody > tr:nth-of-type(odd) > * {
+      color: black;
+    }
+  }
+}

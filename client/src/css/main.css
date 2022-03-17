@@ -11339,6 +11339,25 @@ img.logo {
   font-size: 2em;
 }
 
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+  body nav, body .footer, body .footer-container, body .btn {
+    display: none !important;
+  }
+  body .table {
+    color: black;
+  }
+  body .table a {
+    color: black !important;
+    text-decoration: none !important;
+  }
+  body .table-striped > tbody > tr:nth-of-type(odd) > * {
+    color: black;
+  }
+}
 a {
   text-decoration: none;
   color: white;
@@ -11357,12 +11376,6 @@ a.underlined:hover {
 
 body {
   overflow-x: hidden;
-}
-
-.icon-button {
-  line-height: 1;
-  padding: 5px;
-  display: flex;
 }
 
 dl {
@@ -11389,6 +11402,23 @@ label.required::after {
 
 .card-header {
   border-bottom: 1px solid #2d3239;
+}
+
+.btn.icon-button {
+  display: flex;
+  justify-content: center;
+}
+
+.card-header .ms-auto .icon-button {
+  line-height: 1;
+  padding: 5px;
+}
+
+.actions {
+  display: flex;
+}
+.actions .btn:not(:last-of-type) {
+  margin-right: 0.5em;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -61,6 +61,25 @@ router.get("/count", auth, async (req: Request<any>, res: Response<number>) => {
 });
 
 router.get(
+    "/no-sponsor",
+    auth,
+    async (req: Request<any>, res: Response<StudentRecord[]>) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.SPONSOR,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const students = await StudentService.getStudentsWithoutSponsors();
+        res.json(students);
+    }
+);
+
+router.get(
     "/:id",
     auth,
     async (req: Request<{ id: number }>, res: Response<StudentRecord>) => {

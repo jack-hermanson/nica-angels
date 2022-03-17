@@ -5,7 +5,6 @@ import { AggregateResourceModel, HTTP } from "jack-hermanson-ts-utils";
 import { GetStudentsRequest, StudentRequest } from "@nica-angels/shared";
 import { FileService } from "./FileService";
 import { EnrollmentService } from "./EnrollmentService";
-import { logger } from "../utils/logger";
 
 export class StudentService {
     static getRepos(): {
@@ -54,6 +53,8 @@ export class StudentService {
                     (pg
                         ? `student.middleName ILIKE '%${searchText.toLowerCase()}%'`
                         : `LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`) +
+                    " OR " +
+                    `student.id = '${searchText}'` +
                     " OR " +
                     (pg
                         ? `student.lastName ILIKE '%${searchText.toLowerCase()}%'`
@@ -232,5 +233,40 @@ export class StudentService {
     static async getCount(): Promise<number> {
         const { studentRepo } = this.getRepos();
         return await studentRepo.count();
+    }
+
+    static async getStudentsWithoutSponsors(): Promise<Student[]> {
+        const connection = getConnection();
+        const rawRecords = await connection.query(`
+            SELECT
+                "student"."id",
+                "student"."firstName",
+                "student"."middleName",
+                "student"."lastName",
+                "student"."dateOfBirth",
+                "student"."sex",
+                "student"."level",
+                "student"."imageId",
+                "student"."backpack",
+                "student"."shoes",
+                "student"."supplies",
+                "student"."uniform",
+                "student"."created",
+                "student"."updated",
+                "student"."deleted",
+                "sponsorship"."studentId" AS "sponsorship_studentId"
+            FROM
+                "student"
+            LEFT JOIN
+                "sponsorship"
+            ON
+                "sponsorship"."studentId" = "student"."id"
+            WHERE 
+                "sponsorship"."studentId" IS NULL;
+        `);
+        return rawRecords.map(r => {
+            delete r.sponsorship_studentId;
+            return r;
+        });
     }
 }

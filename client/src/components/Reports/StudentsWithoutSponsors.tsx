@@ -11,6 +11,7 @@ import {
 import { FaDownload, FaPrint } from "react-icons/all";
 import { StudentClient } from "../../clients/StudentClient";
 import { Link } from "react-router-dom";
+import { ReportClient } from "../../clients/ReportClient";
 
 export const StudentsWithoutSponsors: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -61,6 +62,7 @@ export const StudentsWithoutSponsors: FunctionComponent = () => {
                                 color={SUBMIT_BUTTON_COLOR}
                                 size="sm"
                                 className="icon-button"
+                                onClick={downloadReport}
                             >
                                 <FaDownload className={BUTTON_ICON_CLASSES} />
                                 {spanish ? "Bajar" : "Download"}
@@ -113,5 +115,13 @@ export const StudentsWithoutSponsors: FunctionComponent = () => {
                 </Col>
             </Row>
         );
+    }
+
+    async function downloadReport() {
+        if (token) {
+            if (token) {
+                await ReportClient.getStudentsWithoutSponsors(token.data);
+            }
+        }
     }
 };

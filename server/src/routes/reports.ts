@@ -3,6 +3,7 @@ import { Request } from "../utils/Request";
 import { auth } from "../middleware/auth";
 import { authorized } from "../utils/functions";
 import { Clearance } from "@nica-angels/shared";
+import { ReportService } from "../services/ReportService";
 
 export const router = Router();
 
@@ -19,5 +20,10 @@ router.get(
         ) {
             return undefined;
         }
+
+        res.attachment("report.csv");
+        res.type("txt/csv");
+        const reportText = await ReportService.getStudentsWithoutSponsors();
+        res.send(reportText);
     }
 );

@@ -55,6 +55,8 @@ export class StudentService {
                         ? `student.middleName ILIKE '%${searchText.toLowerCase()}%'`
                         : `LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`) +
                     " OR " +
+                    `student.id = '${searchText}'` +
+                    " OR " +
                     (pg
                         ? `student.lastName ILIKE '%${searchText.toLowerCase()}%'`
                         : `LOWER(student.lastName) LIKE '%${searchText.toLowerCase()}%'`) +

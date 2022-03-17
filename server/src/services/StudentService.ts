@@ -5,6 +5,8 @@ import { AggregateResourceModel, HTTP } from "jack-hermanson-ts-utils";
 import { GetStudentsRequest, StudentRequest } from "@nica-angels/shared";
 import { FileService } from "./FileService";
 import { EnrollmentService } from "./EnrollmentService";
+import { logger } from "../utils/logger";
+import moment from "moment";
 
 export class StudentService {
     static getRepos(): {
@@ -254,7 +256,8 @@ export class StudentService {
                 "student"."created",
                 "student"."updated",
                 "student"."deleted",
-                "sponsorship"."studentId" AS "sponsorship_studentId"
+                "sponsorship"."studentId" AS "sponsorship_studentId",
+                "sponsorship"."endDate" AS "sponsorship_endDate"
             FROM
                 "student"
             LEFT JOIN
@@ -262,11 +265,20 @@ export class StudentService {
             ON
                 "sponsorship"."studentId" = "student"."id"
             WHERE 
-                "sponsorship"."studentId" IS NULL;
+                "sponsorship"."studentId" IS NULL
+                OR "sponsorship"."endDate" IS NOT NULL;
         `);
-        return rawRecords.map(r => {
-            delete r.sponsorship_studentId;
-            return r;
-        });
+        return rawRecords
+            .filter(r => {
+                if (r.endDate && moment(r.endDate).isBefore(moment.now())) {
+                    return true;
+                }
+                return !r.endDate;
+            })
+            .map(r => {
+                delete r.sponsorship_studentId;
+                delete r.sponsorship_endDate;
+                return r;
+            });
     }
 }

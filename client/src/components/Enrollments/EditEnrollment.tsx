@@ -7,7 +7,7 @@ import { EnrollmentClient } from "../../clients/EnrollmentClient";
 import { Col, Row } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { CreateEditEnrollmentForm } from "./CreateEditEnrollmentForm";
-import { SettingsTabs } from "../Settings/SettingsTabs";
+import { StudentTabs } from "../Students/StudentTabs";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -45,7 +45,7 @@ export const EditEnrollment: FunctionComponent<Props> = ({ match }: Props) => {
 
     return (
         <div>
-            <SettingsTabs />
+            <StudentTabs />
             {renderHeader()}
             <Row>
                 <Col>
@@ -62,7 +62,7 @@ export const EditEnrollment: FunctionComponent<Props> = ({ match }: Props) => {
                                         text: "Enrollment edited successfully",
                                         color: "success",
                                     });
-                                    history.push("/settings/enrollments");
+                                    history.push("/enrollments");
                                 } catch (error: any) {
                                     addAlert({
                                         text: error.message,

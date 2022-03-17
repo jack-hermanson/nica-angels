@@ -1,5 +1,4 @@
 import { FunctionComponent } from "react";
-import { SettingsTabs } from "../Settings/SettingsTabs";
 import { useStoreActions, useStoreState } from "../../store/_store";
 import { Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib";
@@ -7,6 +6,7 @@ import { CreateEditEnrollmentForm } from "./CreateEditEnrollmentForm";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import { EnrollmentClient } from "../../clients/EnrollmentClient";
 import { scrollToTop } from "jack-hermanson-ts-utils";
+import { StudentTabs } from "../Students/StudentTabs";
 
 interface Props extends RouteComponentProps<{ studentId?: string }> {}
 
@@ -21,7 +21,7 @@ export const CreateEnrollment: FunctionComponent<Props> = ({
 
     return (
         <div>
-            <SettingsTabs />
+            <StudentTabs />
             {renderPageHeader()}
             {renderForm()}
         </div>
@@ -58,7 +58,7 @@ export const CreateEnrollment: FunctionComponent<Props> = ({
                                         text: "Enrollment created successfully.",
                                         color: "success",
                                     });
-                                    history.push("/settings/enrollments");
+                                    history.push("/enrollments");
                                 } catch (error: any) {
                                     console.error(error);
                                     addAlert({

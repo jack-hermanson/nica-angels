@@ -37,6 +37,7 @@ import {
 import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 import { Field, Form, Formik } from "formik";
 import { SchoolClient } from "../../clients/SchoolClient";
+import { StudentTabs } from "./StudentTabs";
 
 export const StudentsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.SPONSOR);
@@ -103,6 +104,7 @@ export const StudentsIndex: FunctionComponent = () => {
 
     return (
         <div>
+            <StudentTabs />
             {renderPageHeader()}
             <Row>
                 <Col xs={12} lg={3}>

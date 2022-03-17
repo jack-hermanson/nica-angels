@@ -8,6 +8,7 @@ import { CreateEditStudentForm } from "./CreateEditStudentForm";
 import { useHistory } from "react-router-dom";
 import { StudentClient } from "../../clients/StudentClient";
 import { scrollToTop } from "jack-hermanson-ts-utils";
+import { StudentTabs } from "./StudentTabs";
 
 export const CreateStudent: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -21,6 +22,7 @@ export const CreateStudent: FunctionComponent = () => {
 
     return (
         <div>
+            <StudentTabs />
             {renderPageHeader()}
             {renderForm()}
         </div>

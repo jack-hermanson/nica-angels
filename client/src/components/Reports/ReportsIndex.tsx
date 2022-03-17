@@ -3,14 +3,10 @@ import { ActionCardHeader, PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "@nica-angels/shared";
-import { Button, Card, CardBody, CardHeader, Col, Row } from "reactstrap";
-import {
-    BUTTON_ICON_CLASSES,
-    SUBMIT_BUTTON_COLOR,
-} from "../../utils/constants";
+import { Button, Card, CardBody, Col, Row } from "reactstrap";
+import { BUTTON_ICON_CLASSES } from "../../utils/constants";
 import { FaDownload, FaTable } from "react-icons/all";
 import { ReportClient } from "../../clients/ReportClient";
-import fileDownload from "js-file-download";
 import { Link } from "react-router-dom";
 
 export const ReportsIndex: FunctionComponent = () => {

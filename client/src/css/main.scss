@@ -23,12 +23,6 @@ body {
   overflow-x: hidden;
 }
 
-.icon-button {
-  line-height: 1;
-  padding: 5px;
-  display: flex;
-}
-
 dl {
   margin-bottom: 0;
 }
@@ -55,13 +49,21 @@ label.required::after {
   border-bottom: 1px solid #2d3239;
 }
 
-.btn {
-  line-height: 1;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+.btn.icon-button {
   display: flex;
   justify-content: center;
-  svg {
-    margin-bottom: auto;
+}
+
+.card-header {
+  .ms-auto .icon-button {
+    line-height: 1;
+    padding: 5px;
+  }
+}
+
+.actions {
+  display: flex;
+  .btn:not(:last-of-type) {
+    margin-right: 0.5em;
   }
 }

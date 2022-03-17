@@ -59,7 +59,7 @@ export const ReportsIndex: FunctionComponent = () => {
                     <div className="d-grid col-12 mt-3">
                         <Link
                             to={`/reports/students/no-sponsor`}
-                            className={`btn btn-sm btn-success mb-2`}
+                            className={`btn btn-sm btn-success mb-2 icon-button`}
                         >
                             <FaTable className={BUTTON_ICON_CLASSES} />
                             {spanish ? "Ver Reporte" : "View Report"}
@@ -67,6 +67,7 @@ export const ReportsIndex: FunctionComponent = () => {
                         <Button
                             color="primary"
                             size="sm"
+                            className="icon-button"
                             onClick={async () => {
                                 if (token) {
                                     await ReportClient.getStudentsWithoutSponsors(

@@ -7,6 +7,7 @@ import { router as files } from "./files";
 import { router as sponsors } from "./sponsors";
 import { router as sponsorships } from "./sponsorships";
 import { router as payments } from "./payments";
+import { router as reports } from "./reports";
 
 export const routes = {
     accounts,
@@ -18,4 +19,5 @@ export const routes = {
     sponsors,
     sponsorships,
     payments,
+    reports,
 };

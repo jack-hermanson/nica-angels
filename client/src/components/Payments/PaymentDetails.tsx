@@ -27,6 +27,9 @@ import { PaymentClient } from "../../clients/PaymentClient";
 import { SponsorshipClient } from "../../clients/SponsorshipClient";
 import { PaymentCardBody } from "./PaymentCardBody";
 import moment from "moment";
+import { Link } from "react-router-dom";
+import { FaPencilAlt } from "react-icons/fa";
+import { BUTTON_ICON_CLASSES } from "../../utils/constants";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -78,7 +81,15 @@ export const PaymentDetails: FunctionComponent<Props> = ({ match }: Props) => {
                 <Col>
                     <PageHeader
                         title={spanish ? "Pago Detalles" : "Payment Details"}
-                    />
+                    >
+                        <Link
+                            to={`/payments/edit/${match.params.id}`}
+                            className="icon-button btn btn-sm btn-secondary"
+                        >
+                            <FaPencilAlt className={BUTTON_ICON_CLASSES} />
+                            {spanish ? "Editar" : "Edit"}
+                        </Link>
+                    </PageHeader>
                 </Col>
             </Row>
         );

@@ -99,5 +99,5 @@ app.set("socketio", io);
 
 // listen
 server.listen(app.get("port"), () => {
-    console.log(`Server is listening on port ${app.get("port")}.`);
+    logger.info(`Server is listening on port ${app.get("port")}.`);
 });

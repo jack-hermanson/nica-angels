@@ -34,6 +34,7 @@ export abstract class SponsorshipService {
         const sponsorship = await sponsorshipRepo.findOne(id);
         if (!sponsorship) {
             res.sendStatus(HTTP.NOT_FOUND);
+            logger.fatal(`No sponsorship with ${id} found.`);
             return undefined;
         }
 

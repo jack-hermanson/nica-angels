@@ -76,7 +76,7 @@ router.post(
     "/",
     auth,
     async (req: Request<SponsorRequest>, res: Response<SponsorRecord>) => {
-        logger.info("POST /sponsors");
+        logger.info("POST /sponsors by account ID #${req.account.id}");
         if (
             !authorized({
                 requestingAccount: req.account,
@@ -110,7 +110,7 @@ router.put(
     ) => {
         try {
             const id = parseNumber(req.params.id);
-            logger.info(`PUT /sponsors/${id}`);
+            logger.info(`PUT /sponsors/${id} by account ID #${req.account.id}`);
             if (
                 !authorized({
                     requestingAccount: req.account,
@@ -144,7 +144,7 @@ router.delete(
     auth,
     async (req: Request<{ id: string }>, res: Response<boolean>) => {
         const id = parseNumber(req.params.id);
-        logger.info(`DELETE /sponsors/${id}`);
+        logger.info(`DELETE /sponsors/${id} by account ID #${req.account.id}`);
         if (
             !authorized({
                 requestingAccount: req.account,

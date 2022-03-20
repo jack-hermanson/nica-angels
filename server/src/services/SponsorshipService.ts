@@ -53,8 +53,7 @@ export abstract class SponsorshipService {
         }
 
         const { sponsorshipRepo } = this.getRepos();
-        logger.info("Saving new sponsorship:");
-        logger.info(sponsorship);
+        logger.info("Saving new sponsorship:", sponsorship);
         return await sponsorshipRepo.save(sponsorship);
     }
 
@@ -76,8 +75,7 @@ export abstract class SponsorshipService {
             return undefined;
         }
 
-        logger.info("Successfully edited sponsorship:");
-        logger.info(sponsorship);
+        logger.info("Successfully edited sponsorship:", sponsorship);
 
         const { sponsorshipRepo } = this.getRepos();
         return await sponsorshipRepo.save(sponsorship);
@@ -156,12 +154,12 @@ export abstract class SponsorshipService {
         const allMatches = await query.getMany();
         switch (allMatches.length) {
             case 0:
-                logger.info(
+                logger.debug(
                     `No current sponsorships for student with ID ${studentId}.`
                 );
                 return undefined;
             case 1:
-                logger.info(
+                logger.debug(
                     `1 current sponsorship for student with ID ${studentId}.`
                 );
                 return allMatches[0];
@@ -183,7 +181,7 @@ export abstract class SponsorshipService {
             .andWhere(`sponsorship.sponsorId = ${sponsorId}`)
             .orderBy("sponsorship.startDate", "DESC");
         const allMatches = await query.getMany();
-        logger.info(
+        logger.debug(
             `${allMatches.length} sponsorships for sponsor with ID ${sponsorId}.`
         );
         return allMatches;

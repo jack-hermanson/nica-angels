@@ -165,6 +165,7 @@ router.post(
         req: Request<SponsorshipRequest>,
         res: Response<SponsorshipRecord>
     ) => {
+        logger.info(`POST /sponsorships by account ID #${req.account.id}`);
         if (
             !authorized({
                 requestingAccount: req.account,
@@ -236,7 +237,9 @@ router.delete(
     async (req: Request<{ id: string }>, res: Response<boolean>) => {
         try {
             const id = parseNumber(req.params.id);
-            logger.info(`DELETE /sponsorships/${id}`);
+            logger.info(
+                `DELETE /sponsorships/${id} by account ID #${req.account.id}`
+            );
             if (
                 !authorized({
                     requestingAccount: req.account,

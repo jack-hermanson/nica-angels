@@ -16,6 +16,7 @@ import {
 } from "jack-hermanson-ts-utils";
 import { studentSchema } from "../models/Student";
 import { EnrollmentService } from "../services/EnrollmentService";
+import { logger } from "../utils/logger";
 
 export const router = Router();
 
@@ -126,6 +127,9 @@ router.put(
         req: Request<StudentRequest & { id: number }>,
         res: Response<StudentRecord>
     ) => {
+        logger.info(
+            `PUT /students/${req.params.id} by account ID #${req.account.id}`
+        );
         const studentRequest = await getStudentRequest(req, res);
         if (!studentRequest) {
             return;

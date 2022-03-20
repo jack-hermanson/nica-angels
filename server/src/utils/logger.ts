@@ -32,5 +32,5 @@ logger.attachTransport(
         error: logToTransport,
         fatal: logToTransport,
     },
-    "debug"
+    process.env.NODE_ENV === "production" ? "info" : "debug"
 );

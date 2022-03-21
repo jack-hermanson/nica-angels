@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 import fileDownload from "js-file-download";
+import { StudentSchoolSponsor } from "@nica-angels/shared";
 
 export abstract class ReportClient {
     private static baseUrl = "/api/reports";
@@ -16,5 +17,13 @@ export abstract class ReportClient {
             "students-without-sponsors.csv",
             "text/csv"
         );
+    }
+
+    static async getStudentSchoolSponsorReport(token: string) {
+        const response = await axios.get<StudentSchoolSponsor[]>(
+            `${this.baseUrl}/students/school-and-sponsor`,
+            getAuthHeader(token)
+        );
+        return response.data;
     }
 }

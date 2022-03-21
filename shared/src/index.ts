@@ -10,4 +10,4 @@ export * from "./resource_models/file";
 export * from "./resource_models/sponsor";
 export * from "./resource_models/sponsorship";
 export * from "./resource_models/payment";
-export * from "./resource_models/reports";
+export * from "./resource_models/report";

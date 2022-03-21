@@ -5,6 +5,7 @@ import { useStoreState } from "../../store/_store";
 import { ReportClient } from "../../clients/ReportClient";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { Col, Row, Table } from "reactstrap";
+import { ReportActions } from "./ReportActions";
 
 export const StudentsWithSchoolAndSponsor: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -34,16 +35,18 @@ export const StudentsWithSchoolAndSponsor: FunctionComponent = () => {
     );
 
     function renderPageHeader() {
+        const title = spanish
+            ? "Estudiantes con Escuela y Padrino"
+            : "Students with School and Sponsor";
         return (
             <Row>
                 <Col>
-                    <PageHeader
-                        title={
-                            spanish
-                                ? "Estudiantes con Escuela y Padrino"
-                                : "Students with School and Sponsor"
-                        }
-                    />
+                    <PageHeader title={title}>
+                        <ReportActions
+                            title={title}
+                            downloadReport={downloadReport}
+                        />
+                    </PageHeader>
                 </Col>
             </Row>
         );
@@ -84,5 +87,10 @@ export const StudentsWithSchoolAndSponsor: FunctionComponent = () => {
                 </Col>
             </Row>
         );
+    }
+
+    async function downloadReport() {
+        // todo
+        console.log("download report");
     }
 };

@@ -1,17 +1,13 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Button, Col, Row, Table } from "reactstrap";
+import { Col, Row, Table } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance, getAge, StudentRecord } from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
-import {
-    BUTTON_ICON_CLASSES,
-    SUBMIT_BUTTON_COLOR,
-} from "../../utils/constants";
-import { FaDownload, FaPrint } from "react-icons/all";
 import { StudentClient } from "../../clients/StudentClient";
 import { Link } from "react-router-dom";
 import { ReportClient } from "../../clients/ReportClient";
+import { ReportActions } from "./ReportActions";
 
 export const StudentsWithoutSponsors: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -39,40 +35,17 @@ export const StudentsWithoutSponsors: FunctionComponent = () => {
     );
 
     function renderPageHeader() {
+        const title = spanish
+            ? "Estudiantes sin Padrino"
+            : "Students without a Sponsor";
         return (
             <Row>
                 <Col>
-                    <PageHeader
-                        title={
-                            spanish
-                                ? "Estudiantes sin Padrino"
-                                : "Students without a Sponsor"
-                        }
-                    >
-                        <div className="actions">
-                            <Button
-                                color="secondary"
-                                size="sm"
-                                className="icon-button"
-                                onClick={() => {
-                                    document.title = "Students Without Sponsor";
-                                    window.print();
-                                    document.title = "Nica Angels";
-                                }}
-                            >
-                                <FaPrint className={BUTTON_ICON_CLASSES} />
-                                {spanish ? "Imprimir" : "Print"}
-                            </Button>
-                            <Button
-                                color={SUBMIT_BUTTON_COLOR}
-                                size="sm"
-                                className="icon-button"
-                                onClick={downloadReport}
-                            >
-                                <FaDownload className={BUTTON_ICON_CLASSES} />
-                                {spanish ? "Bajar" : "Download"}
-                            </Button>
-                        </div>
+                    <PageHeader title={title}>
+                        <ReportActions
+                            title={title}
+                            downloadReport={downloadReport}
+                        />
                     </PageHeader>
                 </Col>
             </Row>

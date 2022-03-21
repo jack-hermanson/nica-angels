@@ -1,13 +1,10 @@
 import { FunctionComponent } from "react";
-import { ActionCardHeader, PageHeader } from "jack-hermanson-component-lib";
+import { PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "@nica-angels/shared";
-import { Button, Card, CardBody, Col, Row } from "reactstrap";
-import { BUTTON_ICON_CLASSES } from "../../utils/constants";
-import { FaDownload, FaTable } from "react-icons/all";
+import { Col, Row } from "reactstrap";
 import { ReportClient } from "../../clients/ReportClient";
-import { Link } from "react-router-dom";
 import { ReportTile } from "./ReportTile";
 
 export const ReportsIndex: FunctionComponent = () => {

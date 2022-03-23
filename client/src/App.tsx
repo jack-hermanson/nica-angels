@@ -49,6 +49,7 @@ import { CreatePayment } from "./components/Payments/CreatePayment";
 import { EditPayment } from "./components/Payments/EditPayment";
 import { PaymentDetails } from "./components/Payments/PaymentDetails";
 import { StudentsWithoutSponsors } from "./components/Reports/StudentsWithoutSponsors";
+import { StudentsWithSchoolAndSponsor } from "./components/Reports/StudentsWithSchoolAndSponsor";
 
 export const App: React.FC = () => {
     const setToken = useStoreActions(actions => actions.setToken);
@@ -222,6 +223,11 @@ export const App: React.FC = () => {
                             exact
                             path="/reports/students/no-sponsor"
                             component={StudentsWithoutSponsors}
+                        />
+                        <Route
+                            exact
+                            path="/reports/students/school-and-sponsor"
+                            component={StudentsWithSchoolAndSponsor}
                         />
 
                         <Route

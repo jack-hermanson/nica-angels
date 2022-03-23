@@ -1,13 +1,11 @@
 import { FunctionComponent } from "react";
-import { ActionCardHeader, PageHeader } from "jack-hermanson-component-lib";
+import { PageHeader } from "jack-hermanson-component-lib";
 import { useStoreState } from "../../store/_store";
 import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance } from "@nica-angels/shared";
-import { Button, Card, CardBody, Col, Row } from "reactstrap";
-import { BUTTON_ICON_CLASSES } from "../../utils/constants";
-import { FaDownload, FaTable } from "react-icons/all";
+import { Col, Row } from "reactstrap";
 import { ReportClient } from "../../clients/ReportClient";
-import { Link } from "react-router-dom";
+import { ReportTile } from "./ReportTile";
 
 export const ReportsIndex: FunctionComponent = () => {
     const spanish = useStoreState(state => state.spanish);
@@ -21,6 +19,9 @@ export const ReportsIndex: FunctionComponent = () => {
             <Row>
                 <Col xs={12} lg={4} className="mb-3 mb-lg-0">
                     {renderNoSponsorReport()}
+                </Col>
+                <Col xs={12} lg={4} className="mb-3 mb-lg-0">
+                    {renderStudentsSchoolSponsorReport()}
                 </Col>
             </Row>
         </div>
@@ -38,46 +39,51 @@ export const ReportsIndex: FunctionComponent = () => {
 
     function renderNoSponsorReport() {
         return (
-            <Card>
-                <ActionCardHeader
-                    title={
-                        spanish
-                            ? "Estudiantes sin Padrino"
-                            : "Students without a Sponsor"
+            <ReportTile
+                title={
+                    spanish
+                        ? "Estudiantes sin Padrino"
+                        : "Students without a Sponsor"
+                }
+                description={
+                    spanish
+                        ? "Este reporte incluye cada estudiante sin padrino."
+                        : "This report includes every student without a sponsor."
+                }
+                linkPath={"/reports/students/no-sponsor"}
+                downloadCsv={async () => {
+                    if (token) {
+                        await ReportClient.getStudentsWithoutSponsors(
+                            token.data
+                        );
                     }
-                />
-                <CardBody>
-                    <p className="mb-0">
-                        {spanish
-                            ? "Este reporte incluye cada estudiante sin padrino."
-                            : "This report includes every student without a sponsor."}
-                    </p>
-                    <div className="d-grid col-12 mt-3">
-                        <Link
-                            to={`/reports/students/no-sponsor`}
-                            className={`btn btn-sm btn-success mb-2 icon-button`}
-                        >
-                            <FaTable className={BUTTON_ICON_CLASSES} />
-                            {spanish ? "Ver Reporte" : "View Report"}
-                        </Link>
-                        <Button
-                            color="primary"
-                            size="sm"
-                            className="icon-button"
-                            onClick={async () => {
-                                if (token) {
-                                    await ReportClient.getStudentsWithoutSponsors(
-                                        token.data
-                                    );
-                                }
-                            }}
-                        >
-                            <FaDownload className={BUTTON_ICON_CLASSES} />
-                            {spanish ? "Bajar CSV" : "Download CSV"}
-                        </Button>
-                    </div>
-                </CardBody>
-            </Card>
+                }}
+            />
+        );
+    }
+
+    function renderStudentsSchoolSponsorReport() {
+        return (
+            <ReportTile
+                title={
+                    spanish
+                        ? "Estudiantes con Escuela y Padrino"
+                        : "Students with School and Sponsor"
+                }
+                description={
+                    spanish
+                        ? "Este reporte incluye cada estudiante y su escuela y padrino."
+                        : "This report includes each student and his/her school and sponsor."
+                }
+                linkPath={"/reports/students/school-and-sponsor"}
+                downloadCsv={async () => {
+                    if (token) {
+                        await ReportClient.getStudentSchoolSponsorCsv(
+                            token.data
+                        );
+                    }
+                }}
+            />
         );
     }
 };

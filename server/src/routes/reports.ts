@@ -27,3 +27,43 @@ router.get(
         res.send(reportText);
     }
 );
+
+router.get(
+    "/students/school-and-sponsor",
+    auth,
+    async (req: Request<any>, res: Response) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return undefined;
+        }
+
+        const report = await ReportService.getStudentSchoolSponsorReport();
+        res.json(report);
+    }
+);
+
+router.get(
+    "/students/school-and-sponsor-csv",
+    auth,
+    async (req: Request<any>, res: Response) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return undefined;
+        }
+
+        res.attachment("report.csv");
+        res.type("txt/csv");
+        const reportText = await ReportService.getStudentSchoolSponsorCsv();
+        res.send(reportText);
+    }
+);

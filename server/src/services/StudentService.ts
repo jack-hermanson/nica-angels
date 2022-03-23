@@ -283,4 +283,19 @@ export class StudentService {
                 return r;
             });
     }
+
+    static async graduate(): Promise<boolean> {
+        logger.info("Graduating students");
+        const { studentRepo } = this.getRepos();
+
+        const students = await studentRepo.find();
+        for (let student of students) {
+            if (student.level < 9) {
+                student.level++;
+                await studentRepo.save(student);
+            }
+        }
+
+        return true;
+    }
 }

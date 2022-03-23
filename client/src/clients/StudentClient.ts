@@ -80,4 +80,13 @@ export abstract class StudentClient {
         );
         return response.data;
     }
+
+    static async graduate(token: string) {
+        const response = await axios.post<boolean>(
+            `${this.baseUrl}/graduate`,
+            undefined,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

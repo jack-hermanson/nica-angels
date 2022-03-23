@@ -148,6 +148,18 @@ router.put(
     }
 );
 
+router.post(
+    "/graduate",
+    auth,
+    async (req: Request<any>, res: Response<boolean>) => {
+        logger.info(
+            `${req.account.firstName} ${req.account.lastName} (#${req.account.id}) is graduating students.`
+        );
+        const graduated = await StudentService.graduate();
+        res.json(graduated);
+    }
+);
+
 async function getStudentRequest(
     req: Request<StudentRequest & any>,
     res: Response

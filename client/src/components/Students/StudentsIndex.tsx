@@ -16,6 +16,7 @@ import {
 } from "reactstrap";
 import {
     ActionsDropdown,
+    ConfirmationModal,
     LoadingSpinner,
     MobileToggleCard,
     PageHeader,
@@ -27,12 +28,13 @@ import {
     SchoolRecord,
     StudentRecord,
 } from "@nica-angels/shared";
-import { useStoreState } from "../../store/_store";
+import { useStoreActions, useStoreState } from "../../store/_store";
 import { StudentClient } from "../../clients/StudentClient";
 import { Student } from "./Student";
 import {
     ClickDropdownAction,
     LinkDropdownAction,
+    successAlert,
 } from "jack-hermanson-ts-utils";
 import { RESET_BUTTON_COLOR, SUBMIT_BUTTON_COLOR } from "../../utils/constants";
 import { Field, Form, Formik } from "formik";
@@ -45,6 +47,7 @@ export const StudentsIndex: FunctionComponent = () => {
     const token = useStoreState(state => state.token);
     const currentUser = useStoreState(state => state.currentUser);
     const spanish = useStoreState(state => state.spanish);
+    const addAlert = useStoreActions(actions => actions.addAlert);
 
     const [students, setStudents] = useState<StudentRecord[] | undefined>(
         undefined
@@ -52,6 +55,7 @@ export const StudentsIndex: FunctionComponent = () => {
     const [schools, setSchools] = useState<SchoolRecord[] | undefined>(
         undefined
     );
+    const [showGradModal, setShowGradModal] = useState<boolean>(false);
 
     const [searchText, setSearchText] = useState("");
     const [minLevel, setMinLevel] = useState("0");
@@ -115,37 +119,37 @@ export const StudentsIndex: FunctionComponent = () => {
                     {renderLoadMore()}
                 </Col>
             </Row>
+            {renderGraduationModal()}
         </div>
     );
 
     function renderPageHeader() {
+        const authorized =
+            currentUser && currentUser.clearance >= Clearance.ADMIN;
         return (
             <Row>
                 <Col>
                     <PageHeader title={spanish ? "Estudiantes" : "Students"}>
-                        {currentUser &&
-                            currentUser.clearance >= Clearance.ADMIN && (
-                                <ActionsDropdown
-                                    menuName={spanish ? "Acciones" : "Actions"}
-                                    size="sm"
-                                    options={[
-                                        new LinkDropdownAction(
-                                            spanish
-                                                ? "Nuevo Estudiante"
-                                                : "New Student",
-                                            "/students/new"
-                                        ),
-                                        new ClickDropdownAction(
-                                            spanish ? "Graduarse" : "Graduate",
-                                            () => {
-                                                console.log(
-                                                    "move students up one grade"
-                                                );
-                                            }
-                                        ),
-                                    ]}
-                                />
-                            )}
+                        {authorized && (
+                            <ActionsDropdown
+                                menuName={spanish ? "Acciones" : "Actions"}
+                                size="sm"
+                                options={[
+                                    new LinkDropdownAction(
+                                        spanish
+                                            ? "Nuevo Estudiante"
+                                            : "New Student",
+                                        "/students/new"
+                                    ),
+                                    new ClickDropdownAction(
+                                        spanish ? "Graduarse" : "Graduate",
+                                        () => {
+                                            setShowGradModal(true);
+                                        }
+                                    ),
+                                ]}
+                            />
+                        )}
                     </PageHeader>
                 </Col>
             </Row>
@@ -329,6 +333,36 @@ export const StudentsIndex: FunctionComponent = () => {
                     </div>
                 )}
             </div>
+        );
+    }
+
+    function renderGraduationModal() {
+        return (
+            <ConfirmationModal
+                isOpen={showGradModal}
+                setIsOpen={setShowGradModal}
+                title={spanish ? "Confirmar Graduación" : "Confirm Graduation"}
+                onConfirm={async () => {
+                    if (token) {
+                        await StudentClient.graduate(token.data);
+                        addAlert(successAlert("students", "graduated"));
+                        resetData();
+                        getStudents({
+                            searchText: "",
+                            skip: 0,
+                            take: 10,
+                            minLevel: 0,
+                            maxLevel: 12,
+                        });
+                        setShowGradModal(false);
+                    }
+                }}
+                buttonText={spanish ? "Confirmar" : "Confirm"}
+            >
+                {spanish
+                    ? "El nivel de cada estudiante será aumentado en uno."
+                    : "Every student's grade level will increase by one."}
+            </ConfirmationModal>
         );
     }
 

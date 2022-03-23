@@ -26,4 +26,16 @@ export abstract class ReportClient {
         );
         return response.data;
     }
+
+    static async getStudentSchoolSponsorCsv(token: string) {
+        const response = await axios.get(
+            `${this.baseUrl}/students/school-and-sponsor-csv`,
+            getAuthHeader(token)
+        );
+        return fileDownload(
+            response.data,
+            "student-school-sponsor.csv",
+            "text/csv"
+        );
+    }
 }

@@ -128,7 +128,8 @@ export const StudentsWithSchoolAndSponsor: FunctionComponent = () => {
     }
 
     async function downloadReport() {
-        // todo
-        console.log("download report");
+        if (token) {
+            await ReportClient.getStudentSchoolSponsorCsv(token.data);
+        }
     }
 };

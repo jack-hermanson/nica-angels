@@ -89,6 +89,7 @@ export abstract class ReportService {
             row += `${record.student.firstName} ${
                 record.student.middleName || ""
             } ${record.student.lastName || ""}, `;
+            row += `${record.schoolName}, `;
             row += `${record.sponsorName || ""}, `;
             row += `${getAge(record.student) || ""}, `;
             row += `${record.student.level}, `;

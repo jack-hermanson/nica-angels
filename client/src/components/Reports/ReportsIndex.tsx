@@ -78,7 +78,9 @@ export const ReportsIndex: FunctionComponent = () => {
                 linkPath={"/reports/students/school-and-sponsor"}
                 downloadCsv={async () => {
                     if (token) {
-                        console.log("TODO");
+                        await ReportClient.getStudentSchoolSponsorCsv(
+                            token.data
+                        );
                     }
                 }}
             />

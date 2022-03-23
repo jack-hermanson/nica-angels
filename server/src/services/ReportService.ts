@@ -1,14 +1,12 @@
 import { StudentService } from "./StudentService";
-import { getAge } from "@nica-angels/shared";
-import { StudentSchoolSponsor } from "@nica-angels/shared";
+import { getAge, StudentSchoolSponsor } from "@nica-angels/shared";
 import { getConnection } from "typeorm";
-import moment from "moment";
 import { SponsorshipService } from "./SponsorshipService";
 import { Student } from "../models/Student";
-import { SponsorService } from "./SponsorService";
 import { EnrollmentService } from "./EnrollmentService";
 import { Sponsor } from "../models/Sponsor";
 import { School } from "../models/School";
+import { Sex } from "jack-hermanson-ts-utils";
 
 export abstract class ReportService {
     /**
@@ -77,5 +75,32 @@ export abstract class ReportService {
         }
 
         return results;
+    }
+
+    static async getStudentSchoolSponsorCsv(): Promise<string> {
+        const array: StudentSchoolSponsor[] =
+            await this.getStudentSchoolSponsorReport();
+        let output =
+            "ID, Student, School, Sponsor, Age, Level, Sex, Uniform, Backpack, Shoes, Supplies\n";
+
+        for (let record of array) {
+            let row = "";
+            row += `${record.student.id}, `;
+            row += `${record.student.firstName} ${
+                record.student.middleName || ""
+            } ${record.student.lastName || ""}, `;
+            row += `${record.sponsorName || ""}, `;
+            row += `${getAge(record.student) || ""}, `;
+            row += `${record.student.level}, `;
+            row += `${record.student.sex === Sex.MALE ? "Male" : "Female"}, `;
+            row += `${record.student.uniform.toString()}, `;
+            row += `${record.student.backpack.toString()}, `;
+            row += `${record.student.shoes.toString()}, `;
+            row += `${record.student.supplies.toString()}\n`;
+
+            output += row;
+        }
+
+        return output;
     }
 }

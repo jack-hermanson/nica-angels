@@ -1,11 +1,17 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { useMinClearance } from "../../utils/useMinClearance";
-import { Clearance, StudentSchoolSponsor } from "@nica-angels/shared";
+import {
+    Clearance,
+    getAge,
+    sexToString,
+    StudentSchoolSponsor,
+} from "@nica-angels/shared";
 import { useStoreState } from "../../store/_store";
 import { ReportClient } from "../../clients/ReportClient";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { Col, Row, Table } from "reactstrap";
 import { ReportActions } from "./ReportActions";
+import { TrueFalseIcon } from "../Utils/TrueFalseIcon";
 
 export const StudentsWithSchoolAndSponsor: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -64,6 +70,13 @@ export const StudentsWithSchoolAndSponsor: FunctionComponent = () => {
                                     <th>Student</th>
                                     <th>School</th>
                                     <th>Sponsor</th>
+                                    <th>Level</th>
+                                    <th>Age</th>
+                                    <th>Sex</th>
+                                    <th>Uniform</th>
+                                    <th>Backpack</th>
+                                    <th>Shoes</th>
+                                    <th>Supplies</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,6 +90,31 @@ export const StudentsWithSchoolAndSponsor: FunctionComponent = () => {
                                         </td>
                                         <td>{record.schoolName}</td>
                                         <td>{record.sponsorName}</td>
+                                        <td>{record.student.level}</td>
+                                        <td>{getAge(record.student)}</td>
+                                        <td>
+                                            {sexToString(record.student.sex)}
+                                        </td>
+                                        <td>
+                                            <TrueFalseIcon
+                                                value={record.student.uniform}
+                                            />
+                                        </td>
+                                        <td>
+                                            <TrueFalseIcon
+                                                value={record.student.backpack}
+                                            />
+                                        </td>
+                                        <td>
+                                            <TrueFalseIcon
+                                                value={record.student.shoes}
+                                            />
+                                        </td>
+                                        <td>
+                                            <TrueFalseIcon
+                                                value={record.student.supplies}
+                                            />
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

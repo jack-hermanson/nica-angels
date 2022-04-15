@@ -67,3 +67,26 @@ router.get(
         res.send(reportText);
     }
 );
+
+router.get(
+    "/schools/students-per-grade",
+    auth,
+    async (req: Request<any>, res: Response<string>) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return undefined;
+        }
+
+        const studentsPerGradeCsv = await ReportService.getStudentsPerGradeCsv(
+            res
+        );
+        res.attachment("report.csv");
+        res.type("txt/csv");
+        res.send(studentsPerGradeCsv);
+    }
+);

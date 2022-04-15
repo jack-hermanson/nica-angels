@@ -148,7 +148,7 @@ export abstract class ReportService {
                 output += `${enrollmentForGrade},`;
                 totalPerGrade += enrollmentForGrade;
             }
-            output += `${totalPerGrade},`;
+            output += `${totalPerGrade},\n`;
         }
 
         let totalAllSchools = 0;

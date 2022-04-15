@@ -102,6 +102,7 @@ export const StudentsPerGrade: FunctionComponent = () => {
                         {renderGrade(gradeNumber, schools, enrollmentStats)}
                     </Fragment>
                 ))}
+                {renderTotalRow(schools, enrollmentStats)}
             </Fragment>
         );
     }
@@ -131,6 +132,40 @@ export const StudentsPerGrade: FunctionComponent = () => {
                 {numStudents.map((count, index) => (
                     <td key={index}>{count}</td>
                 ))}
+            </tr>
+        );
+    }
+
+    function renderTotalRow(
+        schools: SchoolRecord[],
+        enrollmentStats: SchoolEnrollmentStats[]
+    ) {
+        let totalTotal = 0;
+        return (
+            <tr style={{ borderTop: "2px solid white" }}>
+                <th>Total</th>
+                {schools.map(school => {
+                    const {
+                        grade0,
+                        grade1,
+                        grade2,
+                        grade3,
+                        grade4,
+                        grade5,
+                        grade6,
+                    } = enrollmentStats.find(e => e.schoolId === school.id)!;
+                    const schoolTotal =
+                        grade0 +
+                        grade1 +
+                        grade2 +
+                        grade3 +
+                        grade4 +
+                        grade5 +
+                        grade6;
+                    totalTotal += schoolTotal;
+                    return <td key={school.id}>{schoolTotal}</td>;
+                })}
+                <td>{totalTotal}</td>
             </tr>
         );
     }

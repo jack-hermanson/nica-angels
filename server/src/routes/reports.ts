@@ -2,7 +2,7 @@ import { Response, Router } from "express";
 import { Request } from "../utils/Request";
 import { auth } from "../middleware/auth";
 import { authorized } from "../utils/functions";
-import { Clearance } from "@nica-angels/shared";
+import { Clearance, SchoolEnrollmentStats } from "@nica-angels/shared";
 import { ReportService } from "../services/ReportService";
 
 export const router = Router();
@@ -18,7 +18,7 @@ router.get(
                 res,
             })
         ) {
-            return undefined;
+            return;
         }
 
         res.attachment("report.csv");
@@ -39,7 +39,7 @@ router.get(
                 res,
             })
         ) {
-            return undefined;
+            return;
         }
 
         const report = await ReportService.getStudentSchoolSponsorReport();
@@ -58,7 +58,7 @@ router.get(
                 res,
             })
         ) {
-            return undefined;
+            return;
         }
 
         res.attachment("report.csv");
@@ -71,6 +71,25 @@ router.get(
 router.get(
     "/schools/students-per-grade",
     auth,
+    async (req: Request<any>, res: Response<SchoolEnrollmentStats[]>) => {
+        if (
+            !authorized({
+                requestingAccount: req.account,
+                minClearance: Clearance.ADMIN,
+                res,
+            })
+        ) {
+            return;
+        }
+
+        const studentsPerGrade = await ReportService.getStudentsPerGrade(res);
+        res.json(studentsPerGrade);
+    }
+);
+
+router.get(
+    "/schools/students-per-grade-csv",
+    auth,
     async (req: Request<any>, res: Response<string>) => {
         if (
             !authorized({
@@ -79,7 +98,7 @@ router.get(
                 res,
             })
         ) {
-            return undefined;
+            return;
         }
 
         const studentsPerGradeCsv = await ReportService.getStudentsPerGradeCsv(

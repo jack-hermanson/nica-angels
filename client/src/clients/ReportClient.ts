@@ -49,4 +49,16 @@ export abstract class ReportClient {
         );
         return response.data;
     }
+
+    static async getStudentsPerGradeReportCsv(token: string) {
+        const response = await axios.get(
+            `${this.baseUrl}/schools/students-per-grade-csv`,
+            getAuthHeader(token)
+        );
+        return fileDownload(
+            response.data,
+            "students-per-grade.csv",
+            "text/csv"
+        );
+    }
 }

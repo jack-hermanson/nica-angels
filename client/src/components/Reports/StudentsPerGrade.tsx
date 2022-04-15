@@ -10,6 +10,7 @@ import { ReportClient } from "../../clients/ReportClient";
 import { Col, Row, Table } from "reactstrap";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { SchoolClient } from "../../clients/SchoolClient";
+import { ReportActions } from "./ReportActions";
 
 type GradeNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -48,19 +49,25 @@ export const StudentsPerGrade: FunctionComponent = () => {
     );
 
     function renderPageHeader() {
+        const title = spanish ? "Estudiantes por Nivel" : "Students Per Grade";
         return (
             <Row>
                 <Col>
-                    <PageHeader
-                        title={
-                            spanish
-                                ? "Estudiantes por Nivel"
-                                : "Students Per Grade"
-                        }
-                    />
+                    <PageHeader title={title}>
+                        <ReportActions
+                            title={title}
+                            downloadReport={downloadReport}
+                        />
+                    </PageHeader>
                 </Col>
             </Row>
         );
+    }
+
+    async function downloadReport() {
+        if (token) {
+            await ReportClient.getStudentsPerGradeReportCsv(token.data);
+        }
     }
 
     function renderTable() {

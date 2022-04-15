@@ -141,6 +141,7 @@ export abstract class ReportService {
         const grades = [0, 1, 2, 3, 4, 5, 6];
         for (let grade of grades) {
             let totalPerGrade = 0;
+            output += `Grade ${grade},`;
             for (let school of schools) {
                 const enrollmentForGrade: number = enrollmentStats.find(
                     e => e.schoolId === school.id
@@ -152,6 +153,7 @@ export abstract class ReportService {
         }
 
         let totalAllSchools = 0;
+        output += "Total,";
         for (let school of schools) {
             let schoolTotal = 0;
             const enrollments = enrollmentStats.find(

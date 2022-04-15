@@ -1,5 +1,9 @@
 import { StudentService } from "./StudentService";
-import { getAge, StudentSchoolSponsor } from "@nica-angels/shared";
+import {
+    getAge,
+    SchoolEnrollmentStats,
+    StudentSchoolSponsor,
+} from "@nica-angels/shared";
 import { getConnection } from "typeorm";
 import { SponsorshipService } from "./SponsorshipService";
 import { Student } from "../models/Student";
@@ -7,6 +11,8 @@ import { EnrollmentService } from "./EnrollmentService";
 import { Sponsor } from "../models/Sponsor";
 import { School } from "../models/School";
 import { Sex } from "jack-hermanson-ts-utils";
+import { SchoolService } from "./SchoolService";
+import { Response } from "express";
 
 export abstract class ReportService {
     /**
@@ -101,6 +107,69 @@ export abstract class ReportService {
 
             output += row;
         }
+
+        return output;
+    }
+
+    static async getStudentsPerGrade(
+        res: Response
+    ): Promise<SchoolEnrollmentStats[]> {
+        const schools = await SchoolService.getAll();
+        const enrollmentStats: SchoolEnrollmentStats[] = [];
+
+        for (let school of schools) {
+            const schoolEnrollment = await EnrollmentService.getStatistics(
+                school.id,
+                res
+            );
+            enrollmentStats.push(schoolEnrollment);
+        }
+
+        return enrollmentStats;
+    }
+
+    static async getStudentsPerGradeCsv(res: Response): Promise<string> {
+        const schools = await SchoolService.getAll();
+        const enrollmentStats = await this.getStudentsPerGrade(res);
+
+        let output = ",";
+        for (let school of schools) {
+            output += `${school.name},`;
+        }
+        output += "Total,\n";
+
+        const grades = [0, 1, 2, 3, 4, 5, 6];
+        for (let grade of grades) {
+            let totalPerGrade = 0;
+            for (let school of schools) {
+                const enrollmentForGrade: number = enrollmentStats.find(
+                    e => e.schoolId === school.id
+                )[`grade${grade}`];
+                output += `${enrollmentForGrade},`;
+                totalPerGrade += enrollmentForGrade;
+            }
+            output += `${totalPerGrade},`;
+        }
+
+        let totalAllSchools = 0;
+        for (let school of schools) {
+            let schoolTotal = 0;
+            const enrollments = enrollmentStats.find(
+                e => e.schoolId === school.id
+            );
+            schoolTotal += enrollments.grade0;
+            schoolTotal += enrollments.grade1;
+            schoolTotal += enrollments.grade2;
+            schoolTotal += enrollments.grade3;
+            schoolTotal += enrollments.grade4;
+            schoolTotal += enrollments.grade5;
+            schoolTotal += enrollments.grade6;
+
+            totalAllSchools += schoolTotal;
+            output += `${schoolTotal},`;
+        }
+
+        output += `${totalAllSchools},`;
 
         return output;
     }

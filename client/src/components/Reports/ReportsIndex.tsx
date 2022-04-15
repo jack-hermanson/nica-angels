@@ -23,6 +23,9 @@ export const ReportsIndex: FunctionComponent = () => {
                 <Col xs={12} lg={4} className="mb-3 mb-lg-0">
                     {renderStudentsSchoolSponsorReport()}
                 </Col>
+                <Col xs={12} lg={4}>
+                    {renderStudentsPerGradeReport()}
+                </Col>
             </Row>
         </div>
     );
@@ -79,6 +82,27 @@ export const ReportsIndex: FunctionComponent = () => {
                 downloadCsv={async () => {
                     if (token) {
                         await ReportClient.getStudentSchoolSponsorCsv(
+                            token.data
+                        );
+                    }
+                }}
+            />
+        );
+    }
+
+    function renderStudentsPerGradeReport() {
+        return (
+            <ReportTile
+                title={spanish ? "Estudiantes por Nivel" : "Students per Grade"}
+                description={
+                    spanish
+                        ? "Este reporte incluye números de estudiantes inscritos en cada escuela."
+                        : "This report includes numbers of students enrolled in each school."
+                }
+                linkPath={"/reports/schools/students-per-grade"}
+                downloadCsv={async () => {
+                    if (token) {
+                        await ReportClient.getStudentsPerGradeReportCsv(
                             token.data
                         );
                     }

@@ -15,5 +15,8 @@
     .table-striped > tbody > tr:nth-of-type(odd) > * {
       color: black;
     }
+    tr.bottom-row {
+      border-top: 2px solid black;
+    }
   }
 }

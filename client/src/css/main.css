@@ -11357,6 +11357,9 @@ img.logo {
   body .table-striped > tbody > tr:nth-of-type(odd) > * {
     color: black;
   }
+  body tr.bottom-row {
+    border-top: 2px solid black;
+  }
 }
 a {
   text-decoration: none;
@@ -11419,6 +11422,10 @@ label.required::after {
 }
 .actions .btn:not(:last-of-type) {
   margin-right: 0.5em;
+}
+
+tr.bottom-row {
+  border-top: 2px solid white;
 }
 
 /*# sourceMappingURL=main.css.map */

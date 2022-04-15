@@ -149,7 +149,7 @@ export const StudentsPerGrade: FunctionComponent = () => {
     ) {
         let totalTotal = 0;
         return (
-            <tr style={{ borderTop: "2px solid white" }}>
+            <tr className="bottom-row">
                 <th>Total</th>
                 {schools.map(school => {
                     const {

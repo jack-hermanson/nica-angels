@@ -54,6 +54,9 @@ export abstract class SponsorService {
                 res,
             }))
         ) {
+            logger.fatal(
+                "Attempted to create a sponsor with an email that already exists."
+            );
             return undefined;
         }
 
@@ -62,6 +65,7 @@ export abstract class SponsorService {
             return undefined;
         }
 
+        logger.info("Successfully created new sponsor.");
         return await sponsorRepo.save(sponsor);
     }
 

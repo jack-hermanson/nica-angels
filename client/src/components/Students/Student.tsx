@@ -55,7 +55,10 @@ export const Student: FunctionComponent<Props> = ({
     return (
         <Card className="mb-3 no-mb-last">
             <ActionCardHeader
-                title={`Student #${getIdPadded(student, ID_PADDING)}`}
+                title={`${spanish ? "Estudiante" : "Student"} #${getIdPadded(
+                    student,
+                    ID_PADDING
+                )}`}
                 linkTo={`/students/${student.id}`}
             />
             <CardBody>

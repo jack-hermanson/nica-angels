@@ -163,7 +163,7 @@ export const SponsorDetails: FunctionComponent<Props> = ({ match }: Props) => {
 
     function renderPayments() {
         return (
-            <Col xs={12} lg={4}>
+            <Col xs={12} lg={4} className="mb-3 mb-lg-0">
                 <Card>
                     <ActionCardHeader title={spanish ? "Pagos" : "Payments"} />
                     <PaymentsListGroup payments={payments} />

@@ -83,7 +83,7 @@ export const EditPayment: FunctionComponent<Props> = ({ match }: Props) => {
                 addAlert(
                     successAlert(`payment #${editedPayment.id}`, "edited")
                 );
-                history.push("/payments");
+                history.push(`/payments/${editedPayment.id}`);
             } catch (error: any) {
                 console.error(error);
                 console.error(error.response);

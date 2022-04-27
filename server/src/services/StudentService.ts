@@ -113,6 +113,7 @@ export class StudentService {
         studentRequest: StudentRequest;
         res: Response;
     }): Promise<Student> {
+        logger.debug("Updating student");
         const { studentRepo } = this.getRepos();
         const student = await studentRepo.findOne(id);
         if (!student) {
@@ -198,6 +199,8 @@ export class StudentService {
         fileId: number;
         res: Response;
     }): Promise<Student | undefined> {
+        logger.debug("Setting student profile picture");
+        const { studentRepo } = this.getRepos();
         const student = await this.getOne(studentId, res);
         if (!student) {
             return undefined;
@@ -206,14 +209,12 @@ export class StudentService {
         if (!file) {
             return undefined;
         }
-        return await this.updateStudent({
-            id: studentId,
-            studentRequest: {
-                ...student,
-                imageId: file.id,
-            },
-            res,
+        const updatedStudent = await studentRepo.save({
+            ...student,
+            imageId: fileId,
         });
+        logger.debug(`Updated student imageId: ${updatedStudent.imageId}`);
+        return updatedStudent;
     }
 
     static async removeProfilePicture(imageId: number): Promise<boolean> {

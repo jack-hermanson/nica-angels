@@ -112,6 +112,10 @@ export abstract class SchoolService {
             return undefined;
         }
 
+        if (await this.conflicts(schoolRequest, res, school)) {
+            return undefined;
+        }
+
         return await schoolRepo.save({
             ...school,
             ...schoolRequest,

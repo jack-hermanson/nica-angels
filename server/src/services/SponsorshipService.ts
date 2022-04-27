@@ -154,14 +154,14 @@ export abstract class SponsorshipService {
         const allMatches = await query.getMany();
         switch (allMatches.length) {
             case 0:
-                logger.debug(
-                    `No current sponsorships for student with ID ${studentId}.`
-                );
+                // logger.debug(
+                //     `No current sponsorships for student with ID ${studentId}.`
+                // );
                 return undefined;
             case 1:
-                logger.debug(
-                    `1 current sponsorship for student with ID ${studentId}.`
-                );
+                // logger.debug(
+                //     `1 current sponsorship for student with ID ${studentId}.`
+                // );
                 return allMatches[0];
             default:
                 logger.fatal(

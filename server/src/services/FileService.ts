@@ -8,6 +8,7 @@ import {
 } from "@nica-angels/shared";
 import { File } from "../models/File";
 import { StudentService } from "./StudentService";
+import { logger } from "../utils/logger";
 
 export abstract class FileService {
     static getRepos(): {
@@ -71,11 +72,15 @@ export abstract class FileService {
         studentImageRequest: StudentImageRequest,
         res: Response
     ): Promise<FileRecord | undefined> {
+        logger.debug("Processing student image upload in service");
         const file = await this.create({
             data: studentImageRequest.data,
             name: studentImageRequest.name,
             mimeType: studentImageRequest.mimeType,
         });
+        if (file) {
+            logger.debug("File created successfully");
+        }
 
         const updatedStudent = await StudentService.setProfilePicture({
             studentId: studentImageRequest.studentId,
@@ -86,6 +91,8 @@ export abstract class FileService {
         if (!updatedStudent) {
             return undefined;
         }
+
+        logger.debug("Student updated successfully");
 
         return file;
     }

@@ -11,6 +11,7 @@ import {
 import { HTTP, validateRequest } from "jack-hermanson-ts-utils";
 import { FileSchema, StudentProfileImageSchema } from "../models/File";
 import { FileService } from "../services/FileService";
+import { logger } from "../utils/logger";
 
 export const router = Router();
 
@@ -45,6 +46,7 @@ router.post(
     "/student-image",
     auth,
     async (req: Request<StudentImageRequest>, res: Response<FileRecord>) => {
+        logger.info("Uploading student image");
         if (
             !authorized({
                 requestingAccount: req.account,
@@ -56,6 +58,7 @@ router.post(
         }
 
         if (!(await validateRequest(StudentProfileImageSchema, req, res))) {
+            logger.fatal("Could not validate request");
             return;
         }
 

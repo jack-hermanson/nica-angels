@@ -4,7 +4,7 @@ import { useMinClearance } from "../../utils/useMinClearance";
 import { Clearance, SchoolRecord } from "@nica-angels/shared";
 import { useStoreActions, useStoreState } from "../../store/_store";
 import { SchoolClient } from "../../clients/SchoolClient";
-import { HTTP } from "jack-hermanson-ts-utils";
+import { conflictError, HTTP, scrollToTop } from "jack-hermanson-ts-utils";
 import { NotFound } from "../Errors/NotFound";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { Col, Row } from "reactstrap";
@@ -97,11 +97,19 @@ export const EditSchool: FunctionComponent<Props> = ({ match }: Props) => {
                                     history.push("/schools");
                                 } catch (error: any) {
                                     console.error(error);
-                                    console.error(error.response);
+                                    const errorText =
+                                        error.response.status === HTTP.CONFLICT
+                                            ? conflictError(
+                                                  error.response.data
+                                                      .conflictingProperties,
+                                                  "school"
+                                              )
+                                            : error.message;
                                     addAlert({
+                                        text: errorText,
                                         color: "danger",
-                                        text: error.message,
                                     });
+                                    scrollToTop();
                                 }
                             }}
                             existingSchool={school}

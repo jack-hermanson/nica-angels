@@ -55,7 +55,7 @@ export class StudentService {
                         ? `student.middleName ILIKE '%${searchText.toLowerCase()}%'`
                         : `LOWER(student.middleName) LIKE '%${searchText.toLowerCase()}%'`) +
                     `${
-                        searchText.length
+                        searchText.length && !isNaN(parseInt(searchText))
                             ? `OR "student"."id" = ${searchText}`
                             : ""
                     }` +

@@ -25,6 +25,7 @@ import { SchoolClient } from "../../clients/SchoolClient";
 import moment from "moment";
 import { StudentSponsorshipCard } from "./StudentSponsorshipCard";
 import { StudentTabs } from "./StudentTabs";
+import { YesOrNoBadge } from "../Utils/YesOrNoBadge";
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -104,8 +105,10 @@ export const StudentDetails: FunctionComponent<Props> = ({
                             {renderInfo()}
                         </Col>
                         <Col xs={12} lg={4}>
-                            {renderUploadImage()}
-                            {renderBarcode()}
+                            <div className="sticky-top">
+                                {renderUploadImage()}
+                                {renderBarcode()}
+                            </div>
                         </Col>
                     </Row>
                 </Fragment>
@@ -132,6 +135,7 @@ export const StudentDetails: FunctionComponent<Props> = ({
                 <Fragment>
                     {renderName()}
                     {renderDemographicInfo()}
+                    {renderSupplies()}
                     {renderEnrollment()}
                     {renderSponsorship()}
                 </Fragment>
@@ -263,6 +267,38 @@ export const StudentDetails: FunctionComponent<Props> = ({
                 </Card>
             );
         }
+    }
+
+    function renderSupplies() {
+        return (
+            <Card className="mb-3">
+                <ActionCardHeader
+                    title={spanish ? "Suministros" : "Supplies"}
+                />
+                {student && (
+                    <KeyValCardBody
+                        keyValPairs={[
+                            {
+                                key: spanish ? "Mochila" : "Backpack",
+                                val: <YesOrNoBadge value={student.backpack} />,
+                            },
+                            {
+                                key: spanish ? "Zapatos" : "Shoes",
+                                val: <YesOrNoBadge value={student.shoes} />,
+                            },
+                            {
+                                key: spanish ? "Útiles" : "School Supplies",
+                                val: <YesOrNoBadge value={student.supplies} />,
+                            },
+                            {
+                                key: spanish ? "Uniforme" : "Uniform",
+                                val: <YesOrNoBadge value={student.uniform} />,
+                            },
+                        ]}
+                    />
+                )}
+            </Card>
+        );
     }
 
     function renderEnrollment() {

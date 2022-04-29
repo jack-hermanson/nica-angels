@@ -1,5 +1,6 @@
 const millisecondsPerDay = 8.64e7;
-export const tokenExpiration = 90 * millisecondsPerDay; // 30 days
+const daysTillExpiration = 90;
+export const tokenExpiration = daysTillExpiration * millisecondsPerDay; // 90 days
 
 export enum AuthError {
     EXPIRED = "Expired token",

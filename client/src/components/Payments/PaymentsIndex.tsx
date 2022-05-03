@@ -19,6 +19,7 @@ import { FaPlus } from "react-icons/fa";
 import { PaymentClient } from "../../clients/PaymentClient";
 import { SponsorshipClient } from "../../clients/SponsorshipClient";
 import { PaymentGlance } from "./PaymentGlance";
+import { FilterPayments } from "./FilterPayments";
 
 export const PaymentsIndex: FunctionComponent = () => {
     useMinClearance(Clearance.ADMIN);
@@ -29,6 +30,9 @@ export const PaymentsIndex: FunctionComponent = () => {
     const [payments, setPayments] = useState<PaymentRecord[] | undefined>(
         undefined
     );
+    const [filteredPayments, setFilteredPayments] = useState<
+        PaymentRecord[] | undefined
+    >(undefined);
     const [sponsorships, setSponsorships] = useState<
         ExpandedSponsorshipRecord[] | undefined
     >(undefined);
@@ -36,10 +40,16 @@ export const PaymentsIndex: FunctionComponent = () => {
     useEffect(() => {
         if (token) {
             PaymentClient.getAll(token.data).then(data => {
-                setPayments(data);
+                setPayments([...data]);
+                setFilteredPayments([...data]);
             });
         }
-    }, [token, setPayments]);
+    }, [token, setFilteredPayments, setPayments]);
+
+    useEffect(() => {
+        console.log("changed");
+        console.log(filteredPayments);
+    }, [filteredPayments]);
 
     useEffect(() => {
         if (token) {
@@ -81,11 +91,16 @@ export const PaymentsIndex: FunctionComponent = () => {
     function renderFiltering() {
         return (
             <Col xs={12} lg={3} className="mb-3 mb-lg-0">
-                <MobileToggleCard cardTitle="Filtering" className="sticky-top">
-                    <CardBody>
-                        <p>Add filtering here</p>
-                    </CardBody>
-                </MobileToggleCard>
+                <div className="sticky-top">
+                    {payments ? (
+                        <FilterPayments
+                            payments={payments}
+                            setFilteredPayments={setFilteredPayments}
+                        />
+                    ) : (
+                        <LoadingSpinner />
+                    )}
+                </div>
             </Col>
         );
     }
@@ -93,9 +108,9 @@ export const PaymentsIndex: FunctionComponent = () => {
     function renderList() {
         return (
             <Col xs={12} lg={9}>
-                {payments ? (
+                {filteredPayments ? (
                     <Fragment>
-                        {payments.map(payment => (
+                        {filteredPayments.map(payment => (
                             <PaymentGlance
                                 payment={payment}
                                 sponsorships={sponsorships}

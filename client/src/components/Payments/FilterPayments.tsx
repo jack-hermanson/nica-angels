@@ -52,11 +52,7 @@ export const FilterPayments: FunctionComponent<Props> = ({
                         onSubmit={console.log}
                         onReset={() => console.log("reset")}
                     >
-                        {({
-                            errors,
-                            isSubmitting,
-                            handleChange,
-                        }: FormikProps<FormValues>) => (
+                        {({ handleChange }: FormikProps<FormValues>) => (
                             <Form>{renderSponsorshipId(handleChange)}</Form>
                         )}
                     </Formik>
@@ -83,25 +79,19 @@ export const FilterPayments: FunctionComponent<Props> = ({
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         handleChange(event);
                         if (event.target.value.trim() !== "") {
-                            console.log(event.target.value);
                             const newFilteredPayments = payments.filter(p => {
-                                console.log(
-                                    `Payment sponsorshipId=${
-                                        p.sponsorshipId
-                                    }, search=${parseInt(event.target.value)}`
-                                );
                                 return (
                                     p.sponsorshipId ===
                                     parseInt(event.target.value)
                                 );
                             });
-                            console.log(newFilteredPayments);
                             setFilteredPayments(newFilteredPayments);
+                        } else {
+                            setFilteredPayments(payments);
                         }
-                        setFilteredPayments(payments);
                     }}
                 >
-                    <option>Select...</option>
+                    <option value="">Select...</option>
                     {sponsorships &&
                         sponsorships.map(sponsorship => (
                             <option value={sponsorship.id} key={sponsorship.id}>

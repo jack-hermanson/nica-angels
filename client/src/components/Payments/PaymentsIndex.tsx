@@ -47,11 +47,6 @@ export const PaymentsIndex: FunctionComponent = () => {
     }, [token, setFilteredPayments, setPayments]);
 
     useEffect(() => {
-        console.log("changed");
-        console.log(filteredPayments);
-    }, [filteredPayments]);
-
-    useEffect(() => {
         if (token) {
             SponsorshipClient.getExpandedSponsorships(token.data).then(data => {
                 setSponsorships(data);

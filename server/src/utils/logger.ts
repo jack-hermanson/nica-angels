@@ -10,8 +10,8 @@ async function logToTransport(logObject: ILogObject) {
     try {
         await axios.post(
             process.env.NODE_ENV === "production"
-                ? "https://jack-logger.herokuapp.com/api/logs/new"
-                : "http://127.0.0.1:8000/api/logs/new",
+                ? "https://logger.herm.shop/api/logs/new"
+                : "http://127.0.0.1:5003/api/logs/new",
             {
                 token:
                     process.env.NODE_ENV === "production"

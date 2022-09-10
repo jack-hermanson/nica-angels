@@ -4,7 +4,6 @@ import * as socketio from "socket.io";
 import path from "path";
 import { config } from "dotenv";
 import { ConnectionOptions, createConnection } from "typeorm";
-import sslRedirect from "heroku-ssl-redirect";
 import { DbDialect, aggregateQuery } from "jack-hermanson-ts-utils";
 import { models } from "./models/_models";
 import { migrations } from "./migrations/_migrations";
@@ -23,10 +22,10 @@ app.use(
     })
 );
 app.use(express.urlencoded({ extended: false }));
-app.set("port", process.env.PORT || 5000);
+app.set("port", process.env.PORT || 5002);
 
 // ssl
-app.use(sslRedirect(["production"]));
+// app.use(sslRedirect(["production"]));
 
 // static
 const staticFiles = express.static(path.join(__dirname, "../../client/build"));
@@ -79,7 +78,7 @@ export const dbOptions: ConnectionOptions = {
 };
 createConnection(dbOptions)
     .then(connection => {
-        console.log(
+        logger.info(
             `Connected to database with type: ${connection.options.type}.`
         );
     })

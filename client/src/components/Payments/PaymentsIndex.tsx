@@ -1,8 +1,7 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { CardBody, Col, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import {
     LoadingSpinner,
-    MobileToggleCard,
     PageHeader,
 } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";

@@ -6,7 +6,7 @@ import {
     useEffect,
     useState,
 } from "react";
-import { useStoreState, useStoreActions } from "../../store/_store";
+import { useStoreState } from "../../store/_store";
 import { LoadingSpinner, MobileToggleCard } from "jack-hermanson-component-lib";
 import { ExpandedSponsorshipRecord, PaymentRecord } from "@nica-angels/shared";
 import { Form, Formik, Field, FormikProps } from "formik";

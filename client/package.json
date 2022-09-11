@@ -2,7 +2,7 @@
     "name": "@nica-angels/client",
     "version": "1.0.0",
     "private": true,
-    "proxy": "http://localhost:5000",
+    "proxy": "http://localhost:5002",
     "dependencies": {
         "@nica-angels/shared": "*",
         "@popperjs/core": "^2.9.3",
@@ -32,7 +32,7 @@
         "yup": "^0.32.9"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start": "PORT=3002 react-scripts start",
         "build": "react-scripts build",
         "eject": "react-scripts eject"
     },

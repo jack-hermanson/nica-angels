@@ -6,7 +6,7 @@
         "build": "(yarn workspace @nica-angels/shared build) && (yarn workspace @nica-angels/client build)",
         "heroku-postbuild": "yarn build",
         "install": "(yarn workspace @nica-angels/shared install) && (yarn workspace @nica-angels/client install) && (yarn workspace @nica-angels/server install)",
-        "start": "(yarn workspace @nica-angels/shared build) && (concurrently \"kill-port 5000 && PORT=5000 yarn workspace @nica-angels/server start\" \"sleep 2 && PORT=3000 yarn workspace @nica-angels/client start\")",
+        "start": "(yarn workspace @nica-angels/shared build) && (concurrently \"kill-port 5002 && PORT=5002 yarn workspace @nica-angels/server start\" \"sleep 2 && PORT=3002 yarn workspace @nica-angels/client start\")",
         "start:prod": "yarn workspace @nica-angels/server start:prod"
     },
     "author": "Jack Hermanson <jack.hermanson@live.com>",

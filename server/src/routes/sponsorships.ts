@@ -111,7 +111,10 @@ router.get(
     "/expanded",
     auth,
     async (req: Request<any>, res: Response<ExpandedSponsorshipRecord[]>) => {
-        logger.debug("GET /sponsorships/expanded");
+        logger.debug("GET " + req.url);
+
+        const includeExpired: boolean = req.query["includeExpired"] ?? false;
+        logger.debug(`include expired: ${includeExpired}`);
 
         if (
             !authorized({
@@ -124,7 +127,9 @@ router.get(
         }
 
         const expandedSponsorships =
-            await SponsorshipService.getExpandedSponsorships();
+            await SponsorshipService.getExpandedSponsorships({
+                includeExpired,
+            });
         res.json(expandedSponsorships);
     }
 );

@@ -9,6 +9,7 @@ import { CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { KeyValPair } from "jack-hermanson-ts-utils";
+import { ExpirationBadge } from "../Sponsorships/ExpirationBadge";
 
 interface Props {
     payment: PaymentRecord;
@@ -45,6 +46,10 @@ export const PaymentCardBody: FunctionComponent<Props> = ({
                         >
                             {sponsorship.studentName} /{" "}
                             {sponsorship.sponsorName}
+                            <ExpirationBadge
+                                sponsorship={sponsorship}
+                                className="ms-1"
+                            />
                         </Link>
                     ),
                 },

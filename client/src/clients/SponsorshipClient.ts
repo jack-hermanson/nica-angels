@@ -79,9 +79,12 @@ export abstract class SponsorshipClient {
         return response.data;
     }
 
-    static async getExpandedSponsorships(token: string) {
+    static async getExpandedSponsorships(
+        token: string,
+        includeExpired = false
+    ) {
         const response = await axios.get<ExpandedSponsorshipRecord[]>(
-            `${this.baseUrl}/expanded`,
+            `${this.baseUrl}/expanded/?includeExpired=${includeExpired}`,
             getAuthHeader(token)
         );
         return response.data;

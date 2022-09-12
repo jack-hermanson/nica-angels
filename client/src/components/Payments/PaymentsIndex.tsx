@@ -1,9 +1,6 @@
 import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Col, Row } from "reactstrap";
-import {
-    LoadingSpinner,
-    PageHeader,
-} from "jack-hermanson-component-lib";
+import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib";
 import { useMinClearance } from "../../utils/useMinClearance";
 import {
     Clearance,
@@ -47,9 +44,11 @@ export const PaymentsIndex: FunctionComponent = () => {
 
     useEffect(() => {
         if (token) {
-            SponsorshipClient.getExpandedSponsorships(token.data).then(data => {
-                setSponsorships(data);
-            });
+            SponsorshipClient.getExpandedSponsorships(token.data, true).then(
+                data => {
+                    setSponsorships(data);
+                }
+            );
         }
     }, [token, setSponsorships]);
 

@@ -25,6 +25,8 @@ export const PaymentCardBody: FunctionComponent<Props> = ({
 
     useEffect(() => {
         if (sponsorships) {
+            console.log({ sponsorships });
+            console.log("finding sponsorship with matching id");
             setSponsorship(
                 sponsorships.find(s => s.id === payment.sponsorshipId)
             );

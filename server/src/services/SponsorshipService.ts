@@ -213,11 +213,46 @@ export abstract class SponsorshipService {
         return sum / monthlyDonations.length;
     }
 
-    static async getExpandedSponsorships(): Promise<
-        ExpandedSponsorshipRecord[]
-    > {
+    static async getExpandedSponsorships(
+        { includeExpired }: { includeExpired: boolean } = {
+            includeExpired: false,
+        }
+    ): Promise<ExpandedSponsorshipRecord[]> {
         const connection = getConnection();
-        const rawRecords = await connection.query(`
+        const rawRecords = await connection.query(
+            this.generateExpandedSponsorshipQuery({
+                includeExpired: includeExpired,
+            })
+        );
+
+        return rawRecords.map(r => ({
+            id: r.id,
+            startDate: r.startDate,
+            endDate: r.endDate,
+            studentId: r.studentId,
+            sponsorId: r.sponsorId,
+            frequency: r.frequency,
+            payment: r.payment,
+            created: r.created,
+            updated: r.updated,
+            deleted: r.deleted,
+            studentName: `${r.student_firstName} ${
+                r.student_middleName ? `${r.student_middleName} ` : ""
+            }${r.student_lastName || ""}`,
+            sponsorName: `${r.sponsor_firstName} ${r.sponsor_lastName}`,
+        }));
+    }
+
+    /**
+     * Generates the raw SQL for selecting sponsorships in expanded (joined) form.
+     * @param includeExpired - Whether to include sponsorships that have ended.
+     */
+    private static generateExpandedSponsorshipQuery(
+        { includeExpired }: { includeExpired: boolean } = {
+            includeExpired: false,
+        }
+    ): string {
+        const select = `
             SELECT 
                 "sponsorship"."id",
                 "sponsorship"."startDate",
@@ -244,28 +279,29 @@ export abstract class SponsorshipService {
                 sponsor
             ON 
                 "sponsor"."id" = "sponsorship"."sponsorId"
-            WHERE 
-                ("sponsorship"."endDate" IS NULL
-            AND 
+        `;
+
+        function generateWhere(): string {
+            let output = `
+                WHERE
+                    (`;
+
+            if (!includeExpired) {
+                output += `
+                    "sponsorship"."endDate" IS NULL
+                AND`;
+            }
+
+            output += `
                 "sponsorship"."deleted" IS NULL)
             ORDER BY "student_firstName" ASC;
-        `);
+            `;
 
-        return rawRecords.map(r => ({
-            id: r.id,
-            startDate: r.startDate,
-            endDate: r.endDate,
-            studentId: r.studentId,
-            sponsorId: r.sponsorId,
-            frequency: r.frequency,
-            payment: r.payment,
-            created: r.created,
-            updated: r.updated,
-            deleted: r.deleted,
-            studentName: `${r.student_firstName} ${
-                r.student_middleName ? `${r.student_middleName} ` : ""
-            }${r.student_lastName || ""}`,
-            sponsorName: `${r.sponsor_firstName} ${r.sponsor_lastName}`,
-        }));
+            logger.debug(output);
+
+            return output;
+        }
+
+        return select + generateWhere();
     }
 }

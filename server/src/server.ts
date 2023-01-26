@@ -47,7 +47,7 @@ app.use("/api/payments", routes.payments);
 app.use("/api/reports", routes.reports);
 
 // production redirects
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "test") {
     app.get("*", (req, res) => {
         res.sendFile(
             path.resolve(__dirname, "../../client/build", "index.html")

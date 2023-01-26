@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "scripts": {
         "start": "kill-port 5002 && nodemon -x ts-node src/server.ts",
-        "start:prod": "ts-node src/server.ts"
+        "start:prod": "ts-node src/server.ts",
+        "start:prod:test": "PORT=8002 ts-node src/server.ts"
     },
     "license": "MIT",
     "private": false,

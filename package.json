@@ -6,8 +6,9 @@
         "build": "(yarn workspace @nica-angels/shared build) && (yarn workspace @nica-angels/client build)",
         "heroku-postbuild": "yarn build",
         "install": "(yarn workspace @nica-angels/shared install) && (yarn workspace @nica-angels/client install) && (yarn workspace @nica-angels/server install)",
-        "start": "(yarn workspace @nica-angels/shared build) && (concurrently \"kill-port 5002 && PORT=5002 yarn workspace @nica-angels/server start\" \"sleep 2 && PORT=3002 yarn workspace @nica-angels/client start\")",
-        "start:prod": "yarn workspace @nica-angels/server start:prod"
+        "start": "(yarn workspace @nica-angels/shared build) && (concurrently \"kill-port 5002 && PORT=5002 yarn workspace @nica-angels/server start\" \"sleep 2 && yarn workspace @nica-angels/client start\")",
+        "start:prod": "yarn workspace @nica-angels/server start:prod",
+        "start:prod:test": "yarn workspace @nica-angels/server start:prod:test"
     },
     "author": "Jack Hermanson <jack.hermanson@live.com>",
     "license": "MIT",

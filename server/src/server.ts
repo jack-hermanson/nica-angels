@@ -55,13 +55,24 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
+function getDatabaseUrl() {
+    const env = process.env.NODE_ENV;
+    switch (env) {
+        case "test":
+            return process.env.TEST_DATABASE_URL;
+        default:
+            return process.env.DATABASE_URL;
+    }
+}
+
 // database
 const databaseDialect = process.env.DATABASE_DIALECT as DbDialect;
 console.log({ databaseDialect });
+logger.info("[Database URL]", getDatabaseUrl());
 export const dbOptions: ConnectionOptions = {
     database: databaseDialect === "sqlite" ? "site.db" : "",
     type: databaseDialect,
-    url: process.env.DATABASE_URL,
+    url: getDatabaseUrl(),
     entities: models,
     synchronize: false,
     extra: {
